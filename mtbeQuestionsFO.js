@@ -1,1323 +1,4864 @@
 const mtbeQuestionsFO = [
-{
-    section: "Plant Safety & Emergency Shutdown",
-    question: "What happens when the instrument air pressure becomes low low?",
-    options: [
-        "MTBE continues in normal operation",
-        "Only the synthesis section gets shutdown",
-        "Only the cracking section shutdown",
-        "Both synthesis and cracking sections get shutdown"
-    ],
-    answer: "Both synthesis and cracking sections get shutdown"
-},
-{
-    section: "Plant Safety & Emergency Shutdown",
-    question: "What is the minimum oxygen requirement while working in a confined space?",
-    options: [
-        "16%",
-        "20%",
-        "22%",
-        "23.5%"
-    ],
-    answer: "20%"
-},
-{
-    section: "Plant Safety & Emergency Shutdown",
-    question: "What does positive isolation mean?",
-    options: [
-        "Valve closed",
-        "Remove or disconnect the line",
-        "ZV valve closed",
-        "Valve throttled"
-    ],
-    answer: "Remove or disconnect the line"
-},
-{
-    section: "Plant Safety & Emergency Shutdown",
-    question: "Why must you ensure that you have the correct level of lube oil in pumps?",
-    options: [
-        "No effect if levels are low",
-        "Bearings don't overheat",
-        "To increase bearing temperature",
-        "To increase bearing pressure"
-    ],
-    answer: "Bearings don't overheat"
-},
-{
-    section: "Plant Safety & Emergency Shutdown",
-    question: "Why is it important to do regular patrolling of the unit?",
-    options: [
-        "To check for maintenance crew",
-        "To check for sample points",
-        "To check if conditions changed",
-        "To exercise"
-    ],
-    answer: "To check if conditions changed"
-},
-{
-    section: "Plant Safety & Emergency Shutdown",
-    question: "What should be your first action if you find a pump has cavitation and a standby pump is available?",
-    options: [
-        "Check around the pump",
-        "Close the suction valve",
-        "Switch to standby pump and then find the reason for cavitation",
-        "Increase the discharge valve opening"
-    ],
-    answer: "Switch to standby pump and then find the reason for cavitation"
-},
-
-{
-    section: "Extreme Weather Conditions",
-    question: "During cold weather conditions, while working in the plant what should you do?",
-    options: [
-        "Wear Petro Rabigh jacket",
-        "Wear additional sweater brought from home",
-        "Wear muffler",
-        "Wear gloves"
-    ],
-    answer: "Wear Petro Rabigh jacket"
-},
-{
-    section: "Extreme Weather Conditions",
-    question: "In case of lightning, what should be done?",
-    options: [
-        "Evacuate all members from field",
-        "Check the field condition",
-        "Check for troubles on DCS",
-        "Evacuate all members from field and check for troubles on DCS"
-    ],
-    answer: "Evacuate all members from field and check for troubles on DCS"
-},
-{
-    section: "Extreme Weather Conditions",
-    question: "Why should working under extreme hot conditions be avoided?",
-    options: [
-        "To do the job on time",
-        "To do more work",
-        "To improve the work",
-        "To avoid heat stress"
-    ],
-    answer: "To avoid heat stress"
-},
-{
-    section: "Extreme Weather Conditions",
-    question: "How can heat stress be avoided?",
-    options: [
-        "By working",
-        "Taking more water with salts",
-        "By taking rest",
-        "By walking slowly"
-    ],
-    answer: "Taking more water with salts"
-},
-{
-    section: "Extreme Weather Conditions",
-    question: "What are the symptoms of heat stroke?",
-    options: [
-        "Feeling cold",
-        "Severe body pain",
-        "Heavy sweating",
-        "No sweating, severe headache, unconsciousness"
-    ],
-    answer: "No sweating, severe headache, unconsciousness"
-},
-{
-    section: "Extreme Weather Conditions",
-    question: "What PPE can be used during a sandstorm?",
-    options: [
-        "SCBA",
-        "O2 cylinder",
-        "Gas mask",
-        "Dust mask"
-    ],
-    answer: "Dust mask"
-},
-
-{
-    section: "Fire Protection Equipment",
-    question: "What are the fire protection systems used in the MTBE area?",
-    options: [
-        "Live Hose Reel",
-        "Monitor",
-        "Live Hose Reel, Fire Hydrant and Monitor",
-        "Fire Hydrant"
-    ],
-    answer: "Live Hose Reel, Fire Hydrant and Monitor"
-},
-{
-    section: "Fire Protection Equipment",
-    question: "What are the fire protection systems used for Reactors R-1110C/F?",
-    options: [
-        "Live Hose Reel",
-        "Monitor",
-        "Water Spray System",
-        "Fire Hydrant"
-    ],
-    answer: "Water Spray System"
-},
-{
-    section: "Fire Protection Equipment",
-    question: "What are the fire protection systems used for pumps P-1115A/B/C and P-1111A/B/C/D?",
-    options: [
-        "Monitor",
-        "CO2 Extinguisher",
-        "Fire Hydrant",
-        "Water Spray System"
-    ],
-    answer: "Water Spray System"
-},
-{
-    section: "Fire Protection Equipment",
-    question: "What are the fire protection systems used for the Analyser Shelter?",
-    options: [
-        "Monitor",
-        "CO2 Extinguisher",
-        "Fire Hydrant",
-        "Water Spray System"
-    ],
-    answer: "CO2 Extinguisher"
-},
-{
-    section: "Fire Protection Equipment",
-    question: "What is the usage of a Fire Hydrant in the plant area?",
-    options: [
-        "To cool down oil spills",
-        "To cool down hazardous materials",
-        "To cool down vessels and towers",
-        "To cool down pumps"
-    ],
-    answer: "To cool down vessels and towers"
-},
-{
-    section: "Fire Protection Equipment",
-    question: "What kind of fire cannot be extinguished with water?",
-    options: [
-        "Motors",
-        "Wooden furniture",
-        "Clothes",
-        "Paper store"
-    ],
-    answer: "Motors"
-},
-{
-    section: "Fire Protection Equipment",
-    question: "Which of the following is not part of the fire water system?",
-    options: [
-        "Fire Monitor",
-        "Fire Hydrant",
-        "Fire Hose",
-        "Fire Extinguisher Class A"
-    ],
-    answer: "Fire Extinguisher Class A"
-},
-{
-    section: "Fire Protection Equipment",
-    question: "Who is responsible for using fire extinguishers?",
-    options: [
-        "Shift Supervisor",
-        "Console Operators",
-        "Field Operators",
-        "All of the above"
-    ],
-    answer: "All of the above"
-},
-{
-    section: "Fire Protection Equipment",
-    question: "What is your first action if you cannot control a small fire in the plant area?",
-    options: [
-        "Call 911",
-        "Call Control Room",
-        "Call Security Control Centre",
-        "Inform Maintenance Supervisor"
-    ],
-    answer: "Call Control Room"
-},
-{
-    section: "Fire Protection Equipment",
-    question: "If there is a fire in the control room, what extinguishing medium should be used?",
-    options: [
-        "Water",
-        "Foam",
-        "Dry Powder Extinguisher",
-        "Gasoline"
-    ],
-    answer: "Dry Powder Extinguisher"
-},
-{
-    section: "Hazardous Material Handling",
-    question: "What is the PPE when handling MTBE?",
-    options: [
-        "Wear safety goggles and gloves when handling MTBE",
-        "Wear coverall and gloves",
-        "Wear SCBA",
-        "Wear harness and gloves"
-    ],
-    answer: "Wear safety goggles and gloves when handling MTBE"
-},
-{
-    section: "Hazardous Material Handling",
-    question: "What is the PPE when handling Methanol?",
-    options: [
-        "Wear SCBA",
-        "Wear apron and helmet",
-        "Wear safety goggles, shoes and ear plugs",
-        "Wear safety goggles, gloves and protective clothing"
-    ],
-    answer: "Wear safety goggles, gloves and protective clothing"
-},
-{
-    section: "Hazardous Material Handling",
-    question: "What is the PPE when handling MTBE synthesis catalyst?",
-    options: [
-        "Wear SCBA and anti-acid gloves",
-        "Wear cotton gloves",
-        "Wear safety harness and anti-acid gloves",
-        "Wear safety goggles and anti-acid gloves"
-    ],
-    answer: "Wear safety goggles and anti-acid gloves"
-},
-{
-    section: "Hazardous Material Handling",
-    question: "What PPE should be used in an H2S environment?",
-    options: [
-        "Gloves",
-        "SCBA",
-        "Hard Hat",
-        "Dust Mask"
-    ],
-    answer: "SCBA"
-},
-{
-    section: "Hazardous Material Handling",
-    question: "What happens when MTBE touches a strong mineral acid?",
-    options: [
-        "MTBE decomposes into 1-butene and methanol",
-        "MTBE decomposes into isobutylene and methanol",
-        "MTBE decomposes into isobutane and methanol",
-        "MTBE decomposes into vinyl acetate and methanol"
-    ],
-    answer: "MTBE decomposes into isobutylene and methanol"
-},
-{
-    section: "Hazardous Material Handling",
-    question: "Why do we use antistatic treatment such as earth-bonding for MTBE?",
-    options: [
-        "MTBE cannot ignite by static electricity",
-        "MTBE may ignite by static electricity",
-        "MTBE is vaporized by sparks",
-        "MTBE ignites only by open flame"
-    ],
-    answer: "MTBE may ignite by static electricity"
-},
-{
-    section: "Hazardous Material Handling",
-    question: "What is the ppm level of Methanol vapor that can cause optic nerve damage after long exposure?",
-    options: [
-        "10 ppm",
-        "50 ppm",
-        "200 ppm",
-        "500 ppm"
-    ],
-    answer: "200 ppm"
-},
-{
-    section: "Hazardous Material Handling",
-    question: "What PPE should be used while handling wastewater?",
-    options: [
-        "Safety goggles",
-        "Rubber gloves",
-        "Leather gloves",
-        "Safety goggles and rubber gloves"
-    ],
-    answer: "Safety goggles and rubber gloves"
-},
-
-{
-    section: "Shutdown Procedures",
-    question: "Where can detailed shutdown procedures be found?",
-    options: [
-        "Maintenance Manual",
-        "Safety Manual",
-        "SOP",
-        "Instrumentation Manual"
-    ],
-    answer: "SOP"
-},
-{
-    section: "Shutdown Procedures",
-    question: "Where is the temporary hose connected during D-1115 shutdown to drain methanol?",
-    options: [
-        "D-1392A",
-        "D-1115",
-        "D-1101",
-        "TK-1101"
-    ],
-    answer: "D-1392A"
-},
-{
-    section: "Shutdown Procedures",
-    question: "How is Isobutylene eliminated in T-1230 after shutdown?",
-    options: [
-        "N2 bubbling under each tray",
-        "Air bubbling under each tray",
-        "CO2 bubbling under each tray",
-        "Methanol bubbling under each tray"
-    ],
-    answer: "N2 bubbling under each tray"
-},
-{
-    section: "Shutdown Procedures",
-    question: "At what methanol concentration is DMW feeding to T-1230 stopped during shutdown?",
-    options: [
-        "5.5 wt%",
-        "10.5 wt%",
-        "15.5 wt%",
-        "0.5 wt%"
-    ],
-    answer: "0.5 wt%"
-},
-{
-    section: "Shutdown Procedures",
-    question: "How is heating of E-1394 stopped during shutdown?",
-    options: [
-        "Open 2 inch LS valve",
-        "Close CW valve",
-        "Close 2 inch LS valve",
-        "Open CW valve"
-    ],
-    answer: "Close 2 inch LS valve"
-},
-{
-    section: "Shutdown Procedures",
-    question: "What pressure should be maintained in T-1140 during N2 purging?",
-    options: [
-        "0.5 kg/cm²G",
-        "5.5 kg/cm²G",
-        "13.5 kg/cm²G",
-        "1.5 kg/cm²G"
-    ],
-    answer: "1.5 kg/cm²G"
-},
-{
-    section: "Shutdown Procedures",
-    question: "Why should pressure not be decreased below 1.0 kg/cm²G in T-1140 during N2 purging?",
-    options: [
-        "To improve cleaning",
-        "To prevent freezing",
-        "To flash remaining C4",
-        "To reduce methanol concentration"
-    ],
-    answer: "To prevent freezing"
-},
-
-{
-    section: "Start-Up Procedures",
-    question: "Which statement is wrong during initial startup reconfirmation?",
-    options: [
-        "All preparations completed",
-        "All lines O2 free",
-        "All lines dried out",
-        "No need to confirm anything"
-    ],
-    answer: "No need to confirm anything"
-},
-{
-    section: "Start-Up Procedures",
-    question: "Who should the Field Operator communicate with after receiving startup instructions?",
-    options: [
-        "Section Head",
-        "Console Operator",
-        "Field Operator",
-        "Maintenance Supervisor"
-    ],
-    answer: "Console Operator"
-},
-{
-    section: "Start-Up Procedures",
-    question: "Who authorizes plant startup?",
-    options: [
-        "Monomer Manager",
-        "Shift Supervisor",
-        "Senior Console Operator",
-        "Maintenance Supervisor"
-    ],
-    answer: "Shift Supervisor"
-},
-{
-    section: "Start-Up Procedures",
-    question: "Which is NOT a Field Operator responsibility during startup?",
-    options: [
-        "Verify spectacle blinds",
-        "Verify equipment readiness",
-        "Verify valve positions",
-        "Authorize plant startup"
-    ],
-    answer: "Authorize plant startup"
-},
-{
-    section: "Start-Up Procedures",
-    question: "What position should the discharge valve of a centrifugal pump be before startup?",
-    options: [
-        "Closed",
-        "Open",
-        "Half Open",
-        "75% Open"
-    ],
-    answer: "Closed"
-},
-{
-    section: "Start-Up Procedures",
-    question: "Which unit is started first during MTBE-IB startup?",
-    options: [
-        "T-1260",
-        "T-1140",
-        "T-1230",
-        "T-1240"
-    ],
-    answer: "T-1260"
-},
-{
-    section: "Start-Up Procedures",
-    question: "What wastewater quality is required before sending to WWTP?",
-    options: [
-        "pH below 6.0",
-        "pH above 6.0",
-        "pH below 5.0",
-        "pH below 8.0"
-    ],
-    answer: "pH above 6.0"
-},
-{
-    section: "Start-Up Procedures",
-    question: "How do you correct low wastewater pH?",
-    options: [
-        "Add Acid",
-        "Add NaOH",
-        "Add more water",
-        "Add steam"
-    ],
-    answer: "Add NaOH"
-},
-{
-    section: "Sampling Procedures",
-    question: "When should sampling items be confirmed during normal operation?",
-    options: [
-        "At the end of each shift",
-        "At the start of each shift",
-        "Any time",
-        "Once per week"
-    ],
-    answer: "At the start of each shift"
-},
-{
-    section: "Sampling Procedures",
-    question: "Who proceeds to each sampling point and conducts sampling?",
-    options: [
-        "Shift Supervisor",
-        "Sampling Operator",
-        "Field Operator",
-        "Console Operator"
-    ],
-    answer: "Field Operator"
-},
-{
-    section: "Sampling Procedures",
-    question: "Who checks and signs off the analysis results of samples?",
-    options: [
-        "Console Operator",
-        "Shift Supervisor",
-        "Section Head",
-        "Senior Field Operator"
-    ],
-    answer: "Shift Supervisor"
-},
-{
-    section: "Sampling Procedures",
-    question: "Where is the sample sticker printed?",
-    options: [
-        "Printing Machine",
-        "Computer",
-        "Projector",
-        "LIMS Printer"
-    ],
-    answer: "LIMS Printer"
-},
-{
-    section: "Sampling Procedures",
-    question: "Before taking a sample, what should be done to the sampling line?",
-    options: [
-        "Open sample bottle",
-        "Flush line with process liquid",
-        "Call Control Room",
-        "Purge with steam"
-    ],
-    answer: "Flush line with process liquid"
-},
-{
-    section: "Sampling Procedures",
-    question: "What are the steps of the sampling sequence?",
-    options: [
-        "Sampling, Analysis, Recording",
-        "Confirmation, Sampling, Analysis, Recording",
-        "Sampling, Recording, Analysis",
-        "Analysis, Recording, Sampling"
-    ],
-    answer: "Confirmation, Sampling, Analysis, Recording"
-},
-{
-    section: "Sampling Procedures",
-    question: "What type of sample system is used for fluids at 65°C or higher?",
-    options: [
-        "Type A-1",
-        "Type B-1",
-        "Type C-1",
-        "Type D-1"
-    ],
-    answer: "Type B-1"
-},
-
-{
-    section: "Normal Conditions & Operating Ranges",
-    question: "What kind of hydrocarbon is fed to the MTBE Unit?",
-    options: [
-        "Ethane",
-        "Mixed C4",
-        "Propane",
-        "Propylene"
-    ],
-    answer: "Mixed C4"
-},
-{
-    section: "Normal Conditions & Operating Ranges",
-    question: "Which unit supplies cooling water to the MTBE Unit?",
-    options: [
-        "MMA",
-        "MTBE CT-40",
-        "Ethane Cracker",
-        "RAWEC"
-    ],
-    answer: "MTBE CT-40"
-},
-{
-    section: "Normal Conditions & Operating Ranges",
-    question: "What is the normal operating range of LC-1401 at T-1140 top level?",
-    options: [
-        "40-60%",
-        "60-70%",
-        "70-80%",
-        "20-40%"
-    ],
-    answer: "40-60%"
-},
-{
-    section: "Normal Conditions & Operating Ranges",
-    question: "What is the normal range of FC-1404 DMW flow to T-1140?",
-    options: [
-        "7-8 t/h",
-        "15-20 t/h",
-        "25-30 t/h",
-        "35-40 t/h"
-    ],
-    answer: "7-8 t/h"
-},
-{
-    section: "Normal Conditions & Operating Ranges",
-    question: "What is the operating range of T-1120 Tray #26 Temperature (TC-1203) at 100% load?",
-    options: [
-        "101-105°C",
-        "107-110°C",
-        "112-116°C",
-        "90-95°C"
-    ],
-    answer: "101-105°C"
-},
-{
-    section: "Normal Conditions & Operating Ranges",
-    question: "What is the normal operating pressure of PC-2112 in D-1215?",
-    options: [
-        "1.95-2.05 kg/cm²",
-        "3.55-6.05 kg/cm²",
-        "0.95-1.05 kg/cm²",
-        "5.0-6.0 kg/cm²"
-    ],
-    answer: "0.95-1.05 kg/cm²"
-},
-{
-    section: "Normal Conditions & Operating Ranges",
-    question: "What action should be taken if DME concentration is far lower than specification?",
-    options: [
-        "Increase T-1170 distillate",
-        "Decrease T-1170 distillate",
-        "Stop T-1170",
-        "Increase feed rate"
-    ],
-    answer: "Decrease T-1170 distillate"
-},
-{
-    section: "Normal Conditions & Operating Ranges",
-    question: "What is the normal operating range of LC-1801 D-1186 level?",
-    options: [
-        "25-50%",
-        "15-80%",
-        "50-60%",
-        "80-90%"
-    ],
-    answer: "15-80%"
-},
-{
-    section: "Normal Conditions & Operating Ranges",
-    question: "What is the normal pressure at DR-1180A/B outlet (PI-1801)?",
-    options: [
-        "5-7 kg/cm²G",
-        "11-12 kg/cm²G",
-        "16-28 kg/cm²G",
-        "1-3 kg/cm²G"
-    ],
-    answer: "11-12 kg/cm²G"
-},
-
-{
-    section: "Alarm & Shutdown Limits",
-    question: "What is the set value of PC-1212?",
-    options: [
-        "4 kg/cm²",
-        "5 kg/cm²",
-        "6 kg/cm²",
-        "7 kg/cm²"
-    ],
-    answer: "5 kg/cm²"
-},
-{
-    section: "Alarm & Shutdown Limits",
-    question: "What is the mixed C4 feed pump tag number?",
-    options: [
-        "P-1101A/B",
-        "P-1201A/B",
-        "P-1301A/B",
-        "P-1401A/B"
-    ],
-    answer: "P-1101A/B"
-},
-{
-    section: "Alarm & Shutdown Limits",
-    question: "How many sections are included in the MTBE shutdown system?",
-    options: [
-        "4",
-        "5",
-        "6",
-        "8"
-    ],
-    answer: "Six"
-},
-{
-    section: "Alarm & Shutdown Limits",
-    question: "Which interlock is used for MTBE Cracking Section shutdown?",
-    options: [
-        "ZC-1",
-        "ZC-5",
-        "ZC-9",
-        "ZC-11"
-    ],
-    answer: "ZC-9"
-},
-{
-    section: "Alarm & Shutdown Limits",
-    question: "Which interlock is used for DME Separation Section shutdown?",
-    options: [
-        "ZC-2",
-        "ZC-4",
-        "ZC-6",
-        "ZC-8"
-    ],
-    answer: "ZC-8"
-},
-{
-    section: "Alarm & Shutdown Limits",
-    question: "What is the low-low shutdown limit of T-1170 bottom level LC-1701?",
-    options: [
-        "9%",
-        "20%",
-        "35%",
-        "50%"
-    ],
-    answer: "9%"
-},
-{
-    section: "Alarm & Shutdown Limits",
-    question: "What is the LLL shutdown limit for R-1110 recycle flow FI-1112B?",
-    options: [
-        "5 t/h",
-        "10 t/h",
-        "20 t/h",
-        "40 t/h"
-    ],
-    answer: "5 t/h"
-},
-{
-    section: "Alarm & Shutdown Limits",
-    question: "What is the consequence of low T-1260 Tray #8 temperature (TC-2603)?",
-    options: [
-        "Water contamination to tower top",
-        "Methanol contamination to tower bottom",
-        "MTBE contamination",
-        "Pressure increase"
-    ],
-    answer: "Methanol contamination to tower bottom"
-},
-{
-    section: "Process Flow / PFD / P&ID",
-    question: "Where is the effluent of the synthesis reactors R-1110C/F sent?",
-    options: [
-        "To T-1140",
-        "To T-1120",
-        "To R-1120C/F",
-        "To D-1126"
-    ],
-    answer: "To T-1120"
-},
-{
-    section: "Process Flow / PFD / P&ID",
-    question: "What are the top products from T-1120?",
-    options: [
-        "C4 containing unreacted Isobutylene and Methanol",
-        "MTBE",
-        "MSBE",
-        "TBA and DIB"
-    ],
-    answer: "C4 containing unreacted Isobutylene and Methanol"
-},
-{
-    section: "Process Flow / PFD / P&ID",
-    question: "What are the bottom products of T-1120?",
-    options: [
-        "Heavy ends discharged with MTBE",
-        "C4 containing unreacted Isobutylene",
-        "Methanol azeotrope",
-        "Hydrogen"
-    ],
-    answer: "Heavy ends discharged with MTBE"
-},
-{
-    section: "Process Flow / PFD / P&ID",
-    question: "What type of controller is T-1260 Pressure Controller PC-2612?",
-    options: [
-        "Cascade Controller",
-        "Ratio Controller",
-        "Proportional Controller",
-        "Split Range Controller"
-    ],
-    answer: "Split Range Controller"
-},
-{
-    section: "Process Flow / PFD / P&ID",
-    question: "What is the vent pressure of Blow Down Drum D-1391?",
-    options: [
-        "Higher than flare pressure",
-        "Same as flare header pressure",
-        "Lower than flare header pressure",
-        "Same as D-1390 pressure"
-    ],
-    answer: "Same as flare header pressure"
-},
-{
-    section: "Process Flow / PFD / P&ID",
-    question: "What is the MTBE synthesis catalyst?",
-    options: [
-        "Strong acidic anion exchange resin",
-        "Strong alkaline anion exchange resin",
-        "Strong acidic and alkaline medium",
-        "Strong acidic cation exchange resin"
-    ],
-    answer: "Strong acidic cation exchange resin"
-},
-{
-    section: "Process Flow / PFD / P&ID",
-    question: "Where is MTBE synthesized?",
-    options: [
-        "R-1110A/B/C and D/E/F",
-        "R-1130A/B only",
-        "R-1110A/B/C only",
-        "R-1110A/B/C and D/E/F and R-1130A/B"
-    ],
-    answer: "R-1110A/B/C and D/E/F and R-1130A/B"
-},
-{
-    section: "Process Flow / PFD / P&ID",
-    question: "What type of reactors are used for MTBE synthesis?",
-    options: [
-        "Fixed Bed Isothermal",
-        "Fluid Bed Adiabatic",
-        "Fixed Bed Adiabatic",
-        "Fluid Bed Isothermal"
-    ],
-    answer: "Fixed Bed Adiabatic"
-},
-
-{
-    section: "Pumps Troubleshooting",
-    question: "What is the position of the suction and discharge valves of centrifugal pumps before startup?",
-    options: [
-        "Both Closed",
-        "Suction Open and Discharge Closed",
-        "Suction Closed and Discharge Open",
-        "Both Open"
-    ],
-    answer: "Suction Open and Discharge Closed"
-},
-{
-    section: "Pumps Troubleshooting",
-    question: "What is the position of the suction and discharge valves of plunger pumps before startup?",
-    options: [
-        "Both Closed",
-        "Suction Open and Discharge Closed",
-        "Suction Closed and Discharge Open",
-        "Both Open"
-    ],
-    answer: "Both Open"
-},
-{
-    section: "Pumps Troubleshooting",
-    question: "What causes a pump trip?",
-    options: [
-        "Normal Suction Pressure",
-        "Drum Level LL Activated",
-        "Normal Discharge Pressure",
-        "Discharge Valve Closed"
-    ],
-    answer: "Drum Level LL Activated"
-},
-{
-    section: "Pumps Troubleshooting",
-    question: "Why will a pump cavitate?",
-    options: [
-        "Suction Open",
-        "High Level",
-        "Low Suction Pressure",
-        "Discharge Open"
-    ],
-    answer: "Low Suction Pressure"
-},
-{
-    section: "Pumps Troubleshooting",
-    question: "Why will a pump vibrate?",
-    options: [
-        "Impeller Not Turning Freely",
-        "Impeller Turning Freely",
-        "Suction Open",
-        "Impeller Damaged"
-    ],
-    answer: "Impeller Damaged"
-},
-{
-    section: "Pumps Troubleshooting",
-    question: "Why will the pump motor overheat?",
-    options: [
-        "Discharge Open",
-        "Impeller Turning Freely",
-        "Suction Open",
-        "Impeller Not Turning Freely"
-    ],
-    answer: "Impeller Not Turning Freely"
-},
-{
-    section: "Pumps Troubleshooting",
-    question: "Why will you have low suction pressure on a pump?",
-    options: [
-        "No level in vessel or column",
-        "High level in vessel or column",
-        "Low temperature",
-        "High pressure"
-    ],
-    answer: "No level in vessel or column"
-},
-{
-    section: "Pumps Troubleshooting",
-    question: "Why will you have low discharge pressure on a pump?",
-    options: [
-        "Suction Open",
-        "Filter Plugged",
-        "Discharge Open",
-        "High Vessel Level"
-    ],
-    answer: "Filter Plugged"
-},
-{
-    section: "Pumps Troubleshooting",
-    question: "Which action is incorrect to overcome pump cavitation?",
-    options: [
-        "Increase Suction Pressure",
-        "Increase Liquid Temperature",
-        "Vent Gases from Pump",
-        "Throttle Discharge Valve"
-    ],
-    answer: "Increase Liquid Temperature"
-},
-{
-    section: "Pumps Troubleshooting",
-    question: "What should be done when a pump is under cavitation?",
-    options: [
-        "Stop pump and start standby pump",
-        "Continue operating",
-        "Stop standby pump",
-        "Ignore the condition"
-    ],
-    answer: "Stop pump and start standby pump"
-},
-
-{
-    section: "Heat Exchanger Troubleshooting",
-    question: "Why must steam condensate recovery be very slow?",
-    options: [
-        "High Pressure",
-        "Water Hammer",
-        "High Temperature",
-        "Low Pressure"
-    ],
-    answer: "Water Hammer"
-},
-{
-    section: "Heat Exchanger Troubleshooting",
-    question: "How can inert gas accumulation in the reboiler be prevented?",
-    options: [
-        "Remove Steam Trap",
-        "Increase Steam Flow",
-        "Reduce Steam Flow",
-        "Purge the Inert Gas"
-    ],
-    answer: "Purge the Inert Gas"
-},
-{
-    section: "Heat Exchanger Troubleshooting",
-    question: "What happens if water hammer occurs?",
-    options: [
-        "Purge Inert Gas",
-        "Decrease Steam Flow",
-        "Stop Condensate Recovery",
-        "Piping Gets Damaged"
-    ],
-    answer: "Piping Gets Damaged"
-},
-{
-    section: "Heat Exchanger Troubleshooting",
-    question: "How can water hammer be avoided?",
-    options: [
-        "Increase Steam Flow",
-        "Purge Inert Gas",
-        "Decrease Steam Flow",
-        "Slowly Open the Valve"
-    ],
-    answer: "Slowly Open the Valve"
-},
-{
-    section: "Heat Exchanger Troubleshooting",
-    question: "How do you check for fouling in exchanger tubes?",
-    options: [
-        "Check High Flow",
-        "Pressure Survey Across Exchanger",
-        "Check High Pressure",
-        "Check High Temperature"
-    ],
-    answer: "Pressure Survey Across Exchanger"
-},
-{
-    section: "Heat Exchanger Troubleshooting",
-    question: "Why do PG and TG rise in a heat exchanger?",
-    options: [
-        "Inlet Valve Closed",
-        "Fouling or Plugging of Reboiler",
-        "Low Steam Flow",
-        "Open Valve Slowly"
-    ],
-    answer: "Fouling or Plugging of Reboiler"
-},
-{
-    section: "Heat Exchanger Troubleshooting",
-    question: "What should be done if fouling or plugging of a reboiler occurs?",
-    options: [
-        "Decrease Steam Flow",
-        "Slowly Open Valve",
-        "Consider Reboiler Overhaul",
-        "Increase Steam Flow"
-    ],
-    answer: "Consider Reboiler Overhaul"
-},
-{
-    section: "Heat Exchanger Troubleshooting",
-    question: "Why will low heat transfer occur?",
-    options: [
-        "Fouling of Tubes",
-        "High Pressure",
-        "High Temperature",
-        "Open Valve"
-    ],
-    answer: "Fouling of Tubes"
-},
-{
-    section: "Emergency During Fire",
-    question: "If you see a fire in the plant, what is your first action?",
-    options: [
-        "Report to Control Room and break the MCP",
-        "Evacuate to assembly point",
-        "Ask contractor to stop work",
-        "Check wind direction"
-    ],
-    answer: "Report to Control Room and break the MCP"
-},
-{
-    section: "Emergency During Fire",
-    question: "After reporting an emergency to the Console Operator, what is your next action?",
-    options: [
-        "Go to PIB",
-        "Wait in Control Room",
-        "Go to assembly point and account for personnel",
-        "Continue working"
-    ],
-    answer: "Go to assembly point and account for personnel"
-},
-{
-    section: "Emergency During Fire",
-    question: "What does ICS stand for?",
-    options: [
-        "Incident Command Supervisor",
-        "Incident Command Programme",
-        "Incident Control System",
-        "Incident Command System"
-    ],
-    answer: "Incident Command System"
-},
-{
-    section: "Emergency During Fire",
-    question: "What is the flammability range of MTBE?",
-    options: [
-        "1.65 - 8.4",
-        "8.6 - 12.7",
-        "6.0 - 36.5",
-        "4.1 - 12.5"
-    ],
-    answer: "1.65 - 8.4"
-},
-{
-    section: "Emergency During Fire",
-    question: "What is the correct way to use a fire extinguisher?",
-    options: [
-        "Aim at the top of the fire",
-        "Aim at the base and sweep horizontally",
-        "Aim at the center only",
-        "Aim vertically"
-    ],
-    answer: "Aim at the base and sweep horizontally"
-},
-{
-    section: "Emergency During Fire",
-    question: "If you have a pump seal fire, what should you do?",
-    options: [
-        "Do nothing",
-        "Wait for instructions",
-        "Go to assembly point",
-        "Use a fire extinguisher"
-    ],
-    answer: "Use a fire extinguisher"
-},
-
-{
-    section: "Emergency During Hydrocarbon Leakage",
-    question: "If you observe a heavy hydrocarbon leak, what is your first action?",
-    options: [
-        "Report to Control Room and break MCP",
-        "Open fire monitor immediately",
-        "Leave area silently",
-        "Find leak source"
-    ],
-    answer: "Report to Control Room and break MCP"
-},
-{
-    section: "Emergency During Hydrocarbon Leakage",
-    question: "Who is the Incident Commander during a gas leak emergency in the MTBE plant?",
-    options: [
-        "SSV",
-        "SH",
-        "CO",
-        "MC"
-    ],
-    answer: "SSV"
-},
-{
-    section: "Emergency During Hydrocarbon Leakage",
-    question: "What should be done if there is a heavy seal leak on the Fresh Methanol Feed Pump?",
-    options: [
-        "Monitor only",
-        "Keep N2 nearby",
-        "Swap pump and keep leaking pump as standby",
-        "Swap pump and isolate leaking pump"
-    ],
-    answer: "Swap pump and isolate leaking pump"
-},
-{
-    section: "Emergency During Hydrocarbon Leakage",
-    question: "What should be done if hydrocarbon leaks from a line drain valve?",
-    options: [
-        "Swap the pump",
-        "Wipe with cloth",
-        "Take no action",
-        "Close the drain valve properly and install the plug"
-    ],
-    answer: "Close the drain valve properly and install the plug"
-},
-{
-    section: "Emergency During Hydrocarbon Leakage",
-    question: "What action helps prevent vapor cloud formation during a fuel gas leak?",
-    options: [
-        "Wait for supervisor",
-        "Inform Control Room only",
-        "Break MCP and open fire monitors",
-        "Do nothing"
-    ],
-    answer: "Break MCP and open fire monitors"
-},
-{
-    section: "Emergency During Hydrocarbon Leakage",
-    question: "What is the consequence of high level in flare drum D-1391?",
-    options: [
-        "Overflow to D-1125",
-        "Overflow to pit",
-        "Overflow to D-1115",
-        "Liquid overflow to flare"
-    ],
-    answer: "Liquid overflow to flare"
-},
-
-{
-    section: "Hazardous Material Spillage",
-    question: "What should you do if Methanol is spilled?",
-    options: [
-        "Do nothing",
-        "Cover with sand",
-        "Wash and dilute with plenty of water",
-        "Use dry powder"
-    ],
-    answer: "Wash and dilute with plenty of water"
-},
-{
-    section: "Hazardous Material Spillage",
-    question: "What should you do if a chemical enters your eyes?",
-    options: [
-        "Rub eyes",
-        "Flush with water and seek medical attention",
-        "Wait for help",
-        "Rest until irritation stops"
-    ],
-    answer: "Flush with water and seek medical attention"
-},
-{
-    section: "Hazardous Material Spillage",
-    question: "What should be done if Methanol splashes onto skin?",
-    options: [
-        "Go directly to clinic",
-        "Rinse with plenty of water and seek medical attention",
-        "Wipe with cloth",
-        "Inform Control Room only"
-    ],
-    answer: "Rinse with plenty of water and seek medical attention"
-},
-{
-    section: "Hazardous Material Spillage",
-    question: "What should be done if there is a hydrocarbon leak from a pump suction strainer?",
-    options: [
-        "Observe only",
-        "Keep N2 hose nearby",
-        "Swap and keep leaking pump as standby",
-        "Swap and isolate leaking pump"
-    ],
-    answer: "Swap and isolate leaking pump"
-},
-{
-    section: "Hazardous Material Spillage",
-    question: "What is the first action if MTBE splashes into your eyes?",
-    options: [
-        "Call ambulance",
-        "Inform SSV",
-        "Flush with plenty of water",
-        "Go to doctor first"
-    ],
-    answer: "Flush with plenty of water"
-},
-{
-    section: "Hazardous Material Spillage",
-    question: "Who wears the orange vest and switches Bravo Channel to 119 during a hazardous material spill?",
-    options: [
-        "CO",
-        "SSV",
-        "FO",
-        "Maintenance"
-    ],
-    answer: "SSV"
-},
-
-{
-    section: "Personnel Injury Response",
-    question: "What is the best way to inform emergency services about the location of an injured person?",
-    options: [
-        "Person's name",
-        "Department",
-        "Grid location",
-        "Equipment name"
-    ],
-    answer: "Grid location"
-},
-{
-    section: "Personnel Injury Response",
-    question: "What should you do if a person is injured by steam?",
-    options: [
-        "Wash with soap",
-        "Immediately go to First Aid Clinic",
-        "Apply ice",
-        "Inform SSV only"
-    ],
-    answer: "Immediately go to First Aid Clinic"
-},
-{
-    section: "Personnel Injury Response",
-    question: "What should you do if a co-worker inhales H2S gas?",
-    options: [
-        "Allow rest",
-        "Continue working",
-        "Move to fresh air and administer oxygen",
-        "Take to eyewash station"
-    ],
-    answer: "Move to fresh air and administer oxygen"
-},
-{
-    section: "Personnel Injury Response",
-    question: "What should you do if skin comes into contact with H2S?",
-    options: [
-        "Wait for medical help",
-        "Remove contaminated clothing and wash with soap and water",
-        "Drink water",
-        "Continue working"
-    ],
-    answer: "Remove contaminated clothing and wash with soap and water"
-},
-{
-    section: "Personnel Injury Response",
-    question: "Where should an injured worker be taken during a fire emergency?",
-    options: [
-        "Fire location",
-        "Medical team location",
-        "Emergency team assembly point",
-        "General assembly point"
-    ],
-    answer: "Medical team location"
-},
-{
-    section: "Personnel Injury Response",
-    question: "A fellow operator becomes unconscious in a confined space. What should you do?",
-    options: [
-        "Enter immediately",
-        "Inject air with hose",
-        "Keep shouting",
-        "Inform CO, wear SCBA and rescue with standby man"
-    ],
-    answer: "Inform CO, wear SCBA and rescue with standby man"
-}
-
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the PPE for handling MTBE ?",
+    "options": [
+      "Leather Gloves",
+      "Ear plugs",
+      "Rubber Gloves, Safety Goggles",
+      "Safety Spectacles"
+    ],
+    "answer": "Rubber Gloves, Safety Goggles"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the required PPE for handling Methanol ?",
+    "options": [
+      "Ear plugs",
+      "Rubber Gloves, Safety Goggles",
+      "Mask",
+      "Safety Spectacles"
+    ],
+    "answer": "Rubber Gloves, Safety Goggles"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the required PPE for handling C4?",
+    "options": [
+      "Ear plugs",
+      "Rubber Gloves, Safety Goggles",
+      "Mask",
+      "Safety Spectacles"
+    ],
+    "answer": "Rubber Gloves, Safety Goggles"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the required PPE for handling Waste Water ?",
+    "options": [
+      "Rubber Gloves, Safety Goggles",
+      "Mask",
+      "Safety Spectacles",
+      "Ear plugs"
+    ],
+    "answer": "Rubber Gloves, Safety Goggles"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When handling activated carbon are safety spectacles required or not?",
+    "options": [
+      "Required",
+      "Not Required",
+      "Not Applicable",
+      "Ask SSV"
+    ],
+    "answer": "Not Required"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action should be taken before entering a closed space?",
+    "options": [
+      "Ventilate, and O2 analyse",
+      "Escape",
+      "Run away",
+      "Breath deeply"
+    ],
+    "answer": "Ventilate, and O2 analyse"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the colour of MTBE?",
+    "options": [
+      "Non-coloured, transparent liquid",
+      "Black liquid",
+      "Yellow liquid",
+      "Blue liquid"
+    ],
+    "answer": "Non-coloured, transparent liquid"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which of the following is not authorized in hazardous areas?",
+    "options": [
+      "Smoking, flame or sparks.",
+      "Cold work",
+      "Using eyewash",
+      "Working"
+    ],
+    "answer": "Smoking, flame or sparks."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "How do we prevent static Electricity?",
+    "options": [
+      "Earth bonding",
+      "Insulating",
+      "Using another cable",
+      "Using a conductor"
+    ],
+    "answer": "Earth bonding"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which type of firefighting equipment is available in PIB 35?",
+    "options": [
+      "Fire extinguisher",
+      "Foam",
+      "Fire hose reel",
+      "Fire monitor"
+    ],
+    "answer": "Fire extinguisher"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why do we need to avoid heat, flames, sparks and other sources of ignition in a hazardous area?",
+    "options": [
+      "To prevent fires",
+      "To improve cooling",
+      "To ventilate",
+      "To do maintenance jobs"
+    ],
+    "answer": "To prevent fires"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Do you need rubber gloves while handling activated carbon?",
+    "options": [
+      "Required",
+      "Not required",
+      "Some of the time",
+      "Only if told to wear"
+    ],
+    "answer": "Required"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Do you need rubber gloves while handling Synthesis Catalyst",
+    "options": [
+      "Not Required",
+      "Not Applicable",
+      "Only some of the time",
+      "Required"
+    ],
+    "answer": "Required"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Is the use of safety goggles while handling synthesis catalyst required or not?",
+    "options": [
+      "Not Applicable",
+      "Some of the time",
+      "Required",
+      "Not required"
+    ],
+    "answer": "Required"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is LEL?",
+    "options": [
+      "Temperature limit control valve",
+      "Time limit value",
+      "Low Explosive Limit",
+      "Threshold level value"
+    ],
+    "answer": "Low Explosive Limit"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What does MSDS stands for?",
+    "options": [
+      "Material Safety Development system",
+      "Material Safety Data Sheet",
+      "Material Selection Data Sheet",
+      "Material Safety Detective System"
+    ],
+    "answer": "Material Safety Data Sheet"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "If there is a heavy sand storm, what should you use to protect yourself?",
+    "options": [
+      "Use SCBA",
+      "Use dust mask",
+      "Use chemical cartridge respirator",
+      "Use sunglass"
+    ],
+    "answer": "Use dust mask"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is mandatory action in all cases of overexposure to the products handled in the MTBE section?",
+    "options": [
+      "Change your work uniform",
+      "Contact the control room",
+      "Prompt medical attention",
+      "Not required"
+    ],
+    "answer": "Prompt medical attention"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Where do you move the affected person in the case of an injury?",
+    "options": [
+      "To confined space",
+      "To PIB",
+      "To fresh air",
+      "outside"
+    ],
+    "answer": "To fresh air"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "If an IB leakage is detected from the piping, what should we do first?",
+    "options": [
+      "Evacuate all members from plant",
+      "isolate the piping that is leaking",
+      "call MMA plant",
+      "Call PMMA"
+    ],
+    "answer": "isolate the piping that is leaking"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What must you do in the case of MTBE coming into contact with your eyes or skin?",
+    "options": [
+      "Go outside",
+      "Contact the SSV",
+      "Wash or flush with water using the eye washing facility",
+      "No action needed"
+    ],
+    "answer": "Wash or flush with water using the eye washing facility"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why do we need to keep the affected person warm and calm?.",
+    "options": [
+      "Not to alarm other workers",
+      "To prevent fires",
+      "To help him recover.",
+      "No need to keep warm and calm"
+    ],
+    "answer": "To help him recover."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What should be your action when you find a person effected by an electric shock?",
+    "options": [
+      "Take the person to hospital",
+      "First isolate the power supply",
+      "Remove the electric cable immediately",
+      "Call ambulance"
+    ],
+    "answer": "First isolate the power supply"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Who will make the decision to shutdown the plant?",
+    "options": [
+      "Shift Supervisor",
+      "Maintenance Coordinator",
+      "Field Operator",
+      "Console Operator"
+    ],
+    "answer": "Shift Supervisor"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Where can you a the Step Flow Chart for a Normal Shutdown?",
+    "options": [
+      "SOP",
+      "PFD",
+      "Safety manual",
+      "Maintenance Instruction"
+    ],
+    "answer": "SOP"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What will happen when the instrument air pressure becomes low low?",
+    "options": [
+      "Plant shutdown",
+      "Plant keeps running normal",
+      "one section of the plant gets shutdown",
+      "Use of utility air"
+    ],
+    "answer": "Plant shutdown"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What causes a pump to trip?",
+    "options": [
+      "Suction pressure normal",
+      "Suction drum level LL activated.",
+      "Discharge pressure normal",
+      "Discharge valve closed"
+    ],
+    "answer": "Suction drum level LL activated."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the cause of a plant shutdown ?",
+    "options": [
+      "Power failure",
+      "High instrument air pressure",
+      "Low utility air pressure",
+      "Low utility water pressure"
+    ],
+    "answer": "Power failure"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the purpose of the Basic concept and Interlock System in the SOP?",
+    "options": [
+      "To determine the start procedures to use, and start the sections.",
+      "To determine the normal procedures to use, and stop the sections.",
+      "To determine the safety procedures to use, and start the sections.",
+      "To determine the stop procedures to use, and stop the sections."
+    ],
+    "answer": "To determine the stop procedures to use, and stop the sections."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What do you need to confirm before start up?",
+    "options": [
+      "Ensure all personnel are out of the plant",
+      "Ensure that all maintenance work has been completed",
+      "Ensure that all safety personnel are present",
+      "Ensure that all maintenance personnel are present"
+    ],
+    "answer": "Ensure that all maintenance work has been completed"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Where do you find details about Plant Start-up?",
+    "options": [
+      "Maintenance manual",
+      "SOP",
+      "Instrument manual",
+      "Safety M"
+    ],
+    "answer": "SOP"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which one of the following is not a Job responsibility of the Field Operator?",
+    "options": [
+      "Confirm that all Spectacle Blinds are Installed in the Correct position as Required for Start up",
+      "Confirm that all Equipment and Instrumentation is Ready for Start up",
+      "Confirm that the Respective Block Valves are in the Required Position.",
+      "Provide Authorisation to start up the plant"
+    ],
+    "answer": "Provide Authorisation to start up the plant"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the position of the discharge valve before starting a centrifugal pump?",
+    "options": [
+      "Closed",
+      "Open",
+      "Half open",
+      "75% open"
+    ],
+    "answer": "Closed"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "How the MTBE Synthesis Section Start-up begins ?",
+    "options": [
+      "With the feed of Mixed-C4 and Methanol to R-1110A/B/C (D/E/F).",
+      "With the feed of ethane and Methane to R-1110A/B/C (D/E/F.",
+      "With the feed of Mixed-C4 and DMW to R-1110A/B/C (D/E/F).",
+      "With the feed of Mixed-C4 and DIB to R-1110A/B/C (D/E/F)."
+    ],
+    "answer": "With the feed of Mixed-C4 and Methanol to R-1110A/B/C (D/E/F)."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is step-1 in the supply of Mixed-C4 (by FC-1105 base) from the start to 100% load?",
+    "options": [
+      "Step-1: 0 → 27 ton/h",
+      "Step-1: 0 → 37 ton/h",
+      "Step-1: 0 → 17 ton/h",
+      "Step-1: 0 → 47 ton/h"
+    ],
+    "answer": "Step-1: 0 → 17 ton/h"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When to refer to the routine sampling and analysis schedule?",
+    "options": [
+      "At the end of each shift",
+      "At the start of each shift",
+      "At the start of each day",
+      "At the end of each shift"
+    ],
+    "answer": "At the start of each shift"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which one of the following is not a precaution to Prevent Sample Exposure?",
+    "options": [
+      "Use Proper Sample Containers",
+      "keep Sample Containers Tightly Closed when not in Use",
+      "Wear Recommended (PPE) During sampling Operation",
+      "Measure the container weight"
+    ],
+    "answer": "Measure the container weight"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Who proceeds to each Sampling Point and conducts Sampling?",
+    "options": [
+      "Shift Supervisor",
+      "Sampling Operator",
+      "Field Operator",
+      "Console Operator"
+    ],
+    "answer": "Field Operator"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "what preparation is necessary before sampling",
+    "options": [
+      "Filling the sample cylinder",
+      "Purging the sample cylinder with nitrogen",
+      "Open the cylinder valves",
+      "Call QC"
+    ],
+    "answer": "Purging the sample cylinder with nitrogen"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Who checks the Analysis Results of Samples?",
+    "options": [
+      "Console Operator",
+      "Shift Supervisor",
+      "Manager",
+      "Senior Field Operator"
+    ],
+    "answer": "Shift Supervisor"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Before you start taking a sample, what should be done to the sampling line?",
+    "options": [
+      "Check the gas cylinder pressure",
+      "Flushing of the line by process liquid properly",
+      "Purging the sample cylinder by nitrogen",
+      "Inform SSV"
+    ],
+    "answer": "Flushing of the line by process liquid properly"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the normal Operation Conditions at 100% plant load,PC-1212?",
+    "options": [
+      "2.3-3.3 kg/cm2",
+      "4.8-5.2 kg/cm2",
+      "1.2-2.1 kg/cm2",
+      "3.8-4.9 kg/cm2"
+    ],
+    "answer": "4.8-5.2 kg/cm2"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the Normal Operation Conditions at 100% plant load,TC-1203 ?",
+    "options": [
+      "110-115 degC",
+      "120-130 degC",
+      "101-105 degC",
+      "121-125 degC"
+    ],
+    "answer": "101-105 degC"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What will happen if T-1120 Level LC-1205A is Low Low Limit?",
+    "options": [
+      "Discharge valve closes to prevent pressure from increasing over design",
+      "Discharge valve opens to prevent pressure from increasing over design",
+      "Suction valve closes to prevent pressure from increasing over design",
+      "Reflux and discharge pump trip due to low level."
+    ],
+    "answer": "Reflux and discharge pump trip due to low level."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which unit gets feed from the MTBE-IB plant?",
+    "options": [
+      "Metathesis",
+      "Cumene",
+      "LDPE",
+      "Nylon-6"
+    ],
+    "answer": "Metathesis"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which heat exchanger uses Cooling Water?",
+    "options": [
+      "E-1125",
+      "E-1150",
+      "E-1170",
+      "E-1120"
+    ],
+    "answer": "E-1125"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the function of C4 washer T-1110?",
+    "options": [
+      "To remove impurities",
+      "To remove H2",
+      "To remove C2",
+      "To remove C3'"
+    ],
+    "answer": "To remove impurities"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is R-1220?",
+    "options": [
+      "Synthesis reactor",
+      "Washer",
+      "Cracking Reactor",
+      "Debutanizer"
+    ],
+    "answer": "Cracking Reactor"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the function of Degasser D-1116?",
+    "options": [
+      "To strip nitrogen",
+      "To remove liquids",
+      "To strip water",
+      "To strip hydrocarbons"
+    ],
+    "answer": "To strip hydrocarbons"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the result if TK-1101 Level LI-1001 reaches Low Limit?",
+    "options": [
+      "Discharge pump starts due to low low level",
+      "Discharge pump trips due to high level",
+      "Discharge pump trips due to low low level",
+      "Discharge pump starts due to high level"
+    ],
+    "answer": "Discharge pump trips due to low low level"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the flammable gas concentration that is to be maintained in the system after shutdown?",
+    "options": [
+      "Shall be maintained at less than LEL 15%.",
+      "Shall be maintained at less than LEL 10%.",
+      "Shall be maintained at less than LEL 5%.",
+      "Shall be maintained at less than LEL 1%."
+    ],
+    "answer": "Shall be maintained at less than LEL 5%."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the T-1120 Pressure PC-1212 High Limit ?",
+    "options": [
+      "5.5 kg/cm2",
+      "6 kg/cm2",
+      "7 kg/cm2",
+      "9 kg/cm2"
+    ],
+    "answer": "5.5 kg/cm2"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What will happen if T-1120 Pressure PC-1212 Low Limit ?",
+    "options": [
+      "Discharge valve closes to prevent pressure from increasing over design",
+      "Discharge valve opens to prevent pressure from increasing over design",
+      "Suction valve closes to prevent pressure from increasing over design",
+      "Low pressure causes a low equilibrium temperature"
+    ],
+    "answer": "Low pressure causes a low equilibrium temperature"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the tag No of the mixed C4 feed pump?",
+    "options": [
+      "P-1102A/B",
+      "P-1101A/B",
+      "P-1103",
+      "P-1002A/B"
+    ],
+    "answer": "P-1101A/B"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Where should the required MTBE production (t/day) be set?.",
+    "options": [
+      "On FC-1102",
+      "On the MTBE production tag",
+      "On FC-1101",
+      "On XI-1011"
+    ],
+    "answer": "On the MTBE production tag"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which is the MTBE production tag?",
+    "options": [
+      "XI-1101",
+      "FC-1101",
+      "XC-1105",
+      "FC-1102"
+    ],
+    "answer": "XC-1105"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What type of control is XC-1105 and FC-1105 ?",
+    "options": [
+      "On flow control",
+      "On on off control",
+      "On cascade control",
+      "On split control"
+    ],
+    "answer": "On cascade control"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What reacts with Isobutylene to produce MTBE ?",
+    "options": [
+      "DIB",
+      "DME",
+      "Ethylene",
+      "Methanol"
+    ],
+    "answer": "Methanol"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What reaction is required in order to obtain n-butenes for the Metathesis unit?",
+    "options": [
+      "A single stage MTBE cracking reaction is used",
+      "A single stage MTBE Synthesis reaction system is applied.",
+      "A two-stage MTBE Synthesis reaction system is applied.",
+      "A two-stage MTBE cracking reaction is applied."
+    ],
+    "answer": "A two-stage MTBE Synthesis reaction system is applied."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Where does the Degasser D-1116 top flow go?",
+    "options": [
+      "To blowdown",
+      "To Tank TK-1101",
+      "To Tank T-1101",
+      "To Tank TK-1102"
+    ],
+    "answer": "To blowdown"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the use of MTBE ?",
+    "options": [
+      "It is used as a gasoline additive",
+      "Is not used as a gasoline additive",
+      "Is used as the catalyst",
+      "Is used for the production of vinyl acetate"
+    ],
+    "answer": "It is used as a gasoline additive"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What are the MTBE cracking products?",
+    "options": [
+      "To Isobutylene and Methane under the presence of MTBE cracking catalyst",
+      "To butylene and ethanol under the presence of MTBE cracking catalyst",
+      "To butane and Methanol under the presence of MTBE cracking catalyst",
+      "To Isobutylene and Methanol under the presence of MTBE cracking catalyst"
+    ],
+    "answer": "To Isobutylene and Methanol under the presence of MTBE cracking catalyst"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Where is methanol re-used after purification?",
+    "options": [
+      "Methanol is re-used at the MTBE cracking section",
+      "Methanol is re-used at the MMA section",
+      "Methanol is re-used at the MTBE synthesis section",
+      "Methanol is re-used at the Nylon section"
+    ],
+    "answer": "Methanol is re-used at the MTBE synthesis section"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What steam is used in MTBE-IB?",
+    "options": [
+      "Super high pressure steam",
+      "High pressure steam and low pressure steam",
+      "Medium pressure steam",
+      "Ultra high pressure steam"
+    ],
+    "answer": "High pressure steam and low pressure steam"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What may happen if instrument air fails?",
+    "options": [
+      "Plant shutdown",
+      "Plant start up",
+      "Plant works normal",
+      "Pumps working normal"
+    ],
+    "answer": "Plant shutdown"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What can cause pump trips ?",
+    "options": [
+      "Normal flow",
+      "Low low level",
+      "Normal pressure",
+      "Normal temperature"
+    ],
+    "answer": "Low low level"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the correct operation before starting of pumps?",
+    "options": [
+      "Open discharge valve",
+      "Close minimum circulation line valve",
+      "Open minimum circulation line valve",
+      "Close suction valve"
+    ],
+    "answer": "Open minimum circulation line valve"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which of these is a must before entering the plant?",
+    "options": [
+      "Helmet",
+      "Safety glasses/goggles",
+      "Safety shoes",
+      "Helmet, Safety glasses/goggles, Safety shoes"
+    ],
+    "answer": "Helmet, Safety glasses/goggles, Safety shoes"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the minimum oxygen requirement while performing any task while working in a confined space?",
+    "options": [
+      "16%",
+      "20%",
+      "22%",
+      "0.235"
+    ],
+    "answer": "20%"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When the disharge valve is open after start pump, what should be monitored first?.",
+    "options": [
+      "Discharge pressure",
+      "Suction pressure",
+      "Lube oil level",
+      "Seal pot level"
+    ],
+    "answer": "Discharge pressure"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is to be checked before a pump start up ?",
+    "options": [
+      "Local panel",
+      "Nitrogen purging",
+      "Discharge pressure",
+      "Lube oil level, cooling water, seal pot level"
+    ],
+    "answer": "Lube oil level, cooling water, seal pot level"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is right action to do a positive isolation?",
+    "options": [
+      "Close valve",
+      "Stop pump",
+      "Nitrogen purging",
+      "Remove or disconnect the line, Use block and bleed valve, Blinded"
+    ],
+    "answer": "Remove or disconnect the line, Use block and bleed valve, Blinded"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "How to ensure that the pump casing is fully filled with liquid?",
+    "options": [
+      "By opening discharge valve",
+      "By opening the mini flow valve",
+      "By opening drain valve",
+      "By checking the discharge PG (pressure gauge) vent, or By opening the immediate high point vent"
+    ],
+    "answer": "By checking the discharge PG (pressure gauge) vent, or By opening the immediate high point vent"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What happens when the running pump discharge pressure is getting to Low-Low",
+    "options": [
+      "Stand-by pump will start automatically in REMOTE mode",
+      "Stand-by pump will start automatically in LOCAL mode",
+      "Stand-by pump will not start automatically in LOCAL mode",
+      "Stand-by pump will stop automatically in REMOTE mode"
+    ],
+    "answer": "Stand-by pump will start automatically in REMOTE mode"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "If you see a fire in the plant what is your first action ?",
+    "options": [
+      "Report to Control Room and break the MCP",
+      "Evacuate to the assembly point.",
+      "Ask the contractor to stop the job",
+      "Check wind direction"
+    ],
+    "answer": "Report to Control Room and break the MCP"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "After reporting an emergency to the console operator, what is your next job?",
+    "options": [
+      "Go to PIB & stay inside until fire extinguish",
+      "Go to Control Room and wait for SSV instructions",
+      "Go to the assembly point & make head count",
+      "Ask the contractor to stop the job & leave to the assembly point for head count"
+    ],
+    "answer": "Ask the contractor to stop the job & leave to the assembly point for head count"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is ICS the abbreviation for ?",
+    "options": [
+      "Incident command Supervisor",
+      "Incident command programme",
+      "Incident control and prevention",
+      "Incident command System"
+    ],
+    "answer": "Incident command System"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which of the following fire fighting materials is used for fire in control room?",
+    "options": [
+      "Hydrocarbons",
+      "Dry powder (CO2)",
+      "Alcohol resistant foam",
+      "Water spray"
+    ],
+    "answer": "Dry powder (CO2)"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When the MTBE plant is having anemergency case regarding gas a leak who will be the incident commander?",
+    "options": [
+      "SSV",
+      "SH",
+      "CO",
+      "MC"
+    ],
+    "answer": "SSV"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What will be the action if you have a major seal leak from Fresh Methanol feed pump?",
+    "options": [
+      "Keep the seal leak pump under observation",
+      "Keep the N2 hose near the seal leak area for safety",
+      "Immediately swap the pump keep seal leak pump as emergency stand by",
+      "Immediately swap the pump and isolate seal leak pump"
+    ],
+    "answer": "Immediately swap the pump and isolate seal leak pump"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What do you do first before emergency services personnel can enter an area of a gas leak?",
+    "options": [
+      "Take on the role of the fire commander",
+      "Provide emergency services personnel with PPE.",
+      "Help SSV injured co-workers at the gas leak location",
+      "Isolate and depressurize equipment causing the gas leak"
+    ],
+    "answer": "Isolate and depressurize equipment causing the gas leak"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "when there is emergency, where should you go.",
+    "options": [
+      "Open space",
+      "Control Room",
+      "Assembly Point",
+      "PIB"
+    ],
+    "answer": "Assembly Point"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What should you do first if MTBE splashes in your eyes?",
+    "options": [
+      "Get medical attention immediately.",
+      "Call ambulance and go to hospital immediately.",
+      "Flush your eyes with plenty of water",
+      "Cover your eyes and ask a co-worker to take you to hospital."
+    ],
+    "answer": "Flush your eyes with plenty of water"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "If you see a huge leakage in the plant, what action will you take -",
+    "options": [
+      "Find nearest operator and run away",
+      "Use your Bravo and inform SSV and Control Room immediately",
+      "Check the leakage alone by wearing proper PPE",
+      "Do not inform anybody about the leakage and run away"
+    ],
+    "answer": "Use your Bravo and inform SSV and Control Room immediately"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which of the following chemicals contact will cause cold burning?",
+    "options": [
+      "Isobutylene",
+      "Methanol",
+      "N-Heptane",
+      "AO-30"
+    ],
+    "answer": "Isobutylene"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is your action when a person gets an injury by steam?",
+    "options": [
+      "Wash the injured part by soap solution",
+      "Immediately rush in to first aid clinic",
+      "Keep ice cubes in injured area",
+      "Inform Control Room"
+    ],
+    "answer": "Immediately rush in to first aid clinic"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken in all cases of overexposure to the products handled in the MTBE section?",
+    "options": [
+      "Not required",
+      "Not Applicable",
+      "Inform the injured person name",
+      "Move the affected person to fresh air"
+    ],
+    "answer": "Move the affected person to fresh air"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Decontamination area will be set up in which of the following Zone Perimeter?",
+    "options": [
+      "Hot Zone",
+      "Warm Zone",
+      "Cold Zone",
+      "Hazard Area"
+    ],
+    "answer": "Warm Zone"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What will you do if an operator becomes unconscious and falls down in the Hydrocarbon cloud?",
+    "options": [
+      "Call others for help and wear SCBA before entering the hydrocarbon cloud to help him",
+      "Wait for ambulance and fire fighters",
+      "Directly go and rescue person",
+      "Press MCP and inform Control Room"
+    ],
+    "answer": "Press MCP and inform Control Room"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the minimum oxygen requirement While working in a confined space?",
+    "options": [
+      "16%",
+      "20%",
+      "22%",
+      "0.235"
+    ],
+    "answer": "20%"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action is to be taken for the Off spec MTBE that is generated during the start-up and shutdown operations and the normal operation?",
+    "options": [
+      "To be recovered and recycled for the environment protection and the raw material consumption reduction.",
+      "Flush with plenty of water",
+      "Sent to the waste water plant",
+      "Sent to the flare"
+    ],
+    "answer": "To be recovered and recycled for the environment protection and the raw material consumption reduction."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What does positive isolation mean?",
+    "options": [
+      "Valve closed",
+      "Remove or disconnect the line",
+      "ZV closed",
+      "Valve throttled"
+    ],
+    "answer": "Remove or disconnect the line"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why must you ensure that you have correct level of lube oil in the pumps?",
+    "options": [
+      "No effect if levels are low",
+      "Bearings don’t overheat",
+      "To increase bearing temperature",
+      "To increase bearing pressure"
+    ],
+    "answer": "Bearings don’t overheat"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why is it important to do regular patrolling of the unit?",
+    "options": [
+      "To check for maintenance crew",
+      "To check for sample points",
+      "To check if conditions changed",
+      "To exercise"
+    ],
+    "answer": "To check if conditions changed"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What should be your first action (stand-by pump is available) if you find a pump has cavitation?",
+    "options": [
+      "Check around the pump",
+      "Close the suction valve",
+      "Switch to stand-by pump and then find the reason for cavitation",
+      "Increase the discharge valve opening"
+    ],
+    "answer": "Switch to stand-by pump and then find the reason for cavitation"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the LEL Of MTBE?",
+    "options": [
+      "1.65%",
+      "8.40%",
+      "6%",
+      "0.04"
+    ],
+    "answer": "1.65%"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the UEL Of MTBE?",
+    "options": [
+      "2%",
+      "8.40%",
+      "7.40%",
+      "0.0165"
+    ],
+    "answer": "8.40%"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why does waste water from MTBE contain acid ?",
+    "options": [
+      "Because the MTBE uses sulphuric acid .",
+      "Because the MTBE synthesis catalyst is alkaline.",
+      "Because the MTBE synthesis catalyst contains a small amount of acid",
+      "Because the MTBE synthesis catalyst contains no acid"
+    ],
+    "answer": "Because the MTBE synthesis catalyst contains a small amount of acid"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why do we Ground and bond all equipment?",
+    "options": [
+      "To prevent static electricity",
+      "To prevent falls",
+      "For good connectivity",
+      "To avoid heating"
+    ],
+    "answer": "To prevent static electricity"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why to use Non-sparking, spark reduced, spark-resistant or spark-proof tools during operation ?",
+    "options": [
+      "To prevent fires",
+      "To make area clean",
+      "To make the operation easy",
+      "To prevent health problems"
+    ],
+    "answer": "To prevent fires"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "During cold weather conditions, while working in the plant, what should you do?",
+    "options": [
+      "Wear Petro Rabigh jacket",
+      "Wear additional sweater bought from your house over Petro Rabigh uniform",
+      "Wear muffler",
+      "Wear gloves"
+    ],
+    "answer": "Wear Petro Rabigh jacket"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What are the fire protection systems used in MTBE area?",
+    "options": [
+      "Live Hose Reel",
+      "Monitor",
+      "Live Hose Reel, Fire Hydrant and Monitor",
+      "Fire Hydrant"
+    ],
+    "answer": "Live Hose Reel, Fire Hydrant and Monitor"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What are the fire protection systems used for pumps P-1115A/B/C, P-1111A/B/C/D",
+    "options": [
+      "Monitor",
+      "CO2 extinguisher",
+      "Fire Hydrant",
+      "Water Spray System"
+    ],
+    "answer": "Water Spray System"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What are the fire protection systems used for D-1201?",
+    "options": [
+      "Monitor",
+      "Live Hose Reel",
+      "Fire Hydrant",
+      "Water Spray System, Live Hose Reel, Monitor"
+    ],
+    "answer": "Water Spray System, Live Hose Reel, Monitor"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why do we use an antistatic electricity treatment such as earth-bonding for MTBE?",
+    "options": [
+      "Because MTBE cannot ignite by static electricity",
+      "Because MTBE may ignite by static electricity",
+      "Because MTBE may be vaporized by spark",
+      "Because MTBE may ignite by open flame"
+    ],
+    "answer": "Because MTBE may ignite by static electricity"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the PPE to be used While handling the MTBE synthesis catalyst?",
+    "options": [
+      "Wear safety goggles and anti-acid gloves",
+      "Wear safety goggles",
+      "Wear anti-acid gloves",
+      "Wear cotton gloves"
+    ],
+    "answer": "Wear safety goggles and anti-acid gloves"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the PPE used while handling the waste water?",
+    "options": [
+      "Safety goggles",
+      "Rubber gloves",
+      "Leather gloves",
+      "Safety goggles and rubber gloves."
+    ],
+    "answer": "Safety goggles and rubber gloves."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the result If DMW is supplied directly to the reactor to replace the reaction mixture?",
+    "options": [
+      "The catalyst temperature increases to a severe level",
+      "The catalyst temperature decreases to a low level",
+      "The catalyst temperature remains same",
+      "The catalyst temperature keeps steady"
+    ],
+    "answer": "The catalyst temperature increases to a severe level"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken to avoid the temperature increase in the synthesis catalyst after replacement with methanol?",
+    "options": [
+      "Supplying of nitrogen is effective to avoid problems",
+      "Supplying of DMW is effective to avoid problems",
+      "Supplying of aqueous methanol is effective to avoid problems",
+      "Supplying air is effective to avoid problems"
+    ],
+    "answer": "Supplying of aqueous methanol is effective to avoid problems"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why water washing of all the reactors is performed?",
+    "options": [
+      "To push out MTBE",
+      "To push out methanol",
+      "To push out catalyst",
+      "To push out DIB"
+    ],
+    "answer": "To push out methanol"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When is DMW feeding to T-1140 stopped ?",
+    "options": [
+      "When the concentration of Methanol at the bottom outlet is less than 5 wt.%",
+      "After pushing out MTBE \from the synthesis reactor",
+      "After pushing out methanol \from the synthesis reactor",
+      "When the concentration of Methanol at the bottom outlet is less than 0.5 wt.%"
+    ],
+    "answer": "When the concentration of Methanol at the bottom outlet is less than 0.5 wt.%"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "How do you know the completion of the replacement with methanol is over?",
+    "options": [
+      "By the difference between the DMW temperature and the methanol feed temperature.",
+      "By the difference between the normal temperature and the methanol feed temperature.",
+      "By the difference between the operation pressure and the methanol feed pressure.",
+      "By the difference between the operation temperature and the methanol feed temperature."
+    ],
+    "answer": "By the difference between the operation temperature and the methanol feed temperature."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When is it possible to hold the liquid in the synthesis reactor after shutdown?",
+    "options": [
+      "If there is need to regenerate the catalyst in the synthesis reactor",
+      "If there is no need to replace the reactants in the synthesis reactor",
+      "If there is no need to replace the catalyst in the synthesis reactor",
+      "If there is no need to replace the methanol in the synthesis reactor"
+    ],
+    "answer": "If there is no need to replace the catalyst in the synthesis reactor"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why would you not decrease the pressure to less than 1.0 kg/cm2G in T-1140 during N2 purging?",
+    "options": [
+      "To make cleaning good",
+      "To prevent freezing",
+      "To make the remaining C4 under each tray easy to flash",
+      "To make concentration of Methanol at the bottom to 5.5 wt.%."
+    ],
+    "answer": "To prevent freezing"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What happens when the Section-3 shutdown button (ZVS-0008SP) is pushed?",
+    "options": [
+      "Only its own section stops",
+      "Wait until the catalyst temperature falls by diffusion of the accumulated heat.",
+      "Wait until the catalyst temperature increases by diffusion of the accumulated heat.",
+      "Stop feeding both methanol and DMW"
+    ],
+    "answer": "Only its own section stops"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action is to be taken if the reactors remain with liquid during T&I?",
+    "options": [
+      "Replace the content with acid",
+      "Replace the content with Methanol",
+      "Replace the content with DIB",
+      "Replace the content with Ethylene"
+    ],
+    "answer": "Replace the content with Methanol"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Where is the purified Isobutylene sent?",
+    "options": [
+      "To the Nylon unit",
+      "To the PMMA unit",
+      "To the Synthesis reactors",
+      "To D-1201 by P-1245A/B"
+    ],
+    "answer": "To D-1201 by P-1245A/B"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What are the equipments in Isobutylene Purification Section start up?",
+    "options": [
+      "Isobutylene Washer (T-1230) and Isobutylene Tower (T-1240).",
+      "R-1110A, B and CandFV-1611",
+      "The R-1110A and B feed lines. The R-1110A and B outlet lines.",
+      "The R-1110A and B outlet lines.DMW to R-1110A"
+    ],
+    "answer": "Isobutylene Washer (T-1230) and Isobutylene Tower (T-1240)."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the limit of water concentration in the T-1170 bottom before DR-1180A (or B) start-up?",
+    "options": [
+      "Is less than 500 wt.ppm .",
+      "Is less than 300 wt.ppm .",
+      "Is less than 100 wt.ppm .",
+      "Is less than 200 wt.ppm ."
+    ],
+    "answer": "Is less than 100 wt.ppm ."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "From where do we receive IB in the case of a start-up of IB Purification Section ?",
+    "options": [
+      "Isobutylene can be received from MMA",
+      "Isobutylene can be received from OSBL",
+      "Isobutylene can be received from PMMA",
+      "Isobutylene can be received from Metathesis"
+    ],
+    "answer": "Isobutylene can be received from OSBL"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the rate of heating-up during start up of R-1220 cracking reactor?",
+    "options": [
+      "150 degC per hour",
+      "100 degC per hour",
+      "50 degC per hour",
+      "10 degC per hour"
+    ],
+    "answer": "50 degC per hour"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the activity in the case of start-up after catalyst renewal of R-1130A(B)?",
+    "options": [
+      "Adjust the amount of feed .",
+      "Adjust the amount of steam or the bottoms",
+      "R-1110A washing to reduce the total washing time.",
+      "Synthesis reaction catalyst washing is required to remove acid from the catalyst."
+    ],
+    "answer": "Synthesis reaction catalyst washing is required to remove acid from the catalyst."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "How do you correct if the waste water pH is too low?",
+    "options": [
+      "Add acid",
+      "Add NaOH",
+      "Add more water",
+      "Add steam"
+    ],
+    "answer": "Add NaOH"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When to stop catalyst washing?",
+    "options": [
+      "When the waste water pH is less than 4.0",
+      "When the waste water pH is less than 3.0",
+      "When the waste water pH is less than 2.0",
+      "When the waste water pH is more than 5.0"
+    ],
+    "answer": "When the waste water pH is more than 5.0"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What may happen if methanol drying is not sufficient?",
+    "options": [
+      "TBA production will decrease and Isobutylene conversion will increase",
+      "Increase only TBA production",
+      "TBA production will increase and Isobutylene conversion will decrease.",
+      "Decrease only TBA production"
+    ],
+    "answer": "TBA production will increase and Isobutylene conversion will decrease."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When to start sending product MTBE to OSBL?",
+    "options": [
+      "When the MTBE cracking section load is increased to 50%",
+      "When the top temperature is normal",
+      "When MTBE meets the specification by QC analysis.",
+      "When the amount of bottoms are normal"
+    ],
+    "answer": "When MTBE meets the specification by QC analysis."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "From where do you take samples to check the cracking conversion rate of R-1220 ?",
+    "options": [
+      "R-1130 A/B inlet and outlet",
+      "R-1220 inlet and outlet",
+      "R-1110 A/B inlet and outlet",
+      "R-1110 C/D inlet and outlet"
+    ],
+    "answer": "R-1220 inlet and outlet"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the name of Sample PGC No.GC-1130?",
+    "options": [
+      "AP-1120A/B (Finishing reactor outlet)",
+      "AP-1110A/B (Synthesis reactor outlet)",
+      "AP-1130A/B (Finishing reactor outlet)",
+      "AP-1140A/B (Cracking reactor outlet)"
+    ],
+    "answer": "AP-1130A/B (Finishing reactor outlet)"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Where is the R-1220 inlet sampling point ?",
+    "options": [
+      "At the reactor outlet line.",
+      "At the feed drum outlet line.",
+      "At the MTBE Vaporizer (E-1210) inlet line.",
+      "At the MTBE Vaporizer (E-1210) outlet line."
+    ],
+    "answer": "At the MTBE Vaporizer (E-1210) inlet line."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When do you request the maintenance team to calibrate the PGC?",
+    "options": [
+      "If AI-1221 to AI-1225 SVs (PGC analysis values in the MTBE product) are indicating 25% of difference",
+      "If AI-1221 to AI-1225 SVs (PGC analysis values in the MTBE product) are indicating 5% of difference",
+      "If AI-1221 to AI-1225 SVs (PGC analysis values in the MTBE product) are indicating 15% of difference",
+      "If AI-1221 to AI-1225 SVs (PGC analysis values in the MTBE product) are indicating 35% of difference"
+    ],
+    "answer": "If AI-1221 to AI-1225 SVs (PGC analysis values in the MTBE product) are indicating 5% of difference"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the specification of Product MTBE (T-1150 bottom)?",
+    "options": [
+      "MTBE 95.0 wt.% min",
+      "MTBE 90.0 wt.% min",
+      "MTBE 98.0 wt.% min",
+      "MTBE 88.0 wt.% min"
+    ],
+    "answer": "MTBE 98.0 wt.% min"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the Sample Name of AP-1155(PGC No. GC-1155)?",
+    "options": [
+      "T-1150 bottom",
+      "T-1120 feed",
+      "T-1140 bottom",
+      "DME Removal Tower Feed"
+    ],
+    "answer": "DME Removal Tower Feed"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the normal range of PC-1402 T-1140 top pressure at 100% load?",
+    "options": [
+      "16.5 -18.5 kg/cm2G",
+      "11.0 -18 .0 kg/cm2G",
+      "2.0 - 8.0 kg/cm2G",
+      "7.5 - 8.5 kg/cm2G"
+    ],
+    "answer": "7.5 - 8.5 kg/cm2G"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the set point of LC-1401 T-1140 top level at 100% load?",
+    "options": [
+      "50%",
+      "60%",
+      "40%",
+      "0.7"
+    ],
+    "answer": "50%"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the range of the inlet flow rate to R-1110 A/B under normal conditions 100% load?",
+    "options": [
+      "14 -22 t/h",
+      "32 - 43 t/h",
+      "46 -58 t/h",
+      "71- 88 t/h"
+    ],
+    "answer": "32 - 43 t/h"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the range of the inlet temperature to R-1110A/B under normal conditions 100% load?",
+    "options": [
+      "46-66 degC",
+      "31-42 degC",
+      "41-62 degC",
+      "49-65 degC"
+    ],
+    "answer": "41-62 degC"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the inlet flow rate to R-1110 D/E under normal conditions 100% load?",
+    "options": [
+      "42 t/h",
+      "53.6 t/h",
+      "49.8 t/h",
+      "38.5 t/h"
+    ],
+    "answer": "38.5 t/h"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the inlet temperature to R-1110 D/E under normal conditions 100% load?",
+    "options": [
+      "42 degC",
+      "32 degC",
+      "48 degC",
+      "52 degC"
+    ],
+    "answer": "42 degC"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the outlet Pressure in R-1110 C during Normal Conditions at 100% plant load?",
+    "options": [
+      "18.2 kg/cm2",
+      "13.2 kg/cm2",
+      "16.2 kg/cm2",
+      "11.2 kg/cm2"
+    ],
+    "answer": "13.2 kg/cm2"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the inlet temperature to R-1110 C under normal conditions 100% load?",
+    "options": [
+      "40 degC",
+      "30 degC",
+      "50 degC",
+      "60 degC"
+    ],
+    "answer": "40 degC"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What are the effects of Section-2 shutdown button (ZVS-0007SP) if pushed?",
+    "options": [
+      "Stop of its own Section shutdown,Section-1 is stopped,Section-3 moves to TRO",
+      "Section-1 is stopped",
+      "Stop of its own Section shutdown",
+      "Section-3 moves to TRO"
+    ],
+    "answer": "Stop of its own Section shutdown,Section-1 is stopped,Section-3 moves to TRO"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken if both P-1125A and B are broken during operation?",
+    "options": [
+      "Shut down only MTBE",
+      "Shut down only IB",
+      "Shut down both MTBE and IB sections.",
+      "Shut down methanol recovery unit."
+    ],
+    "answer": "Shut down both MTBE and IB sections."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken if both P-1130A and B are broken during operation?",
+    "options": [
+      "Shut down both train of MTBE synthesis reactors",
+      "Reduce the MTBE production",
+      "Shut down one train of MTBE synthesis reactors .",
+      "Shut down methanol recovery unit."
+    ],
+    "answer": "Shut down one train of MTBE synthesis reactors ."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken if both P-1126A and B are broken during operation?",
+    "options": [
+      "Stop MTBE production",
+      "By products from T-1240 bottom shall be diverted to D-1193A/B",
+      "By products from T-1120 bottom shall be diverted to D-1193A/B",
+      "By products from T-1120 bottom and T-1240 bottom shall be diverted to D-1193A/B"
+    ],
+    "answer": "By products from T-1120 bottom and T-1240 bottom shall be diverted to D-1193A/B"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What are the causes for R-1110A/B/C 2nd stage shut Down?",
+    "options": [
+      "The temperature (HH) of R-1110A/B and the pressure of R-1110A-C (H))",
+      "The temperature (HHH) of R-1110A/B and the pressure of R-1110A-C (H))",
+      "The temperature (HHH) of R-1110A/B and the pressure of R-1110A-C (HH))",
+      "The temperature (H) of R-1110A/B and the pressure of R-1110A-C (HH))"
+    ],
+    "answer": "The temperature (HHH) of R-1110A/B and the pressure of R-1110A-C (HH))"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the DME Separation Section Shutdown interlock system?",
+    "options": [
+      "ZC-8",
+      "ZC-1",
+      "ZC-2",
+      "ZC-6"
+    ],
+    "answer": "ZC-8"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which is the manual shutdown button for section-5(Isobutylene purification section)?",
+    "options": [
+      "ZVS-0008SP",
+      "ZVS-0005SP",
+      "ZVS-0006SP",
+      "ZVS-0010SP"
+    ],
+    "answer": "ZVS-0010SP"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which is the MTBE Cracking Section Shutdown interlock system?",
+    "options": [
+      "ZC-1",
+      "ZC-10",
+      "ZC-9",
+      "ZC-2"
+    ],
+    "answer": "ZC-9"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the High pressure trip of flare line(PI-3916A) interlock setting ?",
+    "options": [
+      "0.04 kg/cm2 G",
+      "0.4 kg/cm2 G",
+      "0.9 kg/cm2 G",
+      "1.4 kg/cm2 G"
+    ],
+    "answer": "0.4 kg/cm2 G"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "How is the Mixed-C4 feed flow rate to D-1115 (FC-1105) controlled?",
+    "options": [
+      "Is controlled by the Methanol production rate",
+      "Is controlled by the MTBE production rate",
+      "Is controlled by the DIB production rate",
+      "Is controlled by the MSBE production rate."
+    ],
+    "answer": "Is controlled by the MTBE production rate"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why feed-forward control (inlet of C4 / outlet of C4) and feedback control (from the C4 / Water interface) are implemented in the DCS sequence?",
+    "options": [
+      "The temperature of the washer tower (T-1110) is very sensitive to the fluctuation of the inlet or outlet C4 flow",
+      "The level of the washer tower (T-1110) is very sensitive to the fluctuation of the inlet or outlet C4 flow",
+      "The flow of the washer tower (T-1110) is very sensitive to the fluctuation of the inlet or outlet C4 flow",
+      "The pressure of the washer tower (T-1110) is very sensitive to the fluctuation of the inlet or outlet C4 flow"
+    ],
+    "answer": "The pressure of the washer tower (T-1110) is very sensitive to the fluctuation of the inlet or outlet C4 flow"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is your action when the Z-1398 liquid level (LC-3908) is High?",
+    "options": [
+      "T-1110 shall be shutdown.",
+      "TK-1101 will overflow.",
+      "P-1398A or B shall auto start by sequence.",
+      "D-1116 shall be shutdown."
+    ],
+    "answer": "P-1398A or B shall auto start by sequence"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What happens when Z-1398 liquid level (LC-3908) is Low?",
+    "options": [
+      "P-1398A or B shall auto start by sequence.",
+      "P-1398A or B shall auto stop by sequence.",
+      "T-1110 shall be shutdown.",
+      "TK-1101 will overflow."
+    ],
+    "answer": "P-1398A or B shall auto stop by sequence"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What happens when Z-1398 liquid level (LC-3908) is Low Low?",
+    "options": [
+      "Both pumps shall auto start by sequence",
+      "Standby pump shall auto stop by sequence",
+      "Both pumps shall auto stop by sequence",
+      "Standby pump shall auto start by sequence"
+    ],
+    "answer": "Both pumps shall auto stop by sequence"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why P-1101A and B cannot be started?",
+    "options": [
+      "ZV-1003(P-1101A/B suction) not fully opened",
+      "ZV-1009(TK-1101 inlet) not fully opened",
+      "ZV-1008(Mixed-C4 BL) not fully opened",
+      "ZV-1006(T-1110 inlet) not fully opened"
+    ],
+    "answer": "ZV-1003(P-1101A/B suction) not fully opened"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the Position of Suction and Discharge Valves of Centrifugal Pumps Before Start-up?",
+    "options": [
+      "Suction valve and discharge valve are closed",
+      "Suction valve is open and discharge valve is closed",
+      "Suction valve is closed and discharge valve is open",
+      "Suction valve and discharge valve are open"
+    ],
+    "answer": "Suction valve is open and discharge valve is closed"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the correct way to use the fire extinguisher?",
+    "options": [
+      "Point the fire extinguisher to the top of the fire",
+      "Point the fire extinguisher to the base of the fire and sweep horizontally",
+      "Point the fire extinguisher to the base of the fire and sweep vertically",
+      "Point the fire extinguisher to the base of the fire at 1 point"
+    ],
+    "answer": "Point the fire extinguisher to the base of the fire and sweep horizontally"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What does the abbreviation ICS stands for?",
+    "options": [
+      "Incident command supervisor",
+      "Incident command service",
+      "Incident control and survival",
+      "Incident command system"
+    ],
+    "answer": "Incident command system"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What are the purpose of fire monitors?",
+    "options": [
+      "Cool down and firefighting",
+      "Housekeeping",
+      "Testing pressure",
+      "cooldown"
+    ],
+    "answer": "Cool down and firefighting"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When MTBE plant having emergency case regarding gas leak who will be the incident commander?",
+    "options": [
+      "SSV",
+      "SH",
+      "CO",
+      "MC"
+    ],
+    "answer": "SSV"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What will be the action if HC (hydrocarbon) heavy seal leak from Fresh Methanol feed pump?",
+    "options": [
+      "Keep the seal leak pump under observation",
+      "Keep the N2 hose near the seal leak area for safety",
+      "Immediately swap the pump keep seal leak pump as emergency stand by",
+      "Immediately swap the pump and isolate seal leak pump"
+    ],
+    "answer": "Immediately swap the pump and isolate seal leak pump"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is your action when HC leak from the line drain valve?",
+    "options": [
+      "Swap the pump",
+      "wipe out with cotton waste",
+      "No action required it may dry after some time",
+      "Close the drain valve properly and put the plug"
+    ],
+    "answer": "Close the drain valve properly and put the plug"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is your action when you found spillage of Methanol?",
+    "options": [
+      "No action required, it will evaporate",
+      "Put sand",
+      "Wash and dilute with plenty of water",
+      "Use dry powder"
+    ],
+    "answer": "Wash and dilute with plenty of water"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which of the following actions are correct if methanol flashes on the skin ?",
+    "options": [
+      "Immediately rush to medical centre",
+      "Rinse the effected area with plenty of water and get medical attention",
+      "Wipe with wet cloth",
+      "Inform Control Room"
+    ],
+    "answer": "Rinse the effected area with plenty of water and get medical attention"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What should be the action if Hydrocarbon leak from the pump suction strainer?",
+    "options": [
+      "Keep the strainer leak pump under observation",
+      "Keep the N2 hose near the strainer leak area for safety",
+      "Immediately swing over the pump and keep leaking pump as emergency stand by",
+      "Immediately swing over the pump and isolate the strainer leak pump"
+    ],
+    "answer": "Immediately swing over the pump and isolate the strainer leak pump"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What should be your 1st action if MTBE flash in your eyes?",
+    "options": [
+      "Take to doctor immediately",
+      "Call ambulance",
+      "Flush with plenty of water",
+      "Inform Control Room"
+    ],
+    "answer": "Flush with plenty of water"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action is to be taken when T-1260 section stops?",
+    "options": [
+      "Stop the MTBE synthesis section.",
+      "Stop both sections MTBE synthesis and MTBE cracking immediately .",
+      "Stop MTBE cracking immediately .",
+      "Run both sections MTBE synthesis and MTBE cracking immediately ."
+    ],
+    "answer": "Stop both sections MTBE synthesis and MTBE cracking immediately ."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken when the MTBE cracking section stops?",
+    "options": [
+      "MTBE synthesis section can be run if the required countermeasures are taken.",
+      "Stop MTBE synthesis section",
+      "Start MTBE cracking section",
+      "Stop MTBE synthesis section, MTBE cracking section"
+    ],
+    "answer": "MTBE synthesis section can be run if the required countermeasures are taken."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken when one train of R-1130A or R-1130B stops?",
+    "options": [
+      "Increase the supply of C4 liquid to the remaining reactor",
+      "Decrease FC-1111 and / or FC-1121",
+      "Stop R-1110A/B/C or R-1110D/E/F",
+      "Increase the supply of C4 liquid to the remaining reactor, Decrease FC-1111 and / or FC-1121"
+    ],
+    "answer": "Increase the supply of C4 liquid to the remaining reactor, Decrease FC-1111 and / or FC-1121"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken when one train of R-1110A/B/C or R-1110D/E/F stops?",
+    "options": [
+      "Increase the supply of C4 liquid to the remaining reactor",
+      "Decrease the load or feed,XC-0001 to 60%,FC-1202 and / or FC-1212 ,FC-2104",
+      "Increase the supply of C4 liquid to the remaining reactor Decrease the load or feed,XC-0001 to 60%,FC-1202 and / or FC-1212 ,FC-2104",
+      "Decrease the load or feed, FC-1212 ,FC-2104 ."
+    ],
+    "answer": "Increase the supply of C4 liquid to the remaining reactor Decrease the load or feed,XC-0001 to 60%,FC-1202 and / or FC-1212 ,FC-2104"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why should the depressurizing of the vessels be done slowly?",
+    "options": [
+      "To prevent excessive chilling of the metal",
+      "To prevent excessive heating of the metal",
+      "To facilitate uniform heating",
+      "It is not necessary to do the depressurizing of vessels slowly"
+    ],
+    "answer": "To prevent excessive chilling of the metal"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What happens when TC-1503 (T-1150 #21 tray) reaches the low limit?",
+    "options": [
+      "Methanol contamination in the bottom",
+      "Bottom pumps trip.",
+      "C4 contamination to the tower bottom (MTBE product).",
+      "Standby pump starts."
+    ],
+    "answer": "C4 contamination to the tower bottom (MTBE product)."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken to avoid low limit of TC-1503?",
+    "options": [
+      "Decrease the E 1150 steam feed flow rate by FC-1581 in AUT or MAN mode",
+      "Increase Top temperature T-1150.",
+      "Decrease T-1150 bottom level .",
+      "Increase the E 1150 steam feed flow rate by FC-1581 in AUT or MAN mode"
+    ],
+    "answer": "Increase the E 1150 steam feed flow rate by FC-1581 in AUT or MAN mode"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "In the case of lightening, what should be done?",
+    "options": [
+      "Evacuate all members from field",
+      "Check the field condition",
+      "Check for problems on the DCS",
+      "Evacuate all members from the field, Check for problems on the DCS"
+    ],
+    "answer": "Evacuate all members from the field, Check for problems on the DCS"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the PPE when handling MTBE ?",
+    "options": [
+      "Wear safety goggles and gloves when handling MTBE",
+      "Wear coverall and gloves when handling MTBE",
+      "Wear SCBA when handling MTBE",
+      "Wear harness and gloves when handling MTBE"
+    ],
+    "answer": "Wear safety goggles and gloves when handling MTBE"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What happens when HC flush drum Level(LC-3391) high limit activates?",
+    "options": [
+      "Liquid overflow to the LS header causes LS and HS supply failure.",
+      "Discharge pump trips due to low low level.",
+      "Monitor the level at every shift and adjust the discharging flow rate.",
+      "Liquid overflow to atmosphere causes burn with hot water."
+    ],
+    "answer": "Liquid overflow to the LS header causes LS and HS supply failure."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What happens when TC-1503 (T-1150 #21 tray) reaches its the low limit?",
+    "options": [
+      "Methanol contamination in the bottom",
+      "Bottom pumps trip.",
+      "C4 contamination to the tower bottom (MTBE product).",
+      "Standby pump starts."
+    ],
+    "answer": "C4 contamination to the tower bottom (MTBE product)."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken to avoid the low limit of TC-1503?",
+    "options": [
+      "Decrease the E 1150 steam feed flow rate by FC-1581 in AUT or MAN mode",
+      "Increase Top temperature T-1150.",
+      "Decrease T-1150 bottom level .",
+      "Increase the E 1150 steam feed flow rate by FC-1581 in AUT or MAN mode"
+    ],
+    "answer": "Increase the E 1150 steam feed flow rate by FC-1581 in AUT or MAN mode"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the low limit on PC-1512 of T-1150 Pressure control?",
+    "options": [
+      "9.3 kg/cm2G",
+      "5.3 kg/cm2G",
+      "1.3 kg/cm2G",
+      "15.9 kg/cm2G"
+    ],
+    "answer": "5.3 kg/cm2G"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken if R-1110C temperature reaches to 90 degC (High limit)?",
+    "options": [
+      "Increase PC-1512 MV opening in MAN mode",
+      "Reduce TC-1503 MV opening in MAN mode",
+      "Increase TC-1503 MV opening in MAN mode",
+      "Decrease the feed flowrate; then the reason has to be cleared up."
+    ],
+    "answer": "Decrease the feed flowrate; then the reason has to be cleared up."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What happens if LC-2101 (D-1215 Level) exceeds the high limit?",
+    "options": [
+      "T-1170 top temperature increases.",
+      "T-1150 top temperature increases.",
+      "Liquid overflow to D-1391",
+      "Production of MTBE is increased"
+    ],
+    "answer": "Liquid overflow to D-1391"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken to avoid the high limit on TC-2603 of T-1260 temperature ?",
+    "options": [
+      "Reduce E-1260 steam feed flow rate by FC-2681",
+      "Close PC-1513 in MAN and / or increase PC-1512 MV opening in AUT mode,",
+      "Reduce TC-1503 MV opening in MAN mode",
+      "Increase TC-1503 MV opening in MAN mode"
+    ],
+    "answer": "Reduce E-1260 steam feed flow rate by FC-2681"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "In case the of lightening, what should be done?",
+    "options": [
+      "Evacuate all members from the field",
+      "Check the field condition",
+      "Check for troubles on the DCS",
+      "Evacuate all members from the field, Check for troubles on the DCS"
+    ],
+    "answer": "Evacuate all members from the field, Check for troubles on the DCS"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What PPE can be used during a sandstorm?",
+    "options": [
+      "SCBA",
+      "O2 cylinder",
+      "Gas mask",
+      "Dust mask"
+    ],
+    "answer": "Dust mask"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the usage of a Fire Hydrant in the Plant Area?",
+    "options": [
+      "To cool down oil spills",
+      "To cool down hazardous materials",
+      "To cool down vessels and towers",
+      "To cool down pumps"
+    ],
+    "answer": "To cool down vessels and towers"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What Kind of fire can you not extinguish with water?",
+    "options": [
+      "Motors",
+      "Wooden furniture",
+      "Clothes",
+      "Paper store"
+    ],
+    "answer": "Motors"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which one of the Following is not a Part of the Fire Water System?",
+    "options": [
+      "Fire Monitor",
+      "Fire Hydrant",
+      "Fire Hose",
+      "Fire Extinguisher Class A"
+    ],
+    "answer": "Fire Extinguisher Class A"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Who is responsible to Use Fire Extinguishers",
+    "options": [
+      "Shift Supervisor",
+      "Console Operators",
+      "Field Operators",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is your first Action if you can not control a small fire in the Plant Area?",
+    "options": [
+      "Call 911",
+      "Call Control Room",
+      "Call Security Control Centre",
+      "inform Maintenance supervisor"
+    ],
+    "answer": "Call Control Room"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "If you have a fire in the control room, what extinguishing medium would you use?",
+    "options": [
+      "Water",
+      "Foam",
+      "Dry powder extinguisher",
+      "Gasoline"
+    ],
+    "answer": "Dry powder extinguisher"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the PPE when handling MTBE?",
+    "options": [
+      "Wear safety goggles and gloves when handling MTBE",
+      "Wear coverall and gloves when handling MTBE",
+      "Wear SCBA when handling MTBE",
+      "Wear harness and gloves when handling MTBE"
+    ],
+    "answer": "Wear safety goggles and gloves when handling MTBE"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the PPE when handling Methanol?",
+    "options": [
+      "Wear SCBA when handling MTBE",
+      "Wear safety apron, gloves and helmet",
+      "Wear safety goggles, shoes and ear pluggs",
+      "Wear safety goggles, gloves and clothes"
+    ],
+    "answer": "Wear safety goggles, gloves and clothes"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the PPE when handling MTBE synthesis catalyst ?",
+    "options": [
+      "Wear SCBA and anti-acid gloves",
+      "Wear cotton gloves",
+      "Wear safety harness and anti-acid gloves",
+      "Wear safety goggles and anti-acid gloves"
+    ],
+    "answer": "Wear safety goggles and anti-acid gloves"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What PPE do you use in a H2S environment?",
+    "options": [
+      "Gloves",
+      "SCBA",
+      "Hard Hat",
+      "Dust mask"
+    ],
+    "answer": "SCBA"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken if Methanol unavoidably touches the skin?",
+    "options": [
+      "Wash it off with plenty of MTBE",
+      "Wash it off with plenty of C4",
+      "Wash it off with plenty of water",
+      "Wash it off with plenty of acetone"
+    ],
+    "answer": "Wash it off with plenty of water"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the ppm of methanol vapour causing optic nerve damage or polyneuritis ?",
+    "options": [
+      "More than 10 ppm of methanol vapor for a long time",
+      "More than 1% of methanol vapor for a long time",
+      "More than 200 ppm of methanol vapor for a long time",
+      "More than 5% of methanol vapor for a long time"
+    ],
+    "answer": "More than 200 ppm of methanol vapor for a long time"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the normal operating range of LC-1401 T-1140 top level at 100% load?",
+    "options": [
+      "40-60%",
+      "60-70%",
+      "50-60%",
+      "55-65%"
+    ],
+    "answer": "40-60%"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the normal range of PC-1512( D-1155) pressure at 100% load?",
+    "options": [
+      "9.5 - 12.5 kg/cm2G",
+      "7.5 -9.5 kg/cm2G",
+      "3.0 -6.0 kg/cm2G",
+      "5.5 - 6.2 kg/cm2G"
+    ],
+    "answer": "5.5 - 6.2 kg/cm2G"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the normal operating range of FC-1404 DMW to T-1140 at 100% load?",
+    "options": [
+      "16-28 t/h",
+      "7-8 t/h",
+      "27-39 t/h",
+      "38-49 t/h"
+    ],
+    "answer": "7-8 t/h"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the set point of LC-1701 T-1170 level at 100% load?",
+    "options": [
+      "50%",
+      "60%",
+      "40%",
+      "0.7"
+    ],
+    "answer": "50%"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the range of T-1230 top pressure PC-2302 at 100% load?",
+    "options": [
+      "2.0 -6.0 kg/cm2G",
+      "10.0 - 15.0 kg/cm2G",
+      "7.5-8.5 kg/cm2G",
+      "15-19 kg/cm2G"
+    ],
+    "answer": "7.5-8.5 kg/cm2G"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken if DME concentration is far lower than the specification?",
+    "options": [
+      "Change the feed tray to the upper side one.",
+      "Change the feed tray to the lower side one.",
+      "Decrease the distillate of T-1170",
+      "Increase the distillate of T-1170"
+    ],
+    "answer": "Decrease the distillate of T-1170"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the set point of FC-1404 DMW to T-1140 at 100% load?",
+    "options": [
+      "28.45 t/h",
+      "7.45 t/h",
+      "19.45 t/h",
+      "10.45 t/h"
+    ],
+    "answer": "7.45 t/h"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When to conduct T-1110 interface purge?.",
+    "options": [
+      "When the interface is not clean through LG-0110",
+      "When the interface is clean through LG-0110",
+      "When the interface is at high level",
+      "When the interface is at low level"
+    ],
+    "answer": "When the interface is not clean through LG-0110"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken if the Methanol concentration in the C4 Raffinate increases?",
+    "options": [
+      "Increase the C4 flow rate.",
+      "Stop the DMW flow rate (FC-1404).",
+      "Decrease the DMW flow rate (FC-1404).",
+      "Increase the DMW flow rate (FC-1404)."
+    ],
+    "answer": "Increase the DMW flow rate (FC-1404)."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "When to conduct T-1110 interface level indicator purge?",
+    "options": [
+      "When the indication of LC-1101 is different from LG-0110.",
+      "Before interface gives correct indication.",
+      "When the bottom level is abnormal",
+      "Do not make interface purge for wrong indication."
+    ],
+    "answer": "When the indication of LC-1101 is different from LG-0110."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What happens when T-1140 Interface goes High level?",
+    "options": [
+      "C4 carry over to the 2nd Debutanizer (T-1150) due to overflow from T-1140.",
+      "Methanol carry over to the 2nd Debutanizer (T-1150) due to overflow from T-1140.",
+      "Water carry over to the 2nd Debutanizer (T-1150) due to overflow from T-1140.",
+      "MTBE carry over to the 2nd Debutanizer (T-1150) due to overflow from T-1140."
+    ],
+    "answer": "Water carry over to the 2nd Debutanizer (T-1150) due to overflow from T-1140."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the interlock setting of MeOH / IB Molar Ratio Shutdown of D-1115?",
+    "options": [
+      "1.9",
+      "0.95",
+      "2.6",
+      "4/8/2026"
+    ],
+    "answer": "0.95"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "How many sections are there in the MTBE shutdown system?",
+    "options": [
+      "Four",
+      "Six",
+      "Eight",
+      "Nine"
+    ],
+    "answer": "Six"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What are the causes for R-1110 A/B 1st stage shut Down?",
+    "options": [
+      "Temperature (HH) of R-1110A/B and the recycle flow rate (LLL)",
+      "Temperature (H) of R-1110A/B and the recycle flow rate (LL)",
+      "Temperature (HH) of R-1110A/B and the recycle flow rate (L)",
+      "Temperature (H) of R-1110A/B and the recycle flow rate (L)"
+    ],
+    "answer": "Temperature (HH) of R-1110A/B and the recycle flow rate (LLL)"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the interlock action of ZC-9 ?",
+    "options": [
+      "Activate Section-1 shutdown.1st stage synthesis reaction section",
+      "Activate Section-3 shutdown.DME separation section",
+      "Activate Section-4 shutdown MTBE cracking reaction section",
+      "Activate Section-6 shutdown.Methanol recovery"
+    ],
+    "answer": "Activate Section-4 shutdown MTBE cracking reaction section"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What are the causes for E-1210 - R-1220 shut Down?",
+    "options": [
+      "Pressure of E-1210(H)",
+      "Pressure of E-1210(HH)",
+      "Temperature of E-1210(HH)",
+      "Temperature of E-1210(H)"
+    ],
+    "answer": "Pressure of E-1210(HH)"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the consequence of low boot level (LC-1706) of D-1175.?",
+    "options": [
+      "C4 goes to D-1116 and there is a potential to stick open LV-1706 by freezing water",
+      "C4 goes to D-1115 and there is a potential to stick open LV-1706 by freezing water",
+      "C4 goes to D-1125 and there is a potential to stick open LV-1706 by freezing water",
+      "C4 goes to D-1126and there is a potential to stick open LV-1706 by freezing water"
+    ],
+    "answer": "C4 goes to D-1116 and there is a potential to stick open LV-1706 by freezing water"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the consequence of a high level in flare drum D-1391 (LI-3907)?",
+    "options": [
+      "Liquid over flow to D-1125.",
+      "Liquid over flow to pit.",
+      "Liquid over flow to D-1115",
+      "Liquid over flow to flare."
+    ],
+    "answer": "Liquid over flow to flare."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the effect of LALL-1901(D-1193A level) activation?",
+    "options": [
+      "Stop P-1294 (MeOH Slop Pump)",
+      "Start P-1193A or B (MTBE Slop Pump)",
+      "Stop P-1193A or B (MTBE Slop Pump)",
+      "Divert to flare"
+    ],
+    "answer": "Stop P-1193A or B (MTBE Slop Pump)"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the consequence of low limit of T-1260 #8 tray temperature (TC-2603)?",
+    "options": [
+      "Water contamination to the tower top T-1140",
+      "Methanol contamination to the tower bottom T-1260",
+      "Water contamination to the tower top T-1150",
+      "MTBE contamination to the tower bottom T-1110"
+    ],
+    "answer": "Methanol contamination to the tower bottom T-1260"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "what is the MTBE synthesis catalyst?",
+    "options": [
+      "A strong acidic anion exchange resin is used as a catalyst.",
+      "A strong alkaline anion exchange resin is used as a catalyst.",
+      "A strong acidic and alkaline medium is used as a catalyst.",
+      "A strong acidic cation exchange resin is used as a catalyst."
+    ],
+    "answer": "A strong acidic cation exchange resin is used as a catalyst."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Where is the MTBE is synthesized ?",
+    "options": [
+      "In R-1110A/B/C and D/E/F",
+      "In R-1130A/B",
+      "In R-1110A/B/C",
+      "In R-1110A/B/C and D/E/F and R-1130A/B"
+    ],
+    "answer": "In R-1110A/B/C and D/E/F and R-1130A/B"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What are the types of reactors used for MTBE synthesis?",
+    "options": [
+      "Fixed bed, isotropic type reactors",
+      "Fluid bed, adiabatic type reactors",
+      "Fixed bed, adiabatic type reactors",
+      "Fluid bed, isotropic type reactors"
+    ],
+    "answer": "Fixed bed, adiabatic type reactors"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the type of control used for pressure control of T-1260 pressure controller (PC-2612) ?",
+    "options": [
+      "Cascade control and heat transfer area controller",
+      "Split-range controller .",
+      "Ratio control and heat transfer area controller",
+      "Proportional and heat transfer area controller"
+    ],
+    "answer": "Split-range controller ."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the tag no. of MTBE Synthesis Finishing Reactor?",
+    "options": [
+      "R-1110A/B/C",
+      "R-1130A/B",
+      "R-1110 D/E/F",
+      "R-1110A/B/C , R-1110 D/E/F"
+    ],
+    "answer": "R-1130A/B"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Why does the steam condensate recovery operation have to be very slow?",
+    "options": [
+      "High pressure",
+      "Water hammer",
+      "High temperature",
+      "Low pressure"
+    ],
+    "answer": "Water hammer"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken to avoid overload of the steam in the reboiler?",
+    "options": [
+      "Increase the tower operation load.",
+      "Reduce the tower operation load.",
+      "Reduce the condensate flow rate.",
+      "Increase the steam flow rate."
+    ],
+    "answer": "Reduce the tower operation load."
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken to avoid accumulation of inert gas in the reboiler ?",
+    "options": [
+      "Remove the steam trap",
+      "Increase steam flow",
+      "Reduce steam flow",
+      "Purge the inert gas"
+    ],
+    "answer": "Purge the inert gas"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "How do you check for fouling in the tubes?",
+    "options": [
+      "Do pressure survey across the heat exchanger",
+      "High flow through the heat exchanger",
+      "High pressure through the heat exchanger",
+      "High temperature through the heat exchanger"
+    ],
+    "answer": "Do pressure survey across the heat exchanger"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What action to be taken if the pump is under cavitation?",
+    "options": [
+      "Operator should stop the pump immediately and start stand-by pump",
+      "Operator should not run the standby pump and check the reasons",
+      "Operator should run the pump and stop stand-by pump",
+      "Operator should run the pump and check reasons."
+    ],
+    "answer": "Operator should stop the pump immediately and start stand-by pump"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "If you saw a fire in the plant what is your first action?",
+    "options": [
+      "Report to Control Room and break the MCP",
+      "Evacuate to assembly point",
+      "Ask the contractor to stop the job",
+      "Check wind direction"
+    ],
+    "answer": "Report to Control Room and break the MCP"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "ICS is the abbreviation for?",
+    "options": [
+      "Incident command supervisor",
+      "Incident command programme",
+      "Incident control and prevention",
+      "Incident command system"
+    ],
+    "answer": "Incident command system"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the correct way to use a fire extinguisher?",
+    "options": [
+      "Point the fire extinguisher to the top of the fire",
+      "Point the fire extinguisher to the base of the fire and sweep horizontally",
+      "Point the fire extinguisher to the base of the fire and sweep vertically",
+      "Point the fire extinguisher to the base of the fire at 1 point"
+    ],
+    "answer": "Point the fire extinguisher to the base of the fire and sweep horizontally"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "If you have a pump seal fire, what will you do?",
+    "options": [
+      "Do nothing",
+      "Go to Control Room and wait for SSV instructions",
+      "Go to the assembly point and do head count",
+      "Use fire extinguisher to put out fire"
+    ],
+    "answer": "Use fire extinguisher to put out fire"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "If you saw heavy hydrocarbon leak in the plant ,what is your first action?",
+    "options": [
+      "Report to Control Room and break the MCP",
+      "Open the fixed fire monitor and use full fog mode",
+      "Immediately Leave the area",
+      "Find the leaking point"
+    ],
+    "answer": "Report to Control Room and break the MCP"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What will be the action if there was a HC (hydrocarbon) heavy seal leak from the Fresh Methanol feed pump?",
+    "options": [
+      "Keep the seal leak pump under observation",
+      "Keep the N2 hose near the seal leak area for safety",
+      "Immediately swap the pump keep seal leak pump as emergency stand by",
+      "Immediately swap the pump and isolate seal leak pump"
+    ],
+    "answer": "Immediately swap the pump and isolate seal leak pump"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is your action when HC leaks from the line drain valve?",
+    "options": [
+      "Swap the pump",
+      "wipe out with cotton waste",
+      "No action required it may dry after some time",
+      "Close the drain valve properly and put the plug"
+    ],
+    "answer": "Close the drain valve properly and put the plug"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which of the following actions will prevent vapor cloud formation in the case of a Fuel gas leak ?",
+    "options": [
+      "Wait for supervisor to arrive and decide what action to take",
+      "Inform to Control Room",
+      "Break the MCP and open the fixed fire monitors aimed at the leak location",
+      "Inform supervisor"
+    ],
+    "answer": "Break the MCP and open the fixed fire monitors aimed at the leak location"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What would your action be if you found a spillage of Methanol?",
+    "options": [
+      "No action required, it will evaporate",
+      "Put sand",
+      "Wash and dilute with plenty of water",
+      "Use dry powder"
+    ],
+    "answer": "Wash and dilute with plenty of water"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Which of the following actions is correct if methanol splashes on the skin ?",
+    "options": [
+      "Immediately go to the medical centre",
+      "Rinse the effected area with plenty of water and get medical attention",
+      "Wipe with wet cloth",
+      "Inform Control Room"
+    ],
+    "answer": "Rinse the effected area with plenty of water and get medical attention"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "Who will Wear the Orange Vest and Switch the Bravo Channel to # 119 in the Case of a Hazardous Material Spillage?",
+    "options": [
+      "CO",
+      "SSV",
+      "FO",
+      "Maintenance Support"
+    ],
+    "answer": "SSV"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is the best way to inform the location of an injured person in the plant area to Petro Rabigh emergency services?",
+    "options": [
+      "Inform the injured person name",
+      "By informing the injured person name",
+      "By informing the grid location",
+      "By informing the equipment name"
+    ],
+    "answer": "By informing the grid location"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "What is your action when person get injury by steam?",
+    "options": [
+      "Wash the injured part by soap solution",
+      "Immediately rush in to first aid clinic",
+      "Keep ice cubes in injured area",
+      "Inform SSV"
+    ],
+    "answer": "Immediately rush in to first aid clinic"
+  },
+  {
+    "section": "Plant Safety & Emergency Shutdown",
+    "question": "While working in confined space, one of your fellow operators becomes unconscious. What would you do?",
+    "options": [
+      "Enter the confined space and rescue him",
+      "Inject air using a hose",
+      "Keep shouting his name till he recovers",
+      "Inform CO, wear SCBA and enter the confined space to rescue the operator with 1 standby man"
+    ],
+    "answer": "Inform CO, wear SCBA and enter the confined space to rescue the operator with 1 standby man"
+  },
+  {
+    "section": "Apply Plant Fire Protection Procedures",
+    "question": "How many areas are considered while designing the fire protection systems in MTBE?",
+    "options": [
+      "The system was designed considering two (2) risk areas",
+      "The system was designed considering three (3) risk areas",
+      "The system was designed considering six (6) risk areas",
+      "The system was designed considering five (5) risk areas"
+    ],
+    "answer": "The system was designed considering five (5) risk areas"
+  },
+  {
+    "section": "Apply Plant Fire Protection Procedures",
+    "question": "Which is correct as the name of risk area?",
+    "options": [
+      "MTBE area",
+      "Pumps area",
+      "Compressor area",
+      "Laboratory"
+    ],
+    "answer": "MTBE area"
+  },
+  {
+    "section": "Apply Plant Fire Protection Procedures",
+    "question": "Is it required to ventilate closed spaces before entering if there is a concern about explosive mixtures?",
+    "options": [
+      "Ventilate and make O2 test",
+      "Do not ventilate",
+      "Purge with nitrogen",
+      "Wash the area with water"
+    ],
+    "answer": "Ventilate and make O2 test"
+  },
+  {
+    "section": "Apply Plant Fire Protection Procedures",
+    "question": "Is it required to stop any leaks, if possible without any personal risk?",
+    "options": [
+      "Not Required",
+      "Sometimes",
+      "Only when asked to",
+      "Required"
+    ],
+    "answer": "Required"
+  },
+  {
+    "section": "Apply Plant Fire Protection Procedures",
+    "question": "Is it required to Keep sample containers tightly closed when not in use?",
+    "options": [
+      "Required",
+      "Not Required",
+      "Keep open",
+      "Do not keep closed for a long time"
+    ],
+    "answer": "Required"
+  },
+  {
+    "section": "Apply Plant Fire Protection Procedures",
+    "question": "Where can we get Fire and Gas alarms?",
+    "options": [
+      "Substation",
+      "Fire and Gas Panel",
+      "Calling from Fire department",
+      "Local panel"
+    ],
+    "answer": "Fire and Gas Panel"
+  },
+  {
+    "section": "Apply Plant Fire Protection Procedures",
+    "question": "How to reduce the vapor cloud ?",
+    "options": [
+      "Use foam",
+      "Using dry powder fire extinguishers",
+      "Purge with air",
+      "Using water spray"
+    ],
+    "answer": "Using water spray"
+  },
+  {
+    "section": "Apply Hazardous Material Handling Procedures",
+    "question": "How is the vapor of MTBE compared with the weight of air?",
+    "options": [
+      "The vapor of MTBE is lighter than air",
+      "The vapor of MTBE is as same as the weight of air",
+      "The vapor of MTBE is heavier than air",
+      "The vapor of MTBE is very much lighter than air"
+    ],
+    "answer": "The vapor of MTBE is heavier than air"
+  },
+  {
+    "section": "Apply Hazardous Material Handling Procedures",
+    "question": "When may activated carbon release carbon monoxide?",
+    "options": [
+      "During washing",
+      "During a fire",
+      "During handling",
+      "During cleaning"
+    ],
+    "answer": "During a fire"
+  },
+  {
+    "section": "Apply Hazardous Material Handling Procedures",
+    "question": "What is the ppm of methanol vapour that can cause optic nerve damage or polyneuritis ?",
+    "options": [
+      "More than 10 ppm of methanol vapor for a long period of time",
+      "More than 1% of methanol vapor for a long time",
+      "More than 200 ppm of methanol vapor for a long time",
+      "More than 5% of methanol vapor for a long period of time"
+    ],
+    "answer": "More than 200 ppm of methanol vapor for a long time"
+  },
+  {
+    "section": "Apply Hazardous Material Handling Procedures",
+    "question": "What happens when C4 liquid touches human skin?",
+    "options": [
+      "The skin may get frost bitten.",
+      "The skin may get damaged",
+      "The skin may get heat-injured",
+      "The skin may get allergic reaction."
+    ],
+    "answer": "The skin may get frost bitten."
+  },
+  {
+    "section": "Apply Hazardous Material Handling Procedures",
+    "question": "What is your action if Methanol splashes on your skin?",
+    "options": [
+      "Flush with plenty of water",
+      "Leave it to dry",
+      "Wipe with dry cloth",
+      "Do nothing"
+    ],
+    "answer": "Flush with plenty of water"
+  },
+  {
+    "section": "Describe Plant Equipment Shutdown Procedures",
+    "question": "What is the major procedure involved in the shutdown of T-1260?",
+    "options": [
+      "Conduct water jet cleaning",
+      "Stop T-1150 side-cut to D-1262",
+      "Stop T-1170 top reflux",
+      "Stopping the reflux pump, draining and N2 purging of liquid from the system"
+    ],
+    "answer": "Stopping the reflux pump, draining and N2 purging of liquid from the system"
+  },
+  {
+    "section": "Describe Plant Equipment Shutdown Procedures",
+    "question": "What is the T-1140 top pressure to be maintained at for N2 bubbling?",
+    "options": [
+      "At 0.5 kg/cm2G",
+      "At 10 kg/cm2G",
+      "At 20 kg/cm2G",
+      "At 1.5 kg/cm2G"
+    ],
+    "answer": "At 1.5 kg/cm2G"
+  },
+  {
+    "section": "Describe Plant Equipment Shutdown Procedures",
+    "question": "Where can you find detailed shutdown procedures?",
+    "options": [
+      "Details in each section of Maintenance Manual",
+      "Details in each section of Safety Manual",
+      "Details in each section of SOP",
+      "Details in each section of Instruments Manual"
+    ],
+    "answer": "Details in each section of SOP"
+  },
+  {
+    "section": "Describe Plant Equipment Shutdown Procedures",
+    "question": "When do you stop the N2 purge and disconnect the hoses?",
+    "options": [
+      "When flammable gas concentration reaches less than LEL 15%.",
+      "When flammable gas concentration reaches less than LEL25%.",
+      "When flammable gas concentration reaches less than LEL 5%.",
+      "When flammable gas concentration reaches less than LEL 50%."
+    ],
+    "answer": "When flammable gas concentration reaches less than LEL 5%."
+  },
+  {
+    "section": "Describe Plant Equipment Shutdown Procedures",
+    "question": "Who will Communicate with you During Equipment Shutdown?",
+    "options": [
+      "Shift Supervisor",
+      "Section Head",
+      "Field Operator",
+      "Section Manager"
+    ],
+    "answer": "Shift Supervisor"
+  },
+  {
+    "section": "Describe Plant Equipment Shutdown Procedures",
+    "question": "During shutdown of MeOH column T-1260 where is MeOH drained from the reflux drum (D-1265) ?",
+    "options": [
+      "To MeOH slop drum (D-1294)",
+      "To waste water tank (TK-1260",
+      "To D-1262",
+      "To R-1220"
+    ],
+    "answer": "To MeOH slop drum (D-1294)"
+  },
+  {
+    "section": "Describe Plant Equipment Shutdown Procedures",
+    "question": "When is the correct timing for CT-40 Normal Shutdown?",
+    "options": [
+      "Cooling Water System CT-40 will be the last unit to be shutdown even for all utilities.",
+      "At the same time as MTBE shutdown",
+      "After polymer plant shutdown",
+      "It's better to shutdown and purge CT-40 at the earliest when the whole plant stops."
+    ],
+    "answer": "Cooling Water System CT-40 will be the last unit to be shutdown even for all utilities."
+  },
+  {
+    "section": "Describe Plant Equipment Shutdown Procedures",
+    "question": "What is the purpose of Basic concept and Interlock System in the SOP?",
+    "options": [
+      "To determine the start procedures to use, and start the sections.",
+      "To determine the normal procedures to use, and stop the sections.",
+      "To determine the safety procedures to use, and start the sections.",
+      "To determine the stop procedures to use, and stop the sections."
+    ],
+    "answer": "To determine the stop procedures to use, and stop the sections."
+  },
+  {
+    "section": "Describe Plant Equipment Shutdown Procedures",
+    "question": "Why do we open the check valve bypass valve before shutting down a canned pump?",
+    "options": [
+      "To prevent the liquid expansion.",
+      "To prevent high level",
+      "To prevent low level",
+      "To prevent high pressure"
+    ],
+    "answer": "To prevent the liquid expansion."
+  },
+  {
+    "section": "Describe Plant Equipment Shutdown Procedures",
+    "question": "Why to check the process pressure before the N2 commissioning of any system?",
+    "options": [
+      "If pressure is lower than the NL pressure, do not commission NL to avoid reverse flow.",
+      "If pressure is higher than the NL pressure, do not commission NL to avoid reverse flow.",
+      "If pressure is same as the NL pressure, do not commission NL to avoid reverse flow.",
+      "If pressure is higher than the NL pressure, commission NL to avoid reverse flow."
+    ],
+    "answer": "If pressure is higher than the NL pressure, do not commission NL to avoid reverse flow."
+  },
+  {
+    "section": "Describe Plant Equipment Start-up Procedures",
+    "question": "Which statement below is wrong for re-confirmation of Initial Start-up of MTBE Unit?",
+    "options": [
+      "All preparation procedures completed",
+      "All process line O2 free completed",
+      "All process line dry outs completed",
+      "No need to confirm anything"
+    ],
+    "answer": "No need to confirm anything"
+  },
+  {
+    "section": "Describe Plant Equipment Start-up Procedures",
+    "question": "Before field operation after you receive instruction, who do you need to communicate with?",
+    "options": [
+      "Section Head",
+      "Console Operator",
+      "Field Operator",
+      "Shift Supervisor"
+    ],
+    "answer": "Console Operator"
+  },
+  {
+    "section": "Describe Plant Equipment Start-up Procedures",
+    "question": "Who will give Authorisation to Proceed with Plant Start-up?",
+    "options": [
+      "Monomer Manager",
+      "Shift Supervisor",
+      "Senior Console Operator",
+      "Maintenance Supervisor"
+    ],
+    "answer": "Shift Supervisor"
+  },
+  {
+    "section": "Describe Plant Equipment Start-up Procedures",
+    "question": "Which one of the following is not the Job responsibility of the Field Operator?",
+    "options": [
+      "Confirm that all Spectacle Blinds are Installed in the Correct position as Required for Start up",
+      "Confirm that all Equipment and Instrumentation is Ready for Start up",
+      "Confirm that the Respective Block Valves are in the Required Position.",
+      "Provide Authorisation to start up the plant"
+    ],
+    "answer": "Provide Authorisation to start up the plant"
+  },
+  {
+    "section": "Describe Plant Equipment Start-up Procedures",
+    "question": "What is the position of discharge valve before starting a centrifugal pump?",
+    "options": [
+      "Closed",
+      "Open",
+      "Half open",
+      "75% open"
+    ],
+    "answer": "Closed"
+  },
+  {
+    "section": "Describe Plant Equipment Start-up Procedures",
+    "question": "Which activities is/are not required before initial MeOH section start-up?",
+    "options": [
+      "Air freeing",
+      "Cracking catalyst regeneration",
+      "Overall tightness test",
+      "Start-up of utilities"
+    ],
+    "answer": "Cracking catalyst regeneration"
+  },
+  {
+    "section": "Describe Plant Equipment Start-up Procedures",
+    "question": "What is the condition for automatic start of P-1101 standby pump?",
+    "options": [
+      "Decrease in P-1101 discharge pressure LL",
+      "Abnormality in TK-1101 liquid level",
+      "Abnormality in P-1101 discharge pressure HH",
+      "Not specified"
+    ],
+    "answer": "Decrease in P-1101 discharge pressure LL"
+  },
+  {
+    "section": "Describe Plant Equipment Start-up Procedures",
+    "question": "When would you start the Methanol recovery section and shutdown during MTBE-IB start up?",
+    "options": [
+      "When you have pressure in a column or vessel",
+      "T-1260 is the first to start up in MTBE-IB process and the last to shutdown",
+      "When you have temperature in a column or vessel",
+      "When you have no level in a column or vessel"
+    ],
+    "answer": "T-1260 is the first to start up in MTBE-IB process and the last to shutdown"
+  },
+  {
+    "section": "Describe Plant Equipment Start-up Procedures",
+    "question": "Why to check the CW flow to the lube oil coolers before starting the pump?",
+    "options": [
+      "To make sure the lube oil temperature is maintained",
+      "To make sure the lube oil level is maintained",
+      "To make sure the lube oil pressure is maintained",
+      "To make sure the lube oil flow is maintained"
+    ],
+    "answer": "To make sure the lube oil temperature is maintained"
+  },
+  {
+    "section": "Describe Plant Equipment Start-up Procedures",
+    "question": "Why during start-up does the temperature profile of T-1260 change?",
+    "options": [
+      "To minimize loss of MeOH when sending to WWTP (OSBL).",
+      "If oil is accumulated on liquid surface inside TK-1260.",
+      "Due to T-1150 pressure changes",
+      "Due to different feed concentration of MeOH."
+    ],
+    "answer": "Due to different feed concentration of MeOH."
+  },
+  {
+    "section": "Define Sampling Procedures",
+    "question": "What is the specification of recycle methanol Sample?",
+    "options": [
+      "85%",
+      "78%",
+      "94%",
+      "0.99"
+    ],
+    "answer": "94%"
+  },
+  {
+    "section": "Define Sampling Procedures",
+    "question": "What is the Sample Name for AP-1265?",
+    "options": [
+      "DIB",
+      "TBA",
+      "D-1265 Recycle Methanol",
+      "MTBE"
+    ],
+    "answer": "D-1265 Recycle Methanol"
+  },
+  {
+    "section": "Define Sampling Procedures",
+    "question": "What type of sampling is required for a fluid at 65 degC or more ?",
+    "options": [
+      "Type A -1",
+      "Type B -1",
+      "Type C -1",
+      "Type D -1"
+    ],
+    "answer": "Type B -1"
+  },
+  {
+    "section": "Define Sampling Procedures",
+    "question": "Where is the sample sticker printed",
+    "options": [
+      "Printing machine",
+      "Computer",
+      "Projector",
+      "LIMS printer"
+    ],
+    "answer": "LIMS printer"
+  },
+  {
+    "section": "Define Sampling Procedures",
+    "question": "Before collecting a sample, what must you do?",
+    "options": [
+      "Look for sample point",
+      "Flush the sample point",
+      "Make up a sample point",
+      "Check with maintenance personnel"
+    ],
+    "answer": "Flush the sample point"
+  },
+  {
+    "section": "Identify Normal Plant Conditions and Ranges",
+    "question": "What is the normal T-1260 top pressure(PC-2612) at 100% load?",
+    "options": [
+      "0.45-0.55 kg/cm2",
+      "0.65-0.75 kg/cm2",
+      "0.85-0.95 kg/cm2",
+      "0.55-0.65 kg/cm2"
+    ],
+    "answer": "0.45-0.55 kg/cm2"
+  },
+  {
+    "section": "Identify Normal Plant Conditions and Ranges",
+    "question": "What kind of hydrocarbon is fed to the MTBE Unit?",
+    "options": [
+      "Ethane",
+      "Mixed C4",
+      "Butane",
+      "Propylene"
+    ],
+    "answer": "Mixed C4"
+  },
+  {
+    "section": "Identify Normal Plant Conditions and Ranges",
+    "question": "Which unit supplies the MTBE unit with Cooling Water?",
+    "options": [
+      "MMA",
+      "MTBE (CT 40)",
+      "Ethane Cracker",
+      "RAWEC Phase 1"
+    ],
+    "answer": "MTBE (CT 40)"
+  },
+  {
+    "section": "Identify Normal Plant Conditions and Ranges",
+    "question": "What are the main equipment's in Section-6(Methanol recovery )?",
+    "options": [
+      "T-1170 & DR-1180A/B",
+      "T-1260, blow down, slop drum & utility",
+      "T-1140 & T-1150",
+      "D-1235, T-1230, T-1240"
+    ],
+    "answer": "T-1260, blow down, slop drum & utility"
+  },
+  {
+    "section": "Identify Normal Plant Conditions and Ranges",
+    "question": "How to depressurize TK-1101?",
+    "options": [
+      "Open LC-1102",
+      "Open FC-1103",
+      "Open PC-1101",
+      "Open HC-1101."
+    ],
+    "answer": "Open HC-1101."
+  },
+  {
+    "section": "Identify Normal Plant Conditions and Ranges",
+    "question": "What is the normal operation range of LC-1201 at 100% plant load ?",
+    "options": [
+      "50-60%",
+      "60-70%",
+      "40-60%",
+      "40-45%"
+    ],
+    "answer": "40-60%"
+  },
+  {
+    "section": "Identify Normal Plant Conditions and Ranges",
+    "question": "What is the normal Operation Conditions at 100% plant load,PC-1301 of R-1130A outlet?",
+    "options": [
+      "12.3-13.3 kg/cm2",
+      "11.5-12.5 kg/cm2",
+      "14.2-16.1 kg/cm2",
+      "13.8-14.9 kg/cm2"
+    ],
+    "answer": "11.5-12.5 kg/cm2"
+  },
+  {
+    "section": "Identify Normal Plant Conditions and Ranges",
+    "question": "What is the Normal Operation Conditions at 100% plant load,LC-1401 of T-1140 top level ?",
+    "options": [
+      "50-70%",
+      "55-65%",
+      "40-60 %",
+      "65-75%"
+    ],
+    "answer": "40-60 %"
+  },
+  {
+    "section": "Identify Alarm and Shutdown Limits for Key Equipment",
+    "question": "How much is the MTBE synthesis load before shutdown of T-1120?",
+    "options": [
+      "Reduced from 50% to 40%.",
+      "Reduced from 100% to 90%.",
+      "Reduced from 70% to 50%.",
+      "Reduced from 80% to 60%."
+    ],
+    "answer": "Reduced from 50% to 40%."
+  },
+  {
+    "section": "Identify Alarm and Shutdown Limits for Key Equipment",
+    "question": "What is the set value of T-1120 Pressure PC-1212 ?",
+    "options": [
+      "6.5 kg/cm2",
+      "5 kg/cm2",
+      "4.5 kg/cm2",
+      "5.5 kg/cm2"
+    ],
+    "answer": "5 kg/cm2"
+  },
+  {
+    "section": "Identify Alarm and Shutdown Limits for Key Equipment",
+    "question": "What happens when T-1170 bottom level LC-1701 High Limit ?",
+    "options": [
+      "Thermo-siphon stop of the reboiler due to high level.",
+      "C4 is vaporized if the operating pressure is lower than the vapor-liquid equilibrium pressure at the temperature of the C4's in T-1110",
+      "Low pressure causes a low equilibrium temperature",
+      "Shut down both MTBE and IB sections."
+    ],
+    "answer": "Thermo-siphon stop of the reboiler due to high level."
+  },
+  {
+    "section": "Identify Alarm and Shutdown Limits for Key Equipment",
+    "question": "What will happen if T-1120 Pressure PC-1212 goes Low Limit ?",
+    "options": [
+      "Discharge valve closes to prevent pressure from increasing over design",
+      "Discharge valve opens to prevent pressure from increasing over design",
+      "Suction valve is to be closed to prevent pressure from increasing over design",
+      "Low pressure causes a low equilibrium temperature"
+    ],
+    "answer": "Low pressure causes a low equilibrium temperature"
+  },
+  {
+    "section": "Identify Alarm and Shutdown Limits for Key Equipment",
+    "question": "What is the tag No. of mixed C4 feed pump?",
+    "options": [
+      "P-1102A/B",
+      "P-1101A/B",
+      "P-1103",
+      "P-1002A/B"
+    ],
+    "answer": "P-1101A/B"
+  },
+  {
+    "section": "Identify Alarm and Shutdown Limits for Key Equipment",
+    "question": "How many sections are there in MTBE/IB for the purpose shutdown system?",
+    "options": [
+      "Four",
+      "Six",
+      "Eight",
+      "Nine"
+    ],
+    "answer": "Six"
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "What is the name of R-1110A ?",
+    "options": [
+      "MTBE Synthesis Secondary Reactor",
+      "MTBE Synthesis Finishing Reactor",
+      "MTBE Synthesis Primary Reactor",
+      "Cracking Reactor"
+    ],
+    "answer": "MTBE Synthesis Primary Reactor"
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "What is the Tag No. DR-1180A/B ?",
+    "options": [
+      "Synthesis reactor",
+      "Washer",
+      "C4 Raffinate Dryer",
+      "Debutanizer"
+    ],
+    "answer": "C4 Raffinate Dryer"
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "What is the function of D-1186 (Off Spec. C4 Drum)?",
+    "options": [
+      "To strip nitrogen",
+      "To remove liquids",
+      "To strip water",
+      "To store offspec C4"
+    ],
+    "answer": "To store offspec C4"
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "What is the function of quench cooler E-1111A?",
+    "options": [
+      "To cool the bottom flow from T-1110",
+      "To cool the reflux flow",
+      "To cool the recycle flow",
+      "To cool the side cut"
+    ],
+    "answer": "To cool the recycle flow"
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "What reacts with Isobutylene in the Mixed-C4 from USGP to produce MTBE?",
+    "options": [
+      "Reacts with DIB in the presence of ion exchange resin to produce MTBE",
+      "Reacts with DME in the presence of ion exchange resin to produce MTBE",
+      "Reacts with ethylene in the presence of ion exchange resin to produce MTBE",
+      "Reacts with methanol in the presence of ion exchange resin to produce MTBE"
+    ],
+    "answer": "Reacts with methanol in the presence of ion exchange resin to produce MTBE"
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "How are n-butenes obtained for the Metathesis unit?",
+    "options": [
+      "A single stage MTBE cracking reaction is applied",
+      "A single stage MTBE Synthesis reaction system is applied.",
+      "A two-stage MTBE Synthesis reaction system is applied.",
+      "A two-stage MTBE cracking reaction is applied."
+    ],
+    "answer": "A two-stage MTBE Synthesis reaction system is applied."
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "What is the Tag .No. (DME Removal Tower)?",
+    "options": [
+      "T-1170",
+      "TK-1170",
+      "T-1150",
+      "TK-1150"
+    ],
+    "answer": "T-1170"
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "Where can MTBE be used?",
+    "options": [
+      "is used as gasoline additive",
+      "Is not used as gasoline additive",
+      "Is used as a catalyst",
+      "Is used for the production of vinyl acetate"
+    ],
+    "answer": "is used as gasoline additive"
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "What are the products when MTBE is cracked?",
+    "options": [
+      "Isobutylene and Methane",
+      "Butylene and ethanol",
+      "Butane and Methanol",
+      "Isobutylene and Methanol"
+    ],
+    "answer": "Isobutylene and Methanol"
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "Where is Isobutylene sent after purification?",
+    "options": [
+      "To the MTBE cracking section",
+      "To the PMMA section",
+      "To the MMA unit (P370)",
+      "To the Nylon section"
+    ],
+    "answer": "To the MMA unit (P370)"
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "What is the pressure of HS (High Press. steam)?",
+    "options": [
+      "21-23 kg/cm2",
+      "38.5-43.5 kg/cm2",
+      "3.5-5.0 kg/cm2",
+      "23-25 kg/cm2"
+    ],
+    "answer": "38.5-43.5 kg/cm2"
+  },
+  {
+    "section": "Describe Process Flows and Operation of Control Loops Using Plant PFDs and P&IDs",
+    "question": "Where is the required MTBE production (t/day) set at ?",
+    "options": [
+      "On FC-1102",
+      "On the MTBE production tag",
+      "On FC-1101",
+      "On XI-1011"
+    ],
+    "answer": "On the MTBE production tag"
+  },
+  {
+    "section": "Perform Pumps Troubleshooting",
+    "question": "Why does the temperature inside the pump rise ?",
+    "options": [
+      "Kept the discharge valve closed for long time.",
+      "Kept the discharge valve open for long time.",
+      "Bearing was replaced with new one.",
+      "Cooling water is flowing properly."
+    ],
+    "answer": "Kept the discharge valve closed for long time."
+  },
+  {
+    "section": "Perform Pumps Troubleshooting",
+    "question": "Why the pump cavitates?",
+    "options": [
+      "Suction pressure low",
+      "Discharge pressure low",
+      "Discharge pressure high",
+      "Suction pressure high"
+    ],
+    "answer": "Suction pressure low"
+  },
+  {
+    "section": "Perform Pumps Troubleshooting",
+    "question": "When a canned pump makes noise and vibration ?",
+    "options": [
+      "Poor lubrication of the mechanical seal",
+      "Cavitation",
+      "Damaged mechanical seal",
+      "Low seal oil level"
+    ],
+    "answer": "Cavitation"
+  },
+  {
+    "section": "Perform Pumps Troubleshooting",
+    "question": "How the bearing monitor is high?",
+    "options": [
+      "Pump is cooled down by water.",
+      "Bearing is damaged.",
+      "Bearing was replaced with new one.",
+      "Minimum flow valve is opened"
+    ],
+    "answer": "Bearing is damaged."
+  },
+  {
+    "section": "Perform Pumps Troubleshooting",
+    "question": "How the lube oil temperature gets high?",
+    "options": [
+      "High oil level",
+      "Low cooling water flow",
+      "Discharge valve closed",
+      "Suction valve opened"
+    ],
+    "answer": "Low cooling water flow"
+  },
+  {
+    "section": "Perform Pumps Troubleshooting",
+    "question": "What would happen to the flow if the shaft rotation direction of a pump changes?",
+    "options": [
+      "The flow is not affected",
+      "There will be excessive flow",
+      "There will be no flow",
+      "The flow will be normal"
+    ],
+    "answer": "There will be no flow"
+  },
+  {
+    "section": "Perform Pumps Troubleshooting",
+    "question": "Which of the following is true, if the gasket or the O-ring in the pump has an air leakage?",
+    "options": [
+      "Low discharge pressure or Low flow",
+      "High discharge pressure or high flow",
+      "Air leakage in the gasket or O-ring does not affect the flow rate of the pump",
+      "The temperature in the pump increases rapidly"
+    ],
+    "answer": "Low discharge pressure or Low flow"
+  },
+  {
+    "section": "Perform Pumps Troubleshooting",
+    "question": "What may be the problem if the pump starts and stops suddenly causing pumping interruption?",
+    "options": [
+      "The pump is not primed",
+      "The pump is over lubricated",
+      "The pump shaft rotation direction has changed",
+      "The pump is not lubricated"
+    ],
+    "answer": "The pump is not primed"
+  },
+  {
+    "section": "Perform Pumps Troubleshooting",
+    "question": "What is the cause for high bearing temperature in a pump?",
+    "options": [
+      "Shaft rotation direction has changed",
+      "Air leakage in the gasket",
+      "Pump and drive shaft are not aligned properly or lack of lubrication",
+      "Pump is over lubricated"
+    ],
+    "answer": "Pump and drive shaft are not aligned properly or lack of lubrication"
+  },
+  {
+    "section": "Perform Heat Exchanger Troubleshooting",
+    "question": "What action to be taken to avoid overload of the steam in reboiler?",
+    "options": [
+      "Increase the tower operation load.",
+      "Reduce the tower operation load.",
+      "Switch the steam condensate to muffler.",
+      "Increase the steam flow rate."
+    ],
+    "answer": "Reduce the tower operation load."
+  },
+  {
+    "section": "Perform Heat Exchanger Troubleshooting",
+    "question": "What action to be taken for loss of enthalpy of the steam?",
+    "options": [
+      "Check whether the steam header pressure and temperature are normal",
+      "Check whether the steam condensate pump is working properly",
+      "Check whether the tower pressure is reduced by vent line",
+      "Check whether the cooling water return on the condensor is opened fully"
+    ],
+    "answer": "Check whether the steam header pressure and temperature are normal"
+  },
+  {
+    "section": "Perform Heat Exchanger Troubleshooting",
+    "question": "What action to be taken to avoid poor operation of the steam trap?",
+    "options": [
+      "Increase steam flow",
+      "Conduct frequent check",
+      "Reduce steam flow",
+      "Increase tower load"
+    ],
+    "answer": "Conduct frequent check"
+  },
+  {
+    "section": "Perform Heat Exchanger Troubleshooting",
+    "question": "What should be done when inert gas accumulates in the heat exchanger?",
+    "options": [
+      "Increase the feed to the exchanger to force the inert gas down the line",
+      "Isolate the exchanger, and wash with water",
+      "Drain the exchanger and fill up again",
+      "Isolate the exchanger, and remove the inert gas from the vent"
+    ],
+    "answer": "Isolate the exchanger, and remove the inert gas from the vent"
+  },
+  {
+    "section": "Perform Heat Exchanger Troubleshooting",
+    "question": "What action would you take if the Heat Exchanger is not heating up?",
+    "options": [
+      "Check for improper line up and LS supply",
+      "Inform field operator",
+      "Contact Manufacturer",
+      "Contact SSV"
+    ],
+    "answer": "Check for improper line up and LS supply"
+  },
+  {
+    "section": "Perform Heat Exchanger Troubleshooting",
+    "question": "What is the action required if a heat exchanger is not heating due to lack of LS supply?",
+    "options": [
+      "Inform SSV to contact supplier plant to confirm that LS supply is normal",
+      "Arrange the LS supply locally",
+      "Inform console operator",
+      "Inform Manager"
+    ],
+    "answer": "Inform SSV to contact supplier plant to confirm that LS supply is normal"
+  },
+  {
+    "section": "Perform Heat Exchanger Troubleshooting",
+    "question": "A heat exchanger uses CW as cooling medium. The outlet temperature is slowly rising. Which one is a possible cause for this?",
+    "options": [
+      "Outside temperature is getting higher",
+      "Someone broke the heat exchanger",
+      "Process liquid/gas is leaking",
+      "Wind is very strong"
+    ],
+    "answer": "Outside temperature is getting higher"
+  },
+  {
+    "section": "Perform Heat Exchanger Troubleshooting",
+    "question": "What will you do if LS battery limit pressure is lower than normal pressure ?",
+    "options": [
+      "No action required",
+      "Inform field operator",
+      "Inform SSV to contact supplier plant to confirm that LS supply is normal.",
+      "Inform Section Head"
+    ],
+    "answer": "Inform SSV to contact supplier plant to confirm that LS supply is normal."
+  },
+  {
+    "section": "Perform Emergency Procedures During Fire",
+    "question": "What should be the first action of SSV in a fire emergency?",
+    "options": [
+      "Evacuate all personnel from his area of responsibility.",
+      "Extinguish the fire.",
+      "Report the fire to section head",
+      "Go to the assembly point"
+    ],
+    "answer": "Evacuate all personnel from his area of responsibility."
+  },
+  {
+    "section": "Perform Emergency Procedures During Fire",
+    "question": "Which of the following safety device will be used first for communication in case of fire?",
+    "options": [
+      "Fire hydrant",
+      "Fire monitor",
+      "MCP",
+      "Fire truck"
+    ],
+    "answer": "MCP"
+  },
+  {
+    "section": "Perform Emergency Procedures During Fire in the Plant or Area",
+    "question": "What should you do if you see a fire at your plant?",
+    "options": [
+      "Report the fire to the control room and break the MCP.",
+      "Go to the assembly point.",
+      "Ask contractors to stop work.",
+      "Check wind direction."
+    ],
+    "answer": "Report the fire to the control room and break the MCP."
+  },
+  {
+    "section": "Perform Emergency Procedures During Fire in the Plant or Area",
+    "question": "After reporting an emergency to the control room what should you do next?",
+    "options": [
+      "Go to PIB & stay inside until fire is put out.",
+      "Go to control room and wait for SSV instructions",
+      "Go to the assembly point and do head count",
+      "Ask workers to stop work and go to assembly point."
+    ],
+    "answer": "Ask workers to stop work and go to assembly point."
+  },
+  {
+    "section": "Perform Emergency Procedures During Fire in the Plant or Area",
+    "question": "What would you do in the event of a pump seal leak?",
+    "options": [
+      "Stop the pump",
+      "Start standby pump",
+      "Inform SSV on radio",
+      "Leave the area"
+    ],
+    "answer": "Inform SSV on radio"
+  },
+  {
+    "section": "Perform Emergency Procedures During Hydrocarbon Leakage",
+    "question": "Which of the following statements is correct?",
+    "options": [
+      "SSV will act as a fire fighter",
+      "Petro Rabigh emergency services will enter in to plant area in case of gas leak until isolation and depressurization is done",
+      "SSV will treat the victims at incident location",
+      "Petro Rabigh emergency services will not enter in to plant area in case of gas leak until isolation and depressurization is done"
+    ],
+    "answer": "Petro Rabigh emergency services will not enter in to plant area in case of gas leak until isolation and depressurization is done"
+  },
+  {
+    "section": "Perform Emergency Procedures During Hydrocarbon Leakage",
+    "question": "Which of the following actions will prevent vapor cloud formation in case of large hydrocarbon leakage ?",
+    "options": [
+      "Wait for supervisor to arrive and decide the future action",
+      "Inform CCR3 and PRSS",
+      "Break the MCP and open the fixed fire monitors aimed at the leak location",
+      "Inform other plant about the issue"
+    ],
+    "answer": "Break the MCP and open the fixed fire monitors aimed at the leak location"
+  },
+  {
+    "section": "Perform Emergency Procedures During Hazardous Material Spillage",
+    "question": "How do you clean an MTBE spill over the floor?",
+    "options": [
+      "By flushing with water , while wearing the correct PPE",
+      "Not to do anything",
+      "By washing with acid",
+      "By wash with soap"
+    ],
+    "answer": "By flushing with water , while wearing the correct PPE"
+  },
+  {
+    "section": "Perform Emergency Procedures During Hazardous Material Spillage",
+    "question": "Which of the following actions are correct if C4 splashes on the skin ?",
+    "options": [
+      "Immediately rush to medical centre",
+      "Rinse the effected area with plenty of water and get medical attention",
+      "Wipe with wet cloth",
+      "Wait until someone comes to help you."
+    ],
+    "answer": "Rinse the effected area with plenty of water and get medical attention"
+  },
+  {
+    "section": "Perform Emergency Procedures in Case of Injury to Personnel",
+    "question": "What is the best way to inform the location of injured person in plant area to Petro Rabigh emergency services?",
+    "options": [
+      "By informing the section name",
+      "By informing the injured person name",
+      "By informing the grid location",
+      "By informing the equipment name"
+    ],
+    "answer": "By informing the grid location"
+  },
+  {
+    "section": "Perform Emergency Procedures in Case of Injury to Personnel",
+    "question": "What is your action when a person gets injured by steam?",
+    "options": [
+      "Wash the injured part by soap solution",
+      "Immediately rush to the first aid clinic",
+      "Keep ice cubes on the injured area",
+      "Move the affected person to fresh air"
+    ],
+    "answer": "Immediately rush to the first aid clinic"
+  },
+  {
+    "section": "Perform Emergency Procedures in Case of Injury to Personnel",
+    "question": "If you found a fall injury inside the plant ,what should be your action?",
+    "options": [
+      "Stop all hot works in the area",
+      "Check his condition. Report the incident and call for medical help if required.",
+      "Tell him to take leave and do not report the incident",
+      "Move the affected person to fresh air"
+    ],
+    "answer": "Check his condition. Report the incident and call for medical help if required."
+  },
+  {
+    "section": "Perform Emergency Procedures in Case of Injury to Personnel",
+    "question": "When should you perform CPR on a co-worker?",
+    "options": [
+      "When your co-worker is bleeding a lot.",
+      "When your co-worker is breathing heavily.",
+      "When your co-worker has stopped breathing",
+      "When the heart of your co-worker beats fast."
+    ],
+    "answer": "When your co-worker has stopped breathing"
+  },
+  {
+    "section": "Perform Emergency Procedures in Case of Injury to Personnel",
+    "question": "While working in a confined space, one of the fellow operators becomes unconscious. What will you do?",
+    "options": [
+      "Enter the confined space and rescue him",
+      "Inject air using hose",
+      "Keep shouting his name till he recovers",
+      "Inform CO, wear SCBA and enter the confined space to rescue the operator with 1 standby man"
+    ],
+    "answer": "Inform CO, wear SCBA and enter the confined space to rescue the operator with 1 standby man"
+  },
+  {
+    "section": "Extreme Weather Safety",
+    "question": "During cold weather conditions, while working in the plant what should you do?",
+    "options": [
+      "Wear Petro Rabigh jacket",
+      "Wear additional sweater you have brought from home over your Petro Rabigh uniform",
+      "Wear muffler",
+      "Wear gloves"
+    ],
+    "answer": "Wear Petro Rabigh jacket"
+  },
+  {
+    "section": "Extreme Weather Safety",
+    "question": "In case of lightening, what should be done?",
+    "options": [
+      "Evacuate all members from field",
+      "Check the field condition",
+      "Check for troubles on DCS",
+      "Evacuate all members from field, Check for troubles on DCS"
+    ],
+    "answer": "Evacuate all members from field, Check for troubles on DCS"
+  },
+  {
+    "section": "Extreme Weather Safety",
+    "question": "Why to avoid working under extreme hot conditions?",
+    "options": [
+      "To do the job on time",
+      "To do more work",
+      "To improve the work",
+      "To avoid heat stress"
+    ],
+    "answer": "To avoid heat stress"
+  },
+  {
+    "section": "Extreme Weather Safety",
+    "question": "How to avoid heat stress?",
+    "options": [
+      "By working",
+      "Taking more water with salts",
+      "By taking rest",
+      "By walking slowly"
+    ],
+    "answer": "Taking more water with salts"
+  },
+  {
+    "section": "Extreme Weather Safety",
+    "question": "What are the symptoms of heat stroke?",
+    "options": [
+      "Feeling cold",
+      "Severe body pain",
+      "Heavy sweating",
+      "No sweating, Severe Head ache, unconscious"
+    ],
+    "answer": "No sweating, Severe Head ache, unconscious"
+  },
+  {
+    "section": "Extreme Weather Safety",
+    "question": "What PPE can be used during sandstorm?",
+    "options": [
+      "SCBA",
+      "O2 cylinder",
+      "Gas mask",
+      "Dust mask"
+    ],
+    "answer": "Dust mask"
+  },
+  {
+    "section": "Plant Fire Protection",
+    "question": "What are the fire protection systems used for Z-1398?",
+    "options": [
+      "Monitor, Water Spray System",
+      "CO2 extinguisher",
+      "Live Hose Reel, Fire Hydrant",
+      "Foam"
+    ],
+    "answer": "Live Hose Reel, Fire Hydrant"
+  },
+  {
+    "section": "Plant Fire Protection",
+    "question": "What are the fire protection systems used for pumps P-1115A/B/C, P-1111A/B/C/D?",
+    "options": [
+      "Monitor",
+      "CO2 extinguisher",
+      "Fire Hydrant",
+      "Water Spray System"
+    ],
+    "answer": "Water Spray System"
+  },
+  {
+    "section": "Plant Fire Protection",
+    "question": "What are the fire protection systems used for Reactors R-1110C/F?",
+    "options": [
+      "Live Hose Reel",
+      "Monitor",
+      "Water Spray System",
+      "Fire Hydrant"
+    ],
+    "answer": "Water Spray System"
+  },
+  {
+    "section": "Plant Fire Protection",
+    "question": "What are the fire protection systems used for the Analyser Shelter?",
+    "options": [
+      "Monitor",
+      "CO2 extinguisher",
+      "Fire Hydrant",
+      "Water Spray System"
+    ],
+    "answer": "CO2 extinguisher"
+  },
+  {
+    "section": "Hazardous Material Safety",
+    "question": "What PPE is to be used While handling the MTBE synthesis catalyst?",
+    "options": [
+      "Wear safety goggles and anti-acid gloves",
+      "Wear safety goggles",
+      "Wear anti-acid gloves",
+      "Wear cotton gloves"
+    ],
+    "answer": "Wear safety goggles and anti-acid gloves"
+  },
+  {
+    "section": "Hazardous Material Safety",
+    "question": "What should you do if a chemical substance gets into your eyes?",
+    "options": [
+      "Rub the eyes until medical assistance arrives",
+      "Wash your eyes with water and seek medical attention.",
+      "Wait until someone comes to help you.",
+      "Rest until the eyes stop burning"
+    ],
+    "answer": "Wash your eyes with water and seek medical attention."
+  },
+  {
+    "section": "Hazardous Material Safety",
+    "question": "What happens when MTBE touches a strong mineral acid ?",
+    "options": [
+      "MTBE may be decomposed into 1-butene and methanol",
+      "MTBE may be decomposed into isobutylene and methanol",
+      "MTBE may be decomposed into isobutane and methanol",
+      "MTBE may be decomposed into vinyl acetate and methanol"
+    ],
+    "answer": "MTBE may be decomposed into isobutylene and methanol"
+  },
+  {
+    "section": "Hazardous Material Safety",
+    "question": "Why do we use antistatic electricity treatment such as earth-bonding for MTBE?",
+    "options": [
+      "Because MTBE cannot ignite by static electricity",
+      "Because MTBE may ignite by static electricity",
+      "Because MTBE may be vaporized by spark",
+      "Because MTBE may ignite by open flame"
+    ],
+    "answer": "Because MTBE may ignite by static electricity"
+  },
+  {
+    "section": "Hazardous Material Safety",
+    "question": "What PPE is to be used while handling the waste water?",
+    "options": [
+      "Safety goggles",
+      "Rubber gloves",
+      "Leather gloves",
+      "Safety goggles and rubber gloves."
+    ],
+    "answer": "Safety goggles and rubber gloves."
+  },
+  {
+    "section": "Equipment Shutdown Procedures",
+    "question": "Where is the temporary hose connection to be made during shutdown of D-1115 from FV-1107 in order to drain methanol ?",
+    "options": [
+      "to D-1392A.",
+      "to D-1115",
+      "to D-1101",
+      "to TK-1101"
+    ],
+    "answer": "to D-1392A."
+  },
+  {
+    "section": "Equipment Shutdown Procedures",
+    "question": "How to eliminate the Isobutylene in T-1230 after shutdown?",
+    "options": [
+      "N2 bubbling is carried out to eliminate the Isobutylene under each tray",
+      "Air bubbling is carried out to eliminate the Isobutylene under each tray",
+      "CO2 bubbling is carried out to eliminate the Isobutylene under each tray",
+      "Methanol bubbling is carried out to eliminate the Isobutylene under each tray"
+    ],
+    "answer": "N2 bubbling is carried out to eliminate the Isobutylene under each tray"
+  },
+  {
+    "section": "Equipment Shutdown Procedures",
+    "question": "When is DMW feeding to T-1230 stopped during shutdown of T-1230?",
+    "options": [
+      "When the concentration of MeOH at the T-1230 bottom outlet is below 5.5 wt. %.",
+      "When the concentration of MeOH at the T-1230 bottom outlet is below 10.5 wt. %.",
+      "When the concentration of MeOH at the T-1230 bottom outlet is below 15.5 wt. %.",
+      "When the concentration of MeOH at the T-1230 bottom outlet is below 0.5 wt. %."
+    ],
+    "answer": "When the concentration of MeOH at the T-1230 bottom outlet is below 0.5 wt. %."
+  },
+  {
+    "section": "Equipment Shutdown Procedures",
+    "question": "What is to be noted during the load down of the MTBE cracking section?",
+    "options": [
+      "The reduction of the LS steam condensate flow rate from R-1220 and E-1226",
+      "The reduction of the HS steam condensate flow rate from R-1220 and E-1226",
+      "The reduction of the MS flow rate from R-1220 and E-1226",
+      "The reduction of the CW flow rate from R-1220 and E-1226"
+    ],
+    "answer": "The reduction of the HS steam condensate flow rate from R-1220 and E-1226"
+  },
+  {
+    "section": "Equipment Shutdown Procedures",
+    "question": "How to stop the heating of E-1394 during shutdown?",
+    "options": [
+      "By opening the 2” valve of LS.",
+      "By closing the 2” valve of CW",
+      "By closing the 2” valve of LS.",
+      "By opening the 2” valve of CW"
+    ],
+    "answer": "By closing the 2” valve of LS."
+  },
+  {
+    "section": "Equipment Shutdown Procedures",
+    "question": "Which lines do you to set up for T-1140 N2 bubbling during shutdown?",
+    "options": [
+      "T-1140 feed line,T-1140 top outlet line",
+      "T-1130 top outlet line and bottom line",
+      "T-1120 top outlet line and bottom line",
+      "T-1110 top outlet line and bottom line"
+    ],
+    "answer": "T-1140 feed line,T-1140 top outlet line"
+  },
+  {
+    "section": "Equipment Shutdown Procedures",
+    "question": "Where to connect a temporary hose from the drain valve of FV-1405 for T-1140 N2 bubbling during shutdown?",
+    "options": [
+      "to D-1391.",
+      "to T-1120",
+      "to T-1150",
+      "to T-1110"
+    ],
+    "answer": "to D-1391."
+  },
+  {
+    "section": "Equipment Shutdown Procedures",
+    "question": "How to stop the heating of D-1391?",
+    "options": [
+      "By opening HC-3951.",
+      "By closing drain valve of PV-1303",
+      "By closing HC-3951.",
+      "By opening drain valve of PV-1303"
+    ],
+    "answer": "By closing HC-3951."
+  },
+  {
+    "section": "Equipment Shutdown Procedures",
+    "question": "What is the T-1140 top pressure to be maintained for N2 purging?",
+    "options": [
+      "At 0.5 kg/cm2G",
+      "At 5.5 kg/cm2G",
+      "At 13.5 kg/cm2G",
+      "At 1.5 kg/cm2G"
+    ],
+    "answer": "At 1.5 kg/cm2G"
+  },
+  {
+    "section": "Equipment Shutdown Procedures",
+    "question": "Why do we not decrease the pressure to less than 1.0 kg/cm2G in T-1140 during N2 purging?",
+    "options": [
+      "To make cleaning good",
+      "To prevent freezing",
+      "To make the remaining C4 under each tray easy to flash",
+      "To make concentration of Methanol at the bottom to 5.5 wt.%."
+    ],
+    "answer": "To prevent freezing"
+  },
+  {
+    "section": "Equipment Start-up Procedures",
+    "question": "Which is the first to be started during MTBE-IB start up process ?",
+    "options": [
+      "T-1260 is the first to be started in the unit.",
+      "T-1140 is the first to be started in the unit",
+      "T-1230 is the first to be started in the unit.",
+      "T-1240 is the first to be started in the unit"
+    ],
+    "answer": "T-1260 is the first to be started in the unit."
+  },
+  {
+    "section": "Equipment Start-up Procedures",
+    "question": "Where to setup the bottom line of T-1140 for start up?",
+    "options": [
+      "T-1140 bottom line to T-1210 and D-1140",
+      "T-1140 bottom line to T-1260 and D-1140",
+      "T-1140 bottom line to T-1101 and D-1140",
+      "T-1140 bottom line to T-1250 and D-1140"
+    ],
+    "answer": "T-1140 bottom line to T-1260 and D-1140"
+  },
+  {
+    "section": "Equipment Start-up Procedures",
+    "question": "Where to set up the top line of T-1140 for start up?",
+    "options": [
+      "T-1140 top line to T-1150.",
+      "T-1140 top line to T-1120.",
+      "T-1140 top line to T-1101.",
+      "T-1140 top line to T-1160."
+    ],
+    "answer": "T-1140 top line to T-1150."
+  },
+  {
+    "section": "Equipment Start-up Procedures",
+    "question": "Where to set up the feed line of T-1140 for start up?",
+    "options": [
+      "Feed line from R-1130A/B.",
+      "Feed line from R-1120A/B.",
+      "feed line from R-1110A/B.",
+      "Feed line from R-1110D/F."
+    ],
+    "answer": "Feed line from R-1130A/B."
+  },
+  {
+    "section": "Equipment Start-up Procedures",
+    "question": "Which is the process line up during water filling and catalyst washing of R-1110A(D)/B(C)?C(F) vent lines)?",
+    "options": [
+      "The R-1110A and B vent lines to D-1391",
+      "The R-1110A and B vent lines to D-1115",
+      "The R-1110A and B vent lines to T-1101",
+      "The R-1130A and B vent lines to D-1391"
+    ],
+    "answer": "The R-1110A and B vent lines to D-1391"
+  },
+  {
+    "section": "Equipment Start-up Procedures",
+    "question": "Which is the process line up during water filling and catalyst washing of R-1110A(D)/B(C)?C(F) bottom lines?",
+    "options": [
+      "The R-1110A and B bottom lines to D-1115",
+      "The R-1110A and B bottom lines to T-1101",
+      "The R-1130A and B bottom lines to D-1391",
+      "The R-1110A and B bottom PZV lines"
+    ],
+    "answer": "The R-1110A and B bottom PZV lines"
+  },
+  {
+    "section": "Equipment Start-up Procedures",
+    "question": "What is to be ensured before D-1116 start-up?",
+    "options": [
+      "Ensure that the T-1260 is commissioned",
+      "Ensure that the CW to the inlet lines is commissioned",
+      "Ensure that the steam tracing to the inlet lines is commissioned",
+      "Ensure that the T-1170 is commissioned"
+    ],
+    "answer": "Ensure that the steam tracing to the inlet lines is commissioned"
+  },
+  {
+    "section": "Equipment Start-up Procedures",
+    "question": "When do you open the drain valve on the R-1110A bottom outlet line and start the catalyst washing?",
+    "options": [
+      "When the R-1110A pressure becomes more than the pressure of DMW",
+      "When the R-1130A pressure becomes less than the pressure of DMW",
+      "When the R-1110A temperature becomes close to the pressure of DMW",
+      "When the R-1110A pressure becomes close to the pressure of DMW"
+    ],
+    "answer": "When the R-1110A pressure becomes close to the pressure of DMW"
+  },
+  {
+    "section": "Equipment Start-up Procedures",
+    "question": "What is the quality of waste water to be sent to WWTP?",
+    "options": [
+      "pH below 6.0",
+      "pH above 6.0",
+      "pH below 8.0",
+      "pH below 5.0"
+    ],
+    "answer": "pH above 6.0"
+  },
+  {
+    "section": "Equipment Start-up Procedures",
+    "question": "How to correct if the waste water pH is too low?",
+    "options": [
+      "Add acid",
+      "Add NaOH",
+      "Add more water",
+      "Add steam"
+    ],
+    "answer": "Add NaOH"
+  },
+  {
+    "section": "Sampling Procedures",
+    "question": "What are the different steps of sampling sequence?",
+    "options": [
+      "Sampling, Analysis, Recording",
+      "Confirmation of sampling items, sampling, Analysis, Recording",
+      "Sampling, Analysis, Recording, Confirmation of sampling items",
+      "Analysis, Recording, Confirmation of sampling items, sampling."
+    ],
+    "answer": "Confirmation of sampling items, sampling, Analysis, Recording"
+  },
+  {
+    "section": "Sampling Procedures",
+    "question": "What is the name of sample AP-1150 (PGC No. GC-1150)?",
+    "options": [
+      "2nd Debutanizer bottom MTBE",
+      "T-1120 bottom",
+      "T-1120 feed",
+      "R-1110 feed"
+    ],
+    "answer": "2nd Debutanizer bottom MTBE"
+  },
+  {
+    "section": "Sampling Procedures",
+    "question": "What is the minimum percentage of Isobutylene in the product specification of ISOBUTYLENE ?",
+    "options": [
+      "99",
+      "80",
+      "90",
+      "70"
+    ],
+    "answer": "99"
+  },
+  {
+    "section": "Sampling Procedures",
+    "question": "Which type is used of a fluid at 65 degC or more",
+    "options": [
+      "Is taken by Type D-1",
+      "Is taken by Type B-1",
+      "Is taken by Type A-1",
+      "Is taken by Type E-1"
+    ],
+    "answer": "Is taken by Type B-1"
+  },
+  {
+    "section": "Sampling Procedures",
+    "question": "What is the maximum ppm of DME in the product specification of C4 Raffinate (Impurities) ?",
+    "options": [
+      "5",
+      "25",
+      "10",
+      "15"
+    ],
+    "answer": "5"
+  },
+  {
+    "section": "Normal Plant Conditions & Ranges",
+    "question": "What is the operating range of T-1120 #26 tray temperature(TC-1203) at 100% plant load?",
+    "options": [
+      "101-105 degC",
+      "107- 110 degC",
+      "108-111 degC",
+      "112-116 degC"
+    ],
+    "answer": "101-105 degC"
+  },
+  {
+    "section": "Normal Plant Conditions & Ranges",
+    "question": "What is the temperature of the Reaction Effluent to R-1130A (TC-1311) at 100% plant load?",
+    "options": [
+      "57 degC",
+      "67 degC",
+      "72 degC",
+      "42 degC"
+    ],
+    "answer": "57 degC"
+  },
+  {
+    "section": "Normal Plant Conditions & Ranges",
+    "question": "What is the normal operating range of T-1140 pressure ?",
+    "options": [
+      "Lower than the vapor-liquid equilibrium pressure of the C4 Raffinate in T-1140.",
+      "Lower than the vapor-liquid equilibrium pressure of the C4 Raffinate in T-1120.",
+      "Higher than the vapor-liquid equilibrium pressure of the C4 Raffinate in T-1120.",
+      "Higher than the vapor-liquid equilibrium pressure of the C4 Raffinate in T-1140."
+    ],
+    "answer": "Higher than the vapor-liquid equilibrium pressure of the C4 Raffinate in T-1140."
+  },
+  {
+    "section": "Normal Plant Conditions & Ranges",
+    "question": "How do you check the impurities concentration (online) in the T-1150 bottom?",
+    "options": [
+      "By process gas chromatograph",
+      "By online pH meter",
+      "By manual check by FO",
+      "By Control Room personnel"
+    ],
+    "answer": "By process gas chromatograph"
+  },
+  {
+    "section": "Normal Plant Conditions & Ranges",
+    "question": "What is a possible action to be taken if DME concentration is far lower than the specification?",
+    "options": [
+      "Change the feed tray to the upper side one.",
+      "Change the feed tray to the lower side one.",
+      "decrease the distillate of T-1170",
+      "Increase the distillate of T-1170"
+    ],
+    "answer": "decrease the distillate of T-1170"
+  },
+  {
+    "section": "Normal Plant Conditions & Ranges",
+    "question": "What is the normal Pressure In DR-1180A/B(PI-1801) outlet at 100% plant load?",
+    "options": [
+      "5 -7 kg/cm2G",
+      "16 -28 kg/cm2G",
+      "2 - 6 kg/cm2G",
+      "11-12 kg/cm2G"
+    ],
+    "answer": "11-12 kg/cm2G"
+  },
+  {
+    "section": "Normal Plant Conditions & Ranges",
+    "question": "What is normal T-1120 #26 tray temperature(TC-1203) at 100% plant load?",
+    "options": [
+      "103 degC",
+      "129 degC",
+      "133 degC",
+      "118 degC"
+    ],
+    "answer": "103 degC"
+  },
+  {
+    "section": "Normal Plant Conditions & Ranges",
+    "question": "What is the operating range of LC-1801 D-1186 level?",
+    "options": [
+      "25-50%",
+      "15-80 %",
+      "50-60%",
+      "50-70%"
+    ],
+    "answer": "15-80 %"
+  },
+  {
+    "section": "Normal Plant Conditions & Ranges",
+    "question": "What is the normal operating pressure of PC-2112 in D-1215 ?",
+    "options": [
+      "1.95 - 2.05 kg/cm2",
+      "3.55 - 6.05 kg/cm2",
+      "0.45 - 1.55 kg/cm2",
+      "0.95 - 1.05 kg/cm2"
+    ],
+    "answer": "0.95 - 1.05 kg/cm2"
+  },
+  {
+    "section": "Normal Plant Conditions & Ranges",
+    "question": "What is the normal operating level of E-1210 to achieve maximum efficiency?",
+    "options": [
+      "Operate E-1210 with the liquid level at 60% which is higher than the heating tube level .",
+      "Operate E-1210 with the liquid level at 40% which is higher than the heating tube level .",
+      "Operate E-1210 with the liquid level at 80% which is lower than the heating tube level .",
+      "Operate E-1210 with the liquid level at 50% which is higher than the heating tube level ."
+    ],
+    "answer": "Operate E-1210 with the liquid level at 60% which is higher than the heating tube level ."
+  },
+  {
+    "section": "Alarm & Shutdown Limits",
+    "question": "What action is to be taken Just before the stop of the remaining synthesis reactor?",
+    "options": [
+      "Start the MTBE production",
+      "Stop the MTBE production and switch T-1120 side-cut discharge destination from D-1215 to D-1193A or B.",
+      "Switch T-1120 side-cut discharge destination from D-1193A to D-1125.",
+      "Switch T-1140 side-cut discharge destination from D-1215 to D-1193A or B."
+    ],
+    "answer": "Stop the MTBE production and switch T-1120 side-cut discharge destination from D-1215 to D-1193A or B."
+  },
+  {
+    "section": "Alarm & Shutdown Limits",
+    "question": "What action to be taken after the stop of the T-1120 feed?",
+    "options": [
+      "Gradually decrease the reflux flow rate and increase the heating of the reboiler",
+      "Gradually increase the reflux flow rate and increase the heating of the reboiler.",
+      "Gradually decrease the bottoms flow rate and decrease the heating of the reboiler .",
+      "Gradually increase the bottoms flow rate and decrease the heating of the reboiler ."
+    ],
+    "answer": "Gradually decrease the reflux flow rate and increase the heating of the reboiler"
+  },
+  {
+    "section": "Alarm & Shutdown Limits",
+    "question": "What is the name of MTBE Separation & Finishing Section Shutdown interlock system?",
+    "options": [
+      "(ZC-10)",
+      "(ZC-7)",
+      "(ZC-3)",
+      "(ZC-9)"
+    ],
+    "answer": "(ZC-7)"
+  },
+  {
+    "section": "Alarm & Shutdown Limits",
+    "question": "What is the action of ZC-3 interlock ?",
+    "options": [
+      "Activate R-1110D/E/F first stage shutdown",
+      "Activate R-1110A/B/C first stage shutdown",
+      "Activate T-1120 shutdown",
+      "Activate T-1140 shutdown"
+    ],
+    "answer": "Activate R-1110A/B/C first stage shutdown"
+  },
+  {
+    "section": "Alarm & Shutdown Limits",
+    "question": "What is the LLL shutdown limit R-1110A/B Recycle flow rate FI-1112B ?",
+    "options": [
+      "40 t/h",
+      "20 t/h",
+      "5 t/h",
+      "15 t/h"
+    ],
+    "answer": "5 t/h"
+  },
+  {
+    "section": "Alarm & Shutdown Limits",
+    "question": "What is the action of ZC-2 interlock ?",
+    "options": [
+      "Activate R-1110D/E/F first stage shutdown",
+      "Activate R-1110A/B/C first stage shutdown",
+      "Activate Section-1 shutdown",
+      "Activate T-1140 shutdown"
+    ],
+    "answer": "Activate Section-1 shutdown"
+  },
+  {
+    "section": "Alarm & Shutdown Limits",
+    "question": "What is the name of the DME Separation Section Shutdown interlock system ?",
+    "options": [
+      "ZC-2",
+      "ZC-4",
+      "ZC-6",
+      "ZC-8"
+    ],
+    "answer": "ZC-8"
+  },
+  {
+    "section": "Alarm & Shutdown Limits",
+    "question": "What is the low low shutdown limit of T-1170 bottom level LC-1701?",
+    "options": [
+      "9%",
+      "35%",
+      "50%",
+      "0.2"
+    ],
+    "answer": "9%"
+  },
+  {
+    "section": "Alarm & Shutdown Limits",
+    "question": "What will happen to T-1240 when the MTBE cracking section shutdown (ZC-9) is activated?",
+    "options": [
+      "T-1240 shutdown",
+      "T-1140 shutdown",
+      "T-1240 can be changed to TRO (Total Reflux Operation) mode",
+      "T-1240 normal operation"
+    ],
+    "answer": "T-1240 can be changed to TRO (Total Reflux Operation) mode"
+  },
+  {
+    "section": "Alarm & Shutdown Limits",
+    "question": "What is the interlock action of high pressure trip of the flare line by the DCS Sequence?",
+    "options": [
+      "open the valve from T-1260 to Z-1261 and close the valve to flare.",
+      "T-1260 shutdown",
+      "T-1240 can be changed to TRO (Total Reflux Operation) mode",
+      "T-1240 normal operation"
+    ],
+    "answer": "open the valve from T-1260 to Z-1261 and close the valve to flare."
+  },
+  {
+    "section": "Process Flows & Control Loops",
+    "question": "Where is the effluent of the synthesis reactors (R-1110C/F) sent?",
+    "options": [
+      "To the Debutanizer (T-1140)",
+      "To the Debutanizer (T-1120)",
+      "To R-1120C/F",
+      "To D-1126"
+    ],
+    "answer": "To the Debutanizer (T-1120)"
+  },
+  {
+    "section": "Process Flows & Control Loops",
+    "question": "What are the top products from T-1120?",
+    "options": [
+      "C4’s containing unreacted Isobutylene, Methanol which is azeotropic with C4's",
+      "MTBE",
+      "MSBE",
+      "TBA and DIB as impurities"
+    ],
+    "answer": "C4’s containing unreacted Isobutylene, Methanol which is azeotropic with C4's"
+  },
+  {
+    "section": "Process Flows & Control Loops",
+    "question": "What type is the T-1260 pressure controller (PC-2612) ?",
+    "options": [
+      "Cascade controller",
+      "Ratio controller",
+      "Proportional controller",
+      "Split-range controller"
+    ],
+    "answer": "Split-range controller"
+  },
+  {
+    "section": "Process Flows & Control Loops",
+    "question": "What are the bottom products of T-1120?",
+    "options": [
+      "Heavy Ends such as DIB, TBA, MSBE which are discharged with MTBE.",
+      "C4’s containing unreacted Isobutylene",
+      "Methanol which is azeotropic with C4's",
+      "Product MTBE with a small amount of MSBE, TBA and DIB as impurities"
+    ],
+    "answer": "Heavy Ends such as DIB, TBA, MSBE which are discharged with MTBE."
+  },
+  {
+    "section": "Process Flows & Control Loops",
+    "question": "What is the Blow Down Drum (D-1391) vent pressure ?",
+    "options": [
+      "Higher than flare header pressure (PI-3916).",
+      "Same as flare header pressure (PI-3916).",
+      "Lower than flare header pressure (PI-3916).",
+      "Same as D-1390 pressure ."
+    ],
+    "answer": "Same as flare header pressure (PI-3916)."
+  },
+  {
+    "section": "Pumps Troubleshooting",
+    "question": "Which Action of the Following is incorrect to overcome pump Cavitation?",
+    "options": [
+      "Increase suction pressure if possible",
+      "Increase liquid temperature if possible",
+      "Vent gases off the pump casing",
+      "Throttle back on the discharge valve decrease flow-rate"
+    ],
+    "answer": "Increase liquid temperature if possible"
+  },
+  {
+    "section": "Pumps Troubleshooting",
+    "question": "What is the Position of the Suction and Discharge Valves of the Centrifugal Pumps Before Start-up?",
+    "options": [
+      "Suction valve and discharge valve are closed",
+      "Suction valve is open and discharge valve is closed",
+      "Suction valve is closed and discharge valve is open",
+      "Suction valve and discharge valve are open"
+    ],
+    "answer": "Suction valve is open and discharge valve is closed"
+  },
+  {
+    "section": "Pumps Troubleshooting",
+    "question": "Why will you have a low discharge pressure on a pump?",
+    "options": [
+      "Suction opened",
+      "Filter plugged",
+      "Discharge opened",
+      "High level in vessel"
+    ],
+    "answer": "Filter plugged"
+  },
+  {
+    "section": "Pumps Troubleshooting",
+    "question": "What is the Position of the Suction and Discharge Valves of the Plunger Pumps Before start-up?",
+    "options": [
+      "Suction valve and discharge valve are closed",
+      "Suction valve is open and discharge valve is closed",
+      "Suction valve is closed and discharge valve is open",
+      "Suction valve and discharge valve are open"
+    ],
+    "answer": "Suction valve and discharge valve are open"
+  },
+  {
+    "section": "Pumps Troubleshooting",
+    "question": "What causes the pump to trip?",
+    "options": [
+      "Suction pressure normal",
+      "Drum level LL activated.",
+      "Discharge pressure normal",
+      "Discharge valve closed"
+    ],
+    "answer": "Drum level LL activated."
+  },
+  {
+    "section": "Pumps Troubleshooting",
+    "question": "Why will you have a low suction pressure on a pump?",
+    "options": [
+      "No level in the vessel or column",
+      "High level in the vessel or column",
+      "Low temperature in vessel or column",
+      "High pressure in vessel or column"
+    ],
+    "answer": "No level in the vessel or column"
+  },
+  {
+    "section": "Pumps Troubleshooting",
+    "question": "Why will a pump cavitate?",
+    "options": [
+      "Suction opened",
+      "High level in vessel",
+      "Low suction pressure",
+      "Discharge opened"
+    ],
+    "answer": "Low suction pressure"
+  },
+  {
+    "section": "Pumps Troubleshooting",
+    "question": "Why will the pump motor overheat?",
+    "options": [
+      "Discharge opened",
+      "Impeller turning freely",
+      "suction opened",
+      "Impeller not turning freely"
+    ],
+    "answer": "Impeller not turning freely"
+  },
+  {
+    "section": "Pumps Troubleshooting",
+    "question": "Why will a pump vibrate?",
+    "options": [
+      "Impeller not turning freely",
+      "Impeller turning freely",
+      "suction opened",
+      "Impeller damaged"
+    ],
+    "answer": "Impeller damaged"
+  },
+  {
+    "section": "Heat Exchanger Troubleshooting",
+    "question": "What action to be taken to prevent accumulation of inert gas in the reboiler ?",
+    "options": [
+      "Increase stem flow",
+      "Purge the inert gas",
+      "Decrease steam flow",
+      "Stop the condensate recovery"
+    ],
+    "answer": "Purge the inert gas"
+  },
+  {
+    "section": "Heat Exchanger Troubleshooting",
+    "question": "How to avoid water hammering?",
+    "options": [
+      "Increase stem flow",
+      "Purge the inert gas",
+      "Decrease steam flow",
+      "Slowly open the valve"
+    ],
+    "answer": "Slowly open the valve"
+  },
+  {
+    "section": "Heat Exchanger Troubleshooting",
+    "question": "What will happen if water hammering occurs?",
+    "options": [
+      "Purge the inert gas",
+      "Decrease steam flow",
+      "Stop the condensate recovery",
+      "Piping get damaged"
+    ],
+    "answer": "Piping get damaged"
+  },
+  {
+    "section": "Heat Exchanger Troubleshooting",
+    "question": "Why the PG and TG rises in the heat exchanger?",
+    "options": [
+      "Open bypass valve",
+      "Fouling or plugging of the reboiler",
+      "Decrease steam flow",
+      "Slowly open the valve"
+    ],
+    "answer": "Fouling or plugging of the reboiler"
+  },
+  {
+    "section": "Heat Exchanger Troubleshooting",
+    "question": "What to do if Fouling or plugging of the reboiler occurs?",
+    "options": [
+      "Decrease steam flow",
+      "Slowly open the valve",
+      "Consider a reboiler overhaul",
+      "Increase steam flow"
+    ],
+    "answer": "Consider a reboiler overhaul"
+  },
+  {
+    "section": "Heat Exchanger Troubleshooting",
+    "question": "Why will you have a low heat transfer?",
+    "options": [
+      "Fouling of tubes",
+      "High pressure through heat exchanger",
+      "High temperature through heat exchanger",
+      "inlet valve open"
+    ],
+    "answer": "Fouling of tubes"
+  },
+  {
+    "section": "Heat Exchanger Troubleshooting",
+    "question": "How would you check for fouling in the tubes?",
+    "options": [
+      "High pressure through heat exchanger",
+      "Do pressure survey across heat exchanger",
+      "High temperature through heat exchanger",
+      "High flow through heat exchanger"
+    ],
+    "answer": "Do pressure survey across heat exchanger"
+  },
+  {
+    "section": "Heat Exchanger Troubleshooting",
+    "question": "What could be the cause of contamination of product through an exchanger?",
+    "options": [
+      "High temperature through heat exchanger",
+      "High flow through heat exchanger",
+      "Tube leak",
+      "High pressure through heat exchanger"
+    ],
+    "answer": "Tube leak"
+  },
+  {
+    "section": "Heat Exchanger Troubleshooting",
+    "question": "How would you know that the heat exchanger is causing product contamination?",
+    "options": [
+      "Check the temperature",
+      "Check the pressure",
+      "Check the flow",
+      "Sample the product from inlet and outlet of exchanger"
+    ],
+    "answer": "Sample the product from inlet and outlet of exchanger"
+  },
+  {
+    "section": "Heat Exchanger Troubleshooting",
+    "question": "Why the steam condensate recovery operation has to be very slow?",
+    "options": [
+      "High pressure",
+      "Water hammer",
+      "High temperature",
+      "Low pressure"
+    ],
+    "answer": "Water hammer"
+  },
+  {
+    "section": "Emergency Procedures During Fire",
+    "question": "If you saw fire in the plant what is your first action?",
+    "options": [
+      "Report to Control Room and break the MCP",
+      "Evacuate to assembly point",
+      "Ask the contractor to stop the job",
+      "Check wind direction"
+    ],
+    "answer": "Report to Control Room and break the MCP"
+  },
+  {
+    "section": "Emergency Procedures During Fire",
+    "question": "After reporting an emergency to console operator what is your next job?",
+    "options": [
+      "Go to PIB & stay inside until fire extinguish",
+      "Go to Control Room and wait for SSV instructions",
+      "Go to the assembly point & make head count",
+      "Ask the contractor to stop the job & leave to assembly point for head count"
+    ],
+    "answer": "Ask the contractor to stop the job & leave to assembly point for head count"
+  },
+  {
+    "section": "Emergency Procedures During Fire",
+    "question": "What is ICS the abbreviation for?",
+    "options": [
+      "Incident command supervisor",
+      "Incident command programme",
+      "Incident control and prevention",
+      "Incident command system"
+    ],
+    "answer": "Incident command system"
+  },
+  {
+    "section": "Emergency Procedures During Fire",
+    "question": "What is the flammability limit of MTBE ?",
+    "options": [
+      "1.65-8.4",
+      "3.6-8.7",
+      "6.0-9.5",
+      "6.1-12.5"
+    ],
+    "answer": "1.65-8.4"
+  },
+  {
+    "section": "Emergency Procedures During Fire",
+    "question": "What do you do if there is a fire on the reactor?",
+    "options": [
+      "Bypass the reactor",
+      "Isolate the reactor",
+      "Put out the fire with dry chemical powder",
+      "Report to SSV via radio"
+    ],
+    "answer": "Report to SSV via radio"
+  },
+  {
+    "section": "Emergency Procedures During Fire",
+    "question": "What is the Triage area?",
+    "options": [
+      "The location of incident area",
+      "The location of assembling of medical teams",
+      "The location of assembling of incident and fire teams",
+      "Assembly point"
+    ],
+    "answer": "The location of assembling of medical teams"
+  },
+  {
+    "section": "Emergency Procedures During Hydrocarbon Leakage",
+    "question": "If you saw a heavy hydrocarbon leak in the plant ,what is your first action?",
+    "options": [
+      "Report to Control Room and break the MCP",
+      "Open the fixed fire monitor and use full fog mode",
+      "Immediately Leave the area",
+      "Find the leaking point"
+    ],
+    "answer": "Report to Control Room and break the MCP"
+  },
+  {
+    "section": "Emergency Procedures During Hydrocarbon Leakage",
+    "question": "Which of the following statement is correct?",
+    "options": [
+      "SSV will act as a fire commander",
+      "Petrorabigh emergency services will enter in to plant area in case of gas leak until isolation and depressurization is done",
+      "SSV will treat the victims at incident location",
+      "Petrorabigh emergency services will not enter in to plant area in case of gas leak until isolation and depressurization is done"
+    ],
+    "answer": "Petrorabigh emergency services will not enter in to plant area in case of gas leak until isolation and depressurization is done"
+  },
+  {
+    "section": "Emergency Procedures During Hydrocarbon Leakage",
+    "question": "When the MTBE plant is having an emergency case regarding a gas leak who will be the incident commander?",
+    "options": [
+      "SSV",
+      "SH",
+      "CO",
+      "MC"
+    ],
+    "answer": "SSV"
+  },
+  {
+    "section": "Emergency Procedures During Hydrocarbon Leakage",
+    "question": "What will be the action if HC (hydrocarbon)heavy seal leak is found from methanol feed pump (P-1266A/B) ?",
+    "options": [
+      "Close the vent valve of seal pot to avoid methanol leaking to flare",
+      "Keep the N2 hose near the seal leak area for safety",
+      "Continue using the running pump because this is normal",
+      "Swap the pump and report to SSV"
+    ],
+    "answer": "Swap the pump and report to SSV"
+  },
+  {
+    "section": "Emergency Procedures During Hydrocarbon Leakage",
+    "question": "What is your action when there is a HC leak from the line drain valve?",
+    "options": [
+      "Swap the pump",
+      "Wipe out with cotton waste",
+      "No action required it may dry after some time",
+      "Close the drain valve properly and put the plug"
+    ],
+    "answer": "Close the drain valve properly and put the plug"
+  },
+  {
+    "section": "Emergency Procedures During Hydrocarbon Leakage",
+    "question": "Which of the following actions will prevent vapor cloud formation in case of Fuel gas leakage ?",
+    "options": [
+      "Wait for supervisor to arrive and decide the future action",
+      "Inform to Control Room",
+      "Break the MCP and open the fixed fire monitors aimed at the leak location",
+      "Inform supervisor"
+    ],
+    "answer": "Break the MCP and open the fixed fire monitors aimed at the leak location"
+  },
+  {
+    "section": "Emergency Procedures During Hazardous Material Spillage",
+    "question": "What is your action when you find a spillage of Methanol?",
+    "options": [
+      "No action required,it will evaporate",
+      "Put sand",
+      "Wash and dilute with plenty of water",
+      "Use dry powder"
+    ],
+    "answer": "Wash and dilute with plenty of water"
+  },
+  {
+    "section": "Emergency Procedures During Hazardous Material Spillage",
+    "question": "What action should you take if a co-worker ingests a hazardous chemical?",
+    "options": [
+      "Induce vomiting immediately",
+      "Give some food immediately",
+      "Perform CPR immediately",
+      "Give water to drink to dilute the chemical."
+    ],
+    "answer": "Give water to drink to dilute the chemical."
+  },
+  {
+    "section": "Emergency Procedures During Hazardous Material Spillage",
+    "question": "What should you do before using any hazardous chemical?",
+    "options": [
+      "Smell and identify the chemical.",
+      "Study the MSDS for the chemical",
+      "Wash your hands with soap and water",
+      "Check the Lower Explosive Limit for the chemical."
+    ],
+    "answer": "Study the MSDS for the chemical"
+  },
+  {
+    "section": "Emergency Procedures During Hazardous Material Spillage",
+    "question": "What should be the action if there is a Hydrocarbon leak from the pump suction strainer?",
+    "options": [
+      "Keep the strainer leak pump under observation",
+      "Keep the N2 hose near the strainer leak area for safety",
+      "Immediately swingover the pump and keep leaking pump as emergency stand by",
+      "Immediately swingover the pump and isolate the strainer leak pump"
+    ],
+    "answer": "Immediately swingover the pump and isolate the strainer leak pump"
+  },
+  {
+    "section": "Emergency Procedures During Hazardous Material Spillage",
+    "question": "What should be your 1st action if MTBE splashes in your eyes?",
+    "options": [
+      "Take to doctor immediately",
+      "Call ambulance",
+      "Flush with plenty of water",
+      "None of the above"
+    ],
+    "answer": "Flush with plenty of water"
+  },
+  {
+    "section": "Emergency Procedures During Hazardous Material Spillage",
+    "question": "Who will Wear the Orange Vest and Switch the Bravo Channel to # 119 in Case of Hazardous Material Spillage?",
+    "options": [
+      "CO",
+      "SSV",
+      "FO",
+      "Maintenance Support"
+    ],
+    "answer": "SSV"
+  },
+  {
+    "section": "Emergency Procedures in Case of Injury",
+    "question": "What is the best way to inform the location of an injured person in the plant area to petrorabigh emergency services?",
+    "options": [
+      "Inform the injured person name",
+      "By informing the injured person name",
+      "By informing the grid location",
+      "By informing the equipment name"
+    ],
+    "answer": "By informing the grid location"
+  },
+  {
+    "section": "Emergency Procedures in Case of Injury",
+    "question": "What is your action when person get injured by steam?",
+    "options": [
+      "Wash the injured part by soap solution",
+      "Immediately rush in to first aid clinic",
+      "Keep ice cubes in injured area",
+      "None of the above"
+    ],
+    "answer": "Immediately rush in to first aid clinic"
+  },
+  {
+    "section": "Emergency Procedures in Case of Injury",
+    "question": "What should you do if your co-worker inhales H2S gas?",
+    "options": [
+      "Ask your co-worker to sit down and rest.",
+      "Let him continue working slowly",
+      "Move him to fresh air and give him oxygen",
+      "Take him to the eye wash station."
+    ],
+    "answer": "Move him to fresh air and give him oxygen"
+  },
+  {
+    "section": "Emergency Procedures in Case of Injury",
+    "question": "What should you do if your skin comes in contact with H2S?",
+    "options": [
+      "Wait for medical assistance",
+      "Remove clothing and wash skin with soap and water",
+      "Drink water immediately and rest",
+      "Continue to working"
+    ],
+    "answer": "Remove clothing and wash skin with soap and water"
+  },
+  {
+    "section": "Emergency Procedures in Case of Injury",
+    "question": "Where should you take a co-worker that was injured during a fire emergency?",
+    "options": [
+      "The area where the fire is located.",
+      "The location where the medical team is located.",
+      "The assembly point for the emergency response team.",
+      "The assembly point"
+    ],
+    "answer": "The location where the medical team is located."
+  },
+  {
+    "section": "Emergency Procedures in Case of Injury",
+    "question": "While working in confined space, one of the fellow operators becomes unconscious. What will you do?",
+    "options": [
+      "Enter the confined space and rescue him",
+      "Inject air using hose",
+      "Keep shouting his name till he recovers",
+      "Inform CO, wear SCBA and enter the confined space to rescue the operator with 1 standby man"
+    ],
+    "answer": "Inform CO, wear SCBA and enter the confined space to rescue the operator with 1 standby man"
+  }
 ];
