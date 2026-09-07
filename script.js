@@ -3839,6 +3839,7 @@ ${getHeroBanner()}
 
 function retakeExam() {
 
+}
 
 console.log("SCRIPT LOADED");
 
