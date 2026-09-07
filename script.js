@@ -3229,28 +3229,6 @@ currentExamType = "Random Exam";
 }
 
 
-// ======================
-// EXAM TEST INITIALIZER
-// ======================
-
-function startExamTest() {
-
-    currentModule = "TEST";
-    currentRole = "TEST";
-currentExamType = "Full Exam";
-    examTitle = "Exam Test";
-
-    currentQuestions = [...examTestQuestions];
-
-    currentQuestion = 0;
-
-    score = 0;
-
-    showQuestion();
-}
-
-
-
 
                                       // ======================
                                      // QUESTION ENGINE
@@ -3861,13 +3839,6 @@ ${getHeroBanner()}
 
 function retakeExam() {
 
-    if (
-        currentModule === "TEST"
-    ) {
-        startExamTest();
-    }
-
-}
 
 console.log("SCRIPT LOADED");
 
