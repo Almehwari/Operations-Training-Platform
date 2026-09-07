@@ -3,17 +3,771 @@
                     // ======================
 
 
+function getHeroBanner() {
+    const nickname = getSavedNickname();
+
+    if (!nickname) {
+        return `
+        <div class="hero-banner">
+
+            <h1>MTBE / METATHESIS TRAINING</h1>
+
+            <p class="subtitle">
+                Operations Training & Assessment Platform
+            </p>
+
+            <p class="version">
+                Version 5.0
+            </p>
+
+            <p class="developer">
+                Developed by FO.Abdullah Al-Mehwari
+            </p>
+
+        </div>
+        `;
+    }
+
+    return `
+    <div class="hero-banner">
+
+        <h1>MTBE / METATHESIS TRAINING</h1>
+
+        <p class="subtitle">
+            Operations Training & Assessment Platform
+        </p>
+
+        <p class="version">
+            Version 5.0
+        </p>
+
+        <p class="developer">
+            Developed by FO.Abdullah Al-Mehwari
+        </p>
+
+        <!-- USER PROFILE BUTTON + DROPDOWN -->
+        <div class="hero-user-wrapper">
+
+            <div class="hero-user-btn" onclick="toggleUserDropdown(event)">
+                <span class="hero-user-icon">👤</span>
+                <span class="hero-user-name">${nickname}</span>
+                <span class="hero-user-arrow" id="heroUserArrow">▼</span>
+            </div>
+
+            <div class="hero-user-dropdown" id="heroUserDropdown">
+
+                <div class="dropdown-item" onclick="showAnalytics()">
+                    📊 Analytics
+                </div>
+
+                <div class="dropdown-item" onclick="showMyProgress()">
+                    📈 My Progress
+                </div>
+
+                <div class="dropdown-item" onclick="switchUser()">
+                    🔄 Switch User
+                </div>
+
+                <div class="dropdown-divider"></div>
+
+                <div class="dropdown-admin-label">Admin</div>
+
+                <div class="dropdown-item" onclick="showUsersAnalytics()">
+                    👥 Users Analytics
+                </div>
+
+                <div class="dropdown-item" onclick="showAdminDashboard()">
+                    🛠️ Admin Dashboard
+                </div>
+
+                <div class="dropdown-divider"></div>
+
+                <div class="dropdown-item dropdown-item-danger" onclick="logout()">
+                    🚪 Logout
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    `;
+}
+
+function showLogin() {
+
+  document.getElementById("content").innerHTML = `
+
+${getHeroBanner()}
+
+    <div class="dashboard-cards">
+
+      <div class="module-card login-card login-card-gold">
+
+        <div class="login-card-header">
+          <div class="login-card-title">
+            🔐 Platform Access
+          </div>
+        </div>
+
+        <p class="login-label">
+          Username
+        </p>
+
+<input
+    id="Username"
+    type="text"
+    placeholder="Enter Username"
+    class="login-input"
+    value="${localStorage.getItem('lastUsername') || ''}"
+    autocomplete="username"
+>
+
+        <p class="login-label">
+          PIN
+        </p>
+
+<input
+    id="pin"
+    type="password"
+    placeholder="4-digit PIN"
+    class="login-input"
+    autocomplete="current-password"
+>
+
+        <button
+          id="login-btn"
+          class="login-button"
+        >
+          Enter Platform
+        </button>
+<div id="login-message" style="
+display:none;
+margin-top:12px;
+padding:12px;
+border-radius:12px;
+background:rgba(239,68,68,0.12);
+border:1px solid rgba(239,68,68,0.25);
+color:#fca5a5;
+font-size:14px;
+font-weight:600;
+text-align:center;
+"></div>
+      </div>
+
+    </div>
+
+
+
+<div class="content-box new-user">
+<h3>🆕 For New User:</h3>
+    Choose a Special Username,
+    <strong>Example:</strong> Mehwari32 & Create a 4-digit PIN
+</div>
+
+
+<div class="content-box returning-user">
+ <h3>👤 For Returning User:</h3>
+    Enter your previous Username & PIN to Access your Training Progress.
+</div>
+
+
+<div class="content-box important-card">
+    <h3>⚠️ Important</h3>
+    <p>
+        Forgotten PINs cannot be recovered. They are required to access your Training Progress!
+    </p>
+
+  </div>
+
+  `;
+
+document.getElementById("login-btn")
+  .addEventListener("click", async () => {
+
+      const nickname =
+        document.getElementById("Username").value.trim();
+
+      const pin =
+        document.getElementById("pin").value.trim();
+
+      console.log("Login Button Clicked");
+
+      const profile =
+        await registerOrLogin(nickname, pin);
+localStorage.setItem("lastUsername", nickname);
+
+      if (profile) {
+          showHome();
+      }
+
+  });
+
+document.getElementById("pin")
+  .addEventListener("keydown", async (e) => {
+
+      if (e.key === "Enter") {
+
+          const nickname =
+            document.getElementById("Username").value.trim();
+
+          const pin =
+            document.getElementById("pin").value.trim();
+
+          const profile =
+            await registerOrLogin(nickname, pin);
+localStorage.setItem("lastUsername", nickname);
+          if (profile) {
+              showHome();
+          } else {
+              document.getElementById("login-message").style.display = "block";
+              document.getElementById("login-message").innerHTML = "❌ Incorrect Username or PIN";
+document.getElementById("login-message").style.opacity = "1";
+
+              setTimeout(() => {
+                  document.getElementById("login-message").style.display = "none";
+              }, 3000);
+
+          }
+
+      }
+
+  });
+
+}
+
+
+
+                    // ======================
+                    // USER DROPDOWN CONTROLS
+                    // ======================
+
+function toggleUserDropdown(event) {
+    if (event) event.stopPropagation();
+    const dropdown = document.getElementById('heroUserDropdown');
+    const arrow = document.getElementById('heroUserArrow');
+    if (!dropdown) return;
+    const isOpen = dropdown.classList.contains('dropdown-open');
+    if (isOpen) {
+        dropdown.classList.remove('dropdown-open');
+        if (arrow) arrow.classList.remove('arrow-rotated');
+    } else {
+        dropdown.classList.add('dropdown-open');
+        if (arrow) arrow.classList.add('arrow-rotated');
+    }
+}
+
+function closeUserDropdown() {
+    const dropdown = document.getElementById('heroUserDropdown');
+    const arrow = document.getElementById('heroUserArrow');
+    if (dropdown) dropdown.classList.remove('dropdown-open');
+    if (arrow) arrow.classList.remove('arrow-rotated');
+}
+document.addEventListener('click', function () {
+    closeUserDropdown();
+});
+
+// ======================
+// USER MENU PAGES
+// ======================
+
+
+
+// ======================
+// ANALYTICS & PROGRESS
+// ====================
+
+
+// ======================
+// MY PROGRESS
+// ======================
+
+async function showAnalytics() {
+    closeUserDropdown();
+const nickname = getSavedNickname();
+
+const results = await getUserExamResults(nickname);
+
+const totalExams = results.length;
+
+const averageScore = totalExams
+    ? Math.round(
+        results.reduce((sum, exam) =>
+            sum + exam.score_percentage, 0
+        ) / totalExams
+    )
+    : 0;
+
+const bestScore = totalExams
+    ? Math.max(
+        ...results.map(exam => exam.score_percentage)
+    )
+    : 0;
+
+const passRate = totalExams
+    ? Math.round(
+        (results.filter(exam =>
+            exam.score_percentage >= 80
+        ).length / totalExams) * 100
+    )
+    : 0;
+
+    document.getElementById("content").innerHTML = `
+    ${getHeroBanner()}
+
+    <div class="content-box">
+
+<h2 class="progress-title">📊 Analytics Dashboard</h2>
+
+        <div class="my-progress-grid">
+
+            <div class="kpi-card kpi-card-blue">
+
+                <div style="
+                display:flex;
+                align-items:center;
+                gap:8px;
+                font-weight:bold;
+                margin-bottom:4px;
+                ">
+
+<span>📚 Total Exams</span>
+<span>${totalExams}</span>
+                </div>
+
+                <div class="progress-bar">
+<div class="progress-fill progress-fill-blue"
+     style="width:${Math.min(totalExams * 10, 100)}%;">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="kpi-card kpi-card-green">
+
+                <div style="
+                display:flex;
+                align-items:center;
+                gap:8px;
+                font-weight:bold;
+                margin-bottom:4px;
+                ">
+
+<span>✅ Pass Rate</span>
+<span>${passRate}%</span>
+
+
+                </div>
+
+                <div class="progress-bar">
+<div class="progress-fill progress-fill-green"
+     style="width:${passRate}%;">
+                    </div>
+                </div>
+
+            </div>
+
+<div class="kpi-card kpi-card-purple">
+
+    <div style="
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:bold;
+    margin-bottom:4px;
+    ">
+
+        <span>🎯 Average Score</span>
+        <span>${averageScore}%</span>
+
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill progress-fill-purple"
+             style="width:${averageScore}%;">
+        </div>
+    </div>
+
+</div>
+
+            <div class="kpi-card kpi-card-gold">
+
+                <div style="
+                display:flex;
+                align-items:center;
+                gap:8px;
+                font-weight:bold;
+                margin-bottom:4px;
+                ">
+
+
+
+<span>🏆 Best Score</span>
+<span>${bestScore}%</span>
+
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill progress-fill-gold"
+                         style="width:${bestScore}%;">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="kpi-card kpi-card-blue">
+
+                <div style="
+                display:flex;
+                align-items:center;
+                gap:8px;
+                font-weight:bold;
+                margin-bottom:4px;
+                ">
+
+                    <span>📈 Improvement</span>
+                    <span>${bestScore - averageScore}%</span>
+
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill progress-fill-blue"
+                         style="width:${Math.max(bestScore - averageScore, 0)}%;">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    `;
+}
+
+
+async function showMyProgress() {
+    closeUserDropdown();
+
+    const nickname = getSavedNickname();
+
+    const results = await getUserExamResults(nickname);
+
+    const totalExams = results.length;
+
+    const averageScore = totalExams
+    ? Math.round(
+        results.reduce((sum, exam) =>
+            sum + exam.score_percentage, 0
+        ) / totalExams
+    )
+    : 0;
+
+    const bestScore = totalExams
+    ? Math.max(
+        ...results.map(exam => exam.score_percentage)
+    )
+    : 0;
+
+    const lastExam = totalExams
+    ? results[0]
+    : null;
+
+    const passRate = totalExams
+    ? Math.round(
+        (results.filter(exam =>
+            exam.score_percentage >= 80
+        ).length / totalExams) * 100
+    )
+    : 0;
+
+    const lastExamDate = lastExam
+    ? new Date(lastExam.created_at).toLocaleDateString()
+    : "No Exams";
+
+const moduleStats = {};
+
+results.forEach(exam => {
+if (!exam.module || exam.module === "EMPTY") {
+    return;
+}
+
+const moduleName = exam.module;
+    if (!moduleStats[moduleName]) {
+        moduleStats[moduleName] = 0;
+    }
+
+    moduleStats[moduleName]++;
+});
+
+const moduleStatsHtml = Object.entries(moduleStats)
+    .map(([module, count]) =>
+        `
+<div class="module-card">
+
+<div class="info-row">
+    <span>📚 ${module}</span>
+<strong>${count}</strong>
+</div>
+
+<div class="progress-bar">
+    <div class="progress-fill progress-fill-blue"
+         style="width:${Math.min(count * 25, 100)}%;">
+    </div>
+</div>
+
+        `
+    )
+    .join('');
+
+
+document.getElementById("content").innerHTML = `
+${getHeroBanner()}
+
+<div class="content-box">
+
+<button onclick="showHome()" class="back-home-btn">
+🏠 Main Dashboard
+</button>
+
+
+<h2 class="progress-title">
+📈 My Progress
+</h2>
+
+<div class="progress-title-line"></div>
+
+<div class="section-banner">
+📊 Performance Summary
+</div>
+
+<div class="my-progress-grid">
+
+
+<div class="kpi-card kpi-card-purple">
+
+<div style="
+display:flex;
+align-items:center;
+gap:8px;
+font-weight:bold;
+margin-bottom:2px;
+">
+
+<span>📚 Exams</span>
+
+<span>${totalExams}</span>
+
+</div>
+
+<div class="progress-bar">
+    <div class="progress-fill progress-fill-purple"
+         style="width:${Math.min(totalExams * 10, 100)}%;">
+    </div>
+</div>
+
+</div>
+
+
+
+
+<div class="kpi-card kpi-card-blue">
+
+<div style="
+display:flex;
+align-items:center;
+gap:8px;
+font-weight:bold;
+margin-bottom:2px;
+">
+
+<span>🎯 Average</span>
+
+<span>${averageScore}%</span>
+
+</div>
+
+<div class="progress-bar">
+    <div class="progress-fill progress-fill-blue"
+         style="width:${averageScore}%;">
+    </div>
+</div>
+
+</div>
+
+
+
+<div class="kpi-card kpi-card-gold">
+
+<div style="
+display:flex;
+align-items:center;
+gap:8px;
+font-weight:bold;
+margin-bottom:2px;
+">
+
+<span>🏆 Best</span>
+
+<span>${bestScore}%</span>
+
+</div>
+
+<div class="progress-bar">
+    <div class="progress-fill progress-fill-gold"
+         style="width:${bestScore}%;">
+    </div>
+</div>
+
+</div>
+
+
+
+<div class="kpi-card kpi-card-green">
+
+<div style="
+display:flex;
+align-items:center;
+gap:8px;
+font-weight:bold;
+margin-bottom:2px;
+">
+
+<span>✅ Pass</span>
+
+<span>${passRate}%</span>
+
+</div>
+
+<div class="progress-bar">
+    <div class="progress-fill progress-fill-green"
+         style="width:${passRate}%;">
+    </div>
+</div>
+
+</div>
+
+
+<div class="section-banner">
+🕒 Last Exam
+</div>
+
+<div class="last-exam-card last-exam-module">
+
+    <div class="info-row">
+        <span>📚 Module</span>
+        <strong>${lastExam?.module || '-'}</strong>
+    </div>
+
+</div>
+
+<div class="last-exam-card last-exam-role">
+    <div class="info-row">
+        <span>👤 Role</span>
+        <strong>${lastExam?.role || '-'}</strong>
+    </div>
+
+</div>
+
+<div class="last-exam-card last-exam-type">
+    <div class="info-row">
+        <span>📝 Type</span>
+        <strong>${lastExam?.exam_type || '-'}</strong>
+    </div>
+
+</div>
+
+
+
+<div class="last-exam-card last-exam-score-card">
+    <div class="info-row">
+        <span>🎯 Score</span>
+        <strong>${lastExam?.score_percentage || 0}%</strong>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill progress-fill-blue"
+             style="width:${lastExam?.score_percentage || 0}%;">
+        </div>
+    </div>
+
+</div>
+
+<div class="module-stats-grid">
+${moduleStatsHtml || '<p>No module data available</p>'}
+</div>
+
+        </div>
+    </div>
+    `;
+}
+
+function switchUser() {
+    closeUserDropdown();
+    logoutUser();
+    showLogin();
+}
+
+function logout() {
+    closeUserDropdown();
+    logoutUser();
+    showLogin();
+}
+
+                    // ======================
+                    // ADMIN PLACEHOLDERS
+                    // ======================
+
+function showUsersAnalytics() {
+    closeUserDropdown();
+    document.getElementById("content").innerHTML = `
+    <div class="content-box" style="max-width:640px;margin:0 auto;">
+        <button onclick="showHome()">🏠 Main Dashboard</button>
+        <h2 style="text-align:center;margin-top:25px;">👥 Users Analytics</h2>
+        <p style="text-align:center;color:#94a3b8;margin-bottom:20px;">
+            Admin-only user analytics will appear here.
+        </p>
+        <div style="background:#0f172a;padding:30px;border-radius:14px;border:1px solid #334155;text-align:center;">
+            <p style="color:#64748b;margin:0;">Admin feature — coming soon</p>
+        </div>
+    </div>
+    `;
+}
+
+function showAdminDashboard() {
+    closeUserDropdown();
+    document.getElementById("content").innerHTML = `
+    <div class="content-box" style="max-width:640px;margin:0 auto;">
+        <button onclick="showHome()">🏠 Main Dashboard</button>
+        <h2 style="text-align:center;margin-top:25px;">🛠️ Admin Dashboard</h2>
+        <p style="text-align:center;color:#94a3b8;margin-bottom:20px;">
+            The admin control panel will appear here.
+        </p>
+        <div style="background:#0f172a;padding:30px;border-radius:14px;border:1px solid #334155;text-align:center;">
+            <p style="color:#64748b;margin:0;">Admin feature — coming soon</p>
+        </div>
+    </div>
+    `;
+}
+
+
 function showHome() {
 
 
       document.getElementById("content").innerHTML = `
-      <div class="content-box">
 
-                              <!-- DASHBOARD HEADER -->
+${getHeroBanner()}
+
+
+
+<div class="content-box">
+
+<!-- DASHBOARD HEADER -->
+
 <div class="dashboard-header" style="
 text-align:center;
 margin-bottom:10px;
 ">
+
 
                               <!-- DASHBOARD TITLE BADGE -->
 
@@ -45,7 +799,7 @@ margin-bottom:20px;
 Train • Practice • Assess
 </p>
 
-<!-- DASHBOARD PAGE TITLE -->
+                              <!-- DASHBOARD PAGE TITLE -->
 
 <h2 class="dashboard-page-title" style="
 margin-bottom:4px;
@@ -53,7 +807,32 @@ margin-bottom:4px;
 Training Modules
 </h2>
 
-<!-- DASHBOARD PAGE SUBTITLE -->
+
+
+
+
+                              <!-- DASHBOARD Sing in PAGE -->
+
+<div id="welcome-banner" style="
+display:none;
+position:absolute;
+top:440px;
+left:50%;
+transform:translateX(-50%);
+width:320px;
+max-width:320px;
+text-align:center;
+padding:8px 12px;
+border-radius:12px;
+background:rgba(74,222,128,0.12);
+border:1px solid rgba(74,222,128,0.25);
+color:#4ade80;
+font-size:14px;
+font-weight:600;
+z-index:100;
+"></div>
+
+                              <!-- DASHBOARD PAGE SUBTITLE -->
 
 <p class="dashboard-page-subtitle"
 style="
@@ -70,12 +849,15 @@ letter-spacing:4px;
 ">
 FO • CO • SSV
 </p>
-                              <!-- DASHBOARD MODULE CARDS CONTAINER -->
+
+
+
+                                    <!-- DASHBOARD MODULE CARDS CONTAINER -->
 
 <div class="dashboard-cards">
 
 
-<!-- ================= MTBE CARD ================= -->
+                                    <!-- ================= MTBE CARD ================= -->
 
 <div
 class="module-card"
@@ -91,7 +873,7 @@ box-shadow:0 4px 12px rgba(0,0,0,0.25);
 transition:0.3s;
 ">
 
-    <!-- MTBE MODULE HEADER -->
+                                    <!-- MTBE MODULE HEADER -->
 
     <div style="
     padding-bottom:10px;
@@ -101,7 +883,7 @@ transition:0.3s;
     ">
 
 
-        <!-- MTBE MODULE TITLE -->
+                                    <!-- MTBE MODULE TITLE -->
 
         <div
 style="
@@ -114,7 +896,7 @@ letter-spacing:1px;
 
 </div>
 
-    <!-- MTBE MODULE INFORMATION -->
+                                    <!-- MTBE MODULE INFORMATION -->
 
 <p
 style="
@@ -149,7 +931,7 @@ Enter Module
 
 </div>
 
-<!-- ================= METATHESIS CARD ================= -->
+                          <!-- ================= METATHESIS CARD ================= -->
 
 <div
 class="module-card"
@@ -165,7 +947,7 @@ box-shadow:0 4px 12px rgba(0,0,0,0.25);
 transition:0.3s;
 ">
 
-    <!-- METATHESIS MODULE HEADER -->
+                                    <!-- METATHESIS MODULE HEADER -->
 
 <div
 style="
@@ -176,7 +958,7 @@ text-align:center;
 ">
 
 
-        <!-- METATHESIS MODULE TITLE -->
+                                    <!-- METATHESIS MODULE TITLE -->
 
 <div
 style="
@@ -225,7 +1007,7 @@ Enter Module
 
 
 
-<!-- ============= SAFETY CARD ============== -->
+                                    <!-- ============= SAFETY CARD ============== -->
 
 
                                         <!-- SAFETY MODULE CARD -->
@@ -243,7 +1025,7 @@ box-shadow:0 4px 12px rgba(0,0,0,0.25);
 transition:0.3s;
 ">
 
-        <!-- SAFETY MODULE HEADER -->
+                                    <!-- SAFETY MODULE HEADER -->
 
 <div
 style="
@@ -253,7 +1035,7 @@ border-bottom:1px solid rgba(255,255,255,0.15);
 text-align:center;
 ">
 
-        <!-- SAFETY MODULE TITLE -->
+                                    <!-- SAFETY MODULE TITLE -->
 
 <div
 style="
@@ -266,7 +1048,7 @@ letter-spacing:1px;
 
 </div>
 
-        <!-- SAFETY MODULE INFORMATION -->
+                                    <!-- SAFETY MODULE INFORMATION -->
 
 <p
 style="
@@ -377,18 +1159,35 @@ Enter Module
 </div>
 
 <p class="dashboard-footer" style="
-font-size:12px;
+font-size:14px;
 letter-spacing:3px;
 opacity:0.45;
 text-align:center;
-margin-top:5px;
 color:#94a3b8;
 ">
 Knowledge • Safety • Performance
 </p>
 
-
 `;
+
+
+const welcomeBanner =
+document.getElementById("welcome-banner");
+
+if (welcomeBanner) {
+
+    welcomeBanner.innerHTML =
+    `Welcome Back, ${localStorage.getItem("nickname") || ""}`;
+
+    welcomeBanner.style.display = "block";
+
+    setTimeout(() => {
+
+        welcomeBanner.style.display = "none";
+
+    }, 3000);
+
+}
 
 }
 
@@ -398,6 +1197,8 @@ Knowledge • Safety • Performance
 function showMTBERoles() {
 
     document.getElementById("content").innerHTML = `
+${getHeroBanner()}
+
 <div class="content-box">
 
                                   <!-- NAVIGATION BUTTONS -->
@@ -536,6 +1337,8 @@ margin-bottom:30px;
 function showMetathesisRoles() {
 
     document.getElementById("content").innerHTML = `
+
+${getHeroBanner()}
 
     <div class="content-box">
 
@@ -691,6 +1494,8 @@ function showMTBEMenu() {
 
     document.getElementById("content").innerHTML = `
 
+${getHeroBanner()}
+
 <div class="content-box">
 
                               <!-- MTBE MENU NAVIGATION BUTTONS -->
@@ -801,6 +1606,8 @@ function showMetathesisMenu() {
 
     document.getElementById("content").innerHTML = `
 
+${getHeroBanner()}
+
 <div class="content-box">
 
                               <!-- METATHESIS MENU NAVIGATION BUTTONS -->
@@ -905,6 +1712,7 @@ function showMergeRoles() {
 
     document.getElementById("content").innerHTML = `
 
+${getHeroBanner()}
 
 <div class="content-box">
 
@@ -1053,6 +1861,8 @@ function setMergeRole(role) {
 function showMergeMenu() {
 
     document.getElementById("content").innerHTML = `
+
+${getHeroBanner()}
 
 <div class="content-box">
 
@@ -1257,7 +2067,8 @@ function getMergeQuestions() {
 let collapsedSections = {};
 let currentPage = "";
 let currentRole = "";
-
+let currentExamType = "";
+let currentModule = "";
 
                               /* ================= QUESTION BANK SECTION TOGGLE ================= */
 
@@ -1409,7 +2220,7 @@ ${isCollapsed ? '▶' : '▼'}
 
 `;
 
-   
+
 
 if (isCollapsed) {
     return;
@@ -1661,7 +2472,8 @@ cursor:pointer;
 margin:0;
 color:white;
 ">
-TEST
+${isCollapsed ? '▶' : '▼'}
+📂 ${sectionName}
 </h3>
 
 </div>
@@ -1787,6 +2599,8 @@ function showSafetyMenu() {
 
     document.getElementById("content").innerHTML = `
 
+${getHeroBanner()}
+
     <div class="content-box">
 
         <!-- BACK TO MAIN DASHBOARD BUTTON -->
@@ -1860,7 +2674,7 @@ function showSafetyMenu() {
 
 
 
-                                    <!-- SAFETY RANDOM EXAM CARD -->
+<!-- SAFETY RANDOM EXAM CARD -->
 
 <div
     class="training-card"
@@ -1868,16 +2682,37 @@ function showSafetyMenu() {
     style="background:#dc2626;"
 >
 
-                <div class="training-icon">🎲</div>
+    <div class="training-icon">🎲</div>
 
-                <div class="training-title">
-                    Random Exam
-                </div>
+    <div class="training-title">
+        Random Exam
+    </div>
 
-                <div class="training-description">
-                    Quick Practice
-                </div>
-            </div>
+    <div class="training-description">
+        Quick Practice
+    </div>
+
+</div>
+
+<!-- EXAM TEST CARD -->
+
+<div
+    class="training-card"
+    onclick="startExamTest()"
+    style="background:#2563eb;"
+>
+
+    <div class="training-icon">🧪</div>
+
+    <div class="training-title">
+        Exam Test
+    </div>
+
+    <div class="training-description">
+        4 Questions Test
+    </div>
+
+</div>
 
         </div>
 
@@ -2045,6 +2880,8 @@ function showMergeQuestionBank() {
     const MergeQuestions = getMergeQuestions();
 
     let html = `
+
+    ${getHeroBanner()}
 
     <div class="content-box">
 
@@ -2221,6 +3058,9 @@ let answerSubmitted = false;
 
 function startMTBE() {
 
+    currentModule = "MTBE";
+currentExamType = "Full Exam";
+
     examTitle = `MTBE ${currentRole}`;
 
     currentQuestions = getMTBEQuestions();
@@ -2239,6 +3079,8 @@ function startMTBE() {
 
 function startMetathesis() {
 
+    currentModule = "METATHESIS";
+currentExamType = "Full Exam";
     examTitle = `METATHESIS ${currentRole}`;
 
     currentQuestions = getMetathesisQuestions();
@@ -2251,12 +3093,15 @@ function startMetathesis() {
 }
 
 
+
                                       // ======================
                                      // SAFETY FULL EXAM INITIALIZER
                                     // ======================
 
 function startSafety() {
 
+    currentModule = "SAFETY";
+currentExamType = "Full Exam";
     examTitle = "Safety";
 
     currentQuestions = safetyQuestions;
@@ -2273,8 +3118,11 @@ function startSafety() {
                                      // MERGE FULL EXAM INITIALIZER
                                     // ======================
 
+
 function startMergeExam() {
 
+    currentModule = "MERGE";
+currentExamType = "Full Exam";
     examTitle = `Merge ${currentRole}`;
 
     currentQuestions = getMergeQuestions();
@@ -2287,13 +3135,16 @@ function startMergeExam() {
 }
 
 
+
                                       // ======================
                                      // MERGE RANDOM EXAM INITIALIZER
                                     // ======================
 
 function startRandomMergeExam() {
 
-    examTitle = `Merge ${currentRole}`;
+    currentModule = "MERGE";
+currentExamType = "Random Exam";
+    examTitle = "Merge " + currentRole;
 
     currentQuestions = [...getMergeQuestions()]
         .sort(() => Math.random() - 0.5)
@@ -2306,13 +3157,14 @@ function startRandomMergeExam() {
     showQuestion();
 }
 
-
                                       // ======================
                                      // MTBE RANDOM EXAM INITIALIZER
                                     // ======================
 
 function startRandomMTBEExam() {
 
+    currentModule = "MTBE";
+currentExamType = "Random Exam";
     examTitle = `MTBE ${currentRole}`;
 
     const allQuestions = [
@@ -2331,12 +3183,10 @@ function startRandomMTBEExam() {
 }
 
 
-                                      // ======================
-                                     // METATHESIS RANDOM EXAM INITIALIZER
-                                    // ======================
-
 function startRandomMETATHESISExam() {
 
+    currentModule = "METATHESIS";
+currentExamType = "Random Exam";
     examTitle = `METATHESIS ${currentRole}`;
 
     const allQuestions = [
@@ -2353,14 +3203,14 @@ function startRandomMETATHESISExam() {
 
     showQuestion();
 }
-
-
                                       // ======================
                                      // SAFETY RANDOM EXAM INITIALIZER
                                     // ======================
 
 function startRandomSAFETYExam() {
 
+    currentModule = "SAFETY";
+currentExamType = "Random Exam";
     examTitle = "Safety";
 
     const allQuestions = [
@@ -2379,6 +3229,25 @@ function startRandomSAFETYExam() {
 }
 
 
+// ======================
+// EXAM TEST INITIALIZER
+// ======================
+
+function startExamTest() {
+
+    currentModule = "TEST";
+    currentRole = "TEST";
+currentExamType = "Full Exam";
+    examTitle = "Exam Test";
+
+    currentQuestions = [...examTestQuestions];
+
+    currentQuestion = 0;
+
+    score = 0;
+
+    showQuestion();
+}
 
 
 
@@ -2387,16 +3256,14 @@ function startRandomSAFETYExam() {
                                      // QUESTION ENGINE
                                     // ======================
 
+
 function showQuestion() {
 
     // CURRENT QUESTION DATA
-
     const q = currentQuestions[currentQuestion];
     answerSubmitted = false;
 
-                                    
-                                    // EXAM COLOR THEME
-
+    // EXAM COLOR THEME
     let examColor = "#f5a623";
 
     if (examTitle.includes("MTBE")) {
@@ -2418,6 +3285,8 @@ function showQuestion() {
     let buttonColor = examColor;
 
     let html = `
+
+    ${getHeroBanner()}
 
     <div class="content-box">
 
@@ -2547,7 +3416,7 @@ margin-bottom:15px;
 </div>
 
 `;
-    
+
 q.options.forEach((option, i) => {
 
     html += `
@@ -2783,7 +3652,7 @@ function checkAnswer() {
     .querySelectorAll('input[name="answer"]')
     .forEach(r => r.disabled = true);
 
- 
+
                                     // DISABLE SUBMIT BUTTON
 
     document.getElementById("submitBtn").disabled = true;
@@ -2807,7 +3676,7 @@ function nextQuestion() {
         'input[name="answer"]:checked'
     );
 
-   
+
 
                                     // VALIDATE ANSWER SUBMISSION
 
@@ -2837,7 +3706,7 @@ if (!answerSubmitted) {
         return;
     }
 
-    
+
 
                                     // RENDER NEXT QUESTION
 
@@ -2851,22 +3720,47 @@ if (!answerSubmitted) {
 
 function finishExam() {
 
+    console.log("finishExam fired");
 
-
-                                    // CALCULATE EXAM SCORE
-
+    // CALCULATE EXAM SCORE
     const percent =
     Math.round(
         (score / currentQuestions.length) * 100
     );
 
-    
-
-                                    // DETERMINE PASS OR FAIL STATUS
-
+    // DETERMINE PASS OR FAIL STATUS
     const passed = percent >= 80;
 
+console.log(
+    "SAVE TEST",
+    localStorage.getItem("nickname"),
+    currentModule,
+    currentRole,
+    "Full Exam",
+    score,
+    currentQuestions.length,
+    percent
+);
+
+console.log(
+    "MODULE =", currentModule,
+    "ROLE =", currentRole
+);
+
+saveExamResult(
+    localStorage.getItem("nickname"),
+    currentModule,
+    currentRole,
+    "Full Exam",
+    score,
+    currentQuestions.length,
+    percent
+);
+
+
     document.getElementById("content").innerHTML = `
+
+${getHeroBanner()}
 
     <div class="content-box">
 
@@ -2886,7 +3780,7 @@ function finishExam() {
                 🎉 Exam Completed
             </h2>
 
-           
+
 
                                     <!-- EXAM TITLE -->
 
@@ -2955,9 +3849,9 @@ function finishExam() {
             🏠 Main Dashboard
         </button>
 
-        <button onclick="location.reload()">
-            🔄 Retake Exam
-        </button>
+<button onclick="retakeExam()">
+    🔄 Retake Exam
+</button>
 
     </div>
 
@@ -2965,6 +3859,55 @@ function finishExam() {
 }
 
 
+function retakeExam() {
+
+    if (
+        currentModule === "TEST"
+    ) {
+        startExamTest();
+    }
+
+}
+
 console.log("SCRIPT LOADED");
 
-showHome();
+
+function showWelcomeBack(profile) {
+
+    document.getElementById("content").innerHTML = `
+
+${getHeroBanner()}
+
+    <div class="content-box" style="text-align:center;">
+
+        <h2>👋 Welcome Back, ${profile.nickname}</h2>
+
+        <p>
+            Continue your training progress or switch to another user.
+        </p>
+
+        <button onclick="showHome()">
+            ✅ Continue
+        </button>
+
+        <button onclick="
+            logoutUser();
+            showLogin();
+        ">
+            🔄 Switch User
+        </button>
+
+    </div>
+
+    `;
+}
+
+autoLogin().then(profile => {
+
+    if (profile) {
+        showWelcomeBack(profile);
+    } else {
+        showLogin();
+    }
+
+});
