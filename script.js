@@ -133,6 +133,10 @@ ${getHeroBanner()}
     placeholder="6-digit PIN"
     class="login-input"
     autocomplete="current-password"
+    minlength="6"
+    maxlength="6"
+    inputmode="numeric"
+    pattern="[0-9]{6}"
 >
 
         <button
