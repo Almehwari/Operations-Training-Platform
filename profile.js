@@ -4,47 +4,14 @@
 
 const db = window.supabaseClient;
 
-async function createProfile(nickname, pin) {
-  if (await profileExists(nickname)) {
-    return { error: 'Nickname already exists' };
-  }
+async function getProfile() {
+  const { data: { user } } = await db.auth.getUser();
+  if (!user) return null;
 
-  return await db
-    .from('profiles')
-    .insert([
-      {
-        nickname: nickname,
-        pin_hash: pin
-      }
-    ]);
-}
-
-async function profileExists(nickname) {
-  const { data, error } = await db
-    .from('profiles')
-    .select('id')
-    .eq('nickname', nickname)
-    .limit(1);
-
-  return data.length > 0;
-}
-
-async function validateLogin(nickname, pin) {
   const { data } = await db
-    .from('profiles')
-    .select('id')
-    .eq('nickname', nickname)
-    .eq('pin_hash', pin)
-    .limit(1);
-
-  return data.length > 0;
-}
-
-async function getProfile(nickname) {
-  const { data } = await db
-    .from('profiles')
-    .select('*')
-    .eq('nickname', nickname)
+    .from("profiles")
+    .select("id, user_id, nickname, created_at, last_login")
+    .eq("user_id", user.id)
     .single();
 
   return data;
@@ -59,143 +26,164 @@ async function updateLastLogin(profileId) {
     .eq('id', profileId);
 }
 
-async function loginUser(nickname, pin) {
-  const isValid = await validateLogin(nickname, pin);
+async function registerOrLogin(nickname, pin) {
+  const username = nickname.trim().toLowerCase();
 
-  if (!isValid) {
+  if (!/^[a-z0-9_]+$/.test(username) || !/^\d{6}$/.test(pin)) {
     return false;
   }
 
-  const profile = await getProfile(nickname);
+  const email = `${username}@operations-training.example`;
 
-  await updateLastLogin(profile.id);
+  let { data, error } = await db.auth.signInWithPassword({
+    email: email,
+    password: pin
+  });
 
-  await rememberCurrentUser(profile);
+  if (error) {
+    const signup = await db.auth.signUp({
+      email: email,
+      password: pin
+    });
 
+    if (signup.error || !signup.data.user) {
+      return false;
+    }
+
+    data = signup.data;
+
+    const { error: profileError } = await db
+      .from("profiles")
+      .insert({
+        user_id: data.user.id,
+        nickname: username
+      });
+
+    if (profileError) {
+      await db.auth.signOut();
+      return false;
+    }
+  }
+
+  const { data: profile, error: profileError } = await db
+    .from("profiles")
+    .select("id, user_id, nickname, created_at, last_login")
+    .eq("user_id", data.user.id)
+    .single();
+
+  if (profileError || !profile) {
+    return false;
+  }
+
+  await db
+    .from("profiles")
+    .update({
+      last_login: new Date().toISOString()
+    })
+    .eq("user_id", data.user.id);
+
+  saveCurrentUser(profile.nickname);
   return profile;
 }
 
-async function registerOrLogin(nickname, pin) {
-  if (await profileExists(nickname)) {
-    return await loginUser(nickname, pin);
-  }
-
-
-await createProfile(nickname, pin);
-
-await rememberUser(nickname);
-
-const profile = await getProfile(nickname);
-
-return profile;
-
-}
-
 async function getCurrentUser() {
-  const nickname = localStorage.getItem('nickname');
-
-  if (!nickname) {
-    return null;
-  }
-
-  return await getProfile(nickname);
+  return await getProfile();
 }
 
 function saveCurrentUser(nickname) {
-  localStorage.setItem('nickname', nickname);
+  localStorage.setItem("nickname", nickname);
 }
 
-function logoutUser() {
-  localStorage.removeItem('nickname');
+async function logoutUser() {
+  await db.auth.signOut();
+  localStorage.removeItem("nickname");
 }
-
 
 function isLoggedIn() {
-  return !!localStorage.getItem('nickname');
+  return !!localStorage.getItem("nickname");
 }
-
 
 function getSavedNickname() {
-  return localStorage.getItem('nickname');
+  return localStorage.getItem("nickname");
 }
 
-
 async function autoLogin() {
-  const nickname = getSavedNickname();
+  const {
+    data: { session }
+  } = await db.auth.getSession();
 
-  if (!nickname) {
+  if (!session) {
     return null;
   }
 
-  return await getProfile(nickname);
+  return await getProfile();
 }
 
 async function rememberUser(nickname) {
   saveCurrentUser(nickname);
 }
 
-
-
 async function rememberCurrentUser(profile) {
-  await rememberUser(profile.nickname);
+  saveCurrentUser(profile.nickname);
 }
 
-autoLogin();
-
 autoLogin().then(profile => {
-
   if (!profile) return;
 
   if (typeof showHome === "function") {
-      showHome();
+    showHome();
   }
 
-  const banner =
-    document.getElementById("welcome-banner");
+  const banner = document.getElementById("welcome-banner");
 
   if (banner) {
-      banner.style.display = "block";
-      banner.innerHTML =
-      `👋 Welcome Back, ${profile.nickname}`;
+    banner.style.display = "block";
+    banner.innerHTML = `👋 Welcome Back, ${profile.nickname}`;
   }
-
 });
 
 async function saveExamResult(
-    nickname,
-    module,
-    role,
-    examType,
-    scoreValue,
-    totalQuestions,
-    percentage
+  nickname,
+  module,
+  role,
+  examType,
+  scoreValue,
+  totalQuestions,
+  percentage
 ) {
+  const { data: { user } } = await db.auth.getUser();
 
-    await db
-        .from("exam_results")
-        .insert([
-            {
-                nickname: nickname,
-                module: module,
-                role: role,
-                exam_type: examType,
-                score: scoreValue,
-                total_questions: totalQuestions,
-                correct_answers: scoreValue,
-                score_percentage: percentage
-            }
-        ]);
+  if (!user) return false;
 
+  const { error } = await db
+    .from("exam_results")
+    .insert({
+      user_id: user.id,
+      nickname: nickname,
+      module: module,
+      role: role,
+      exam_type: examType,
+      score: scoreValue,
+      total_questions: totalQuestions,
+      correct_answers: scoreValue,
+      score_percentage: percentage
+    });
+
+  return !error;
 }
 
-async function getUserExamResults(nickname) {
-    const { data } = await db
-        .from("exam_results")
-        .select("*")
-        .eq("nickname", nickname)
-        .order("created_at", { ascending: false });
-console.log("MY PROGRESS USER =", nickname);
-console.log("MY PROGRESS RESULTS =", data);
+async function getUserExamResults() {
+  const { data: { user } } = await db.auth.getUser();
 
-    return data || [];
+  if (!user) return [];
+
+  const { data, error } = await db
+    .from("exam_results")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) return [];
+
+  return data || [];
 }
