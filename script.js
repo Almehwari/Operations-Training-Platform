@@ -130,7 +130,7 @@ ${getHeroBanner()}
 <input
     id="pin"
     type="password"
-    placeholder="4-digit PIN"
+    placeholder="6-digit PIN"
     class="login-input"
     autocomplete="current-password"
 >
@@ -162,7 +162,7 @@ text-align:center;
 <div class="content-box new-user">
 <h3>🆕 For New User:</h3>
     Choose a Special Username,
-    <strong>Example:</strong> Mehwari32 & Create a 4-digit PIN
+    <strong>Example:</strong> Mehwari32 & Create a 6-digit PIN
 </div>
 
 
