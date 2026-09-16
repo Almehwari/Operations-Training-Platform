@@ -68,19 +68,30 @@ function getHeroBanner() {
                     🔄 Switch User
                 </div>
 
-                <div class="dropdown-divider"></div>
 
-                <div class="dropdown-admin-label">Admin</div>
+${
+    window.currentUserIsAdmin === true
+        ? `
+            <div class="dropdown-divider"></div>
 
-                <div class="dropdown-item" onclick="showUsersAnalytics()">
-                    👥 Users Analytics
-                </div>
+            <div class="dropdown-admin-label">
+                Admin
+            </div>
 
-                <div class="dropdown-item" onclick="showAdminDashboard()">
-                    🛠️ Admin Dashboard
-                </div>
+            <div class="dropdown-item" onclick="showUsersAnalytics()">
+                👥 Users Analytics
+            </div>
 
-                <div class="dropdown-divider"></div>
+            <div class="dropdown-item" onclick="showAdminDashboard()">
+                🛠️ Admin Dashboard
+            </div>
+
+            <div class="dropdown-divider"></div>
+        `
+        : ''
+}
+
+
 
                 <div class="dropdown-item dropdown-item-danger" onclick="logout()">
                     🚪 Logout
@@ -721,38 +732,805 @@ function logout() {
                     // ADMIN PLACEHOLDERS
                     // ======================
 
-function showUsersAnalytics() {
+async function showUsersAnalytics() {
+
     closeUserDropdown();
-    document.getElementById("content").innerHTML = `
-    <div class="content-box" style="max-width:640px;margin:0 auto;">
-        <button onclick="showHome()">🏠 Main Dashboard</button>
-        <h2 style="text-align:center;margin-top:25px;">👥 Users Analytics</h2>
-        <p style="text-align:center;color:#94a3b8;margin-bottom:20px;">
-            Admin-only user analytics will appear here.
-        </p>
-        <div style="background:#0f172a;padding:30px;border-radius:14px;border:1px solid #334155;text-align:center;">
-            <p style="color:#64748b;margin:0;">Admin feature — coming soon</p>
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+        ${getHeroBanner()}
+
+        <div class="content-box">
+
+            <button onclick="showHome()">
+                🏠 Main Dashboard
+            </button>
+
+            <h2 style="
+                text-align:center;
+                margin-top:25px;
+                margin-bottom:10px;
+            ">
+                👥 Users Analytics
+            </h2>
+
+            <p style="
+                text-align:center;
+                color:#94a3b8;
+                margin-bottom:25px;
+            ">
+                Loading Users Data...
+            </p>
+
         </div>
-    </div>
+    `;
+
+    const { data, error } =
+        await window.supabaseClient
+            .functions
+            .invoke(
+                "admin-users-analytics",
+                {
+                    body: {}
+                }
+            );
+
+    if (error || !data) {
+
+        console.error(
+            "Admin Analytics Error:",
+            error
+        );
+
+        content.innerHTML = `
+            ${getHeroBanner()}
+
+            <div class="content-box">
+
+                <button onclick="showHome()">
+                    🏠 Main Dashboard
+                </button>
+
+                <h2 style="text-align:center;">
+                    👥 Users Analytics
+                </h2>
+
+                <p style="
+                    text-align:center;
+                    color:#fca5a5;
+                    margin-top:30px;
+                    font-weight:bold;
+                ">
+                    ⛔ Admin Access Required
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    const users =
+        data.users || [];
+
+    let usersHtml = "";
+
+    users.forEach(user => {
+
+        const lastLogin =
+            user.last_login
+                ? new Date(
+                    user.last_login
+                ).toLocaleString()
+                : "No Login Data";
+
+        usersHtml += `
+
+            <div style="
+                background:#0f172a;
+                padding:18px;
+                margin-top:15px;
+                border-radius:12px;
+                border:1px solid #334155;
+            ">
+
+                <h3 style="
+                    margin:0 0 15px 0;
+                    color:#93c5fd;
+                ">
+                    👤 ${user.nickname}
+                </h3>
+
+                <p>
+                    <strong>
+                        📚 Total Exams:
+                    </strong>
+                    ${user.total_exams}
+                </p>
+
+                <p>
+                    <strong>
+                        🎯 Average Score:
+                    </strong>
+                    ${user.average_score}%
+                </p>
+
+                <p>
+                    <strong>
+                        🏆 Best Score:
+                    </strong>
+                    ${user.best_score}%
+                </p>
+
+                <p>
+                    <strong>
+                        ✅ Pass Rate:
+                    </strong>
+                    ${user.pass_rate}%
+                </p>
+
+                <p>
+                    <strong>
+                        🕒 Last Login:
+                    </strong>
+                    ${lastLogin}
+                </p>
+
+            </div>
+        `;
+    });
+
+    content.innerHTML = `
+        ${getHeroBanner()}
+
+        <div class="content-box">
+
+            <button onclick="showHome()">
+                🏠 Main Dashboard
+            </button>
+
+            <h2 style="
+                text-align:center;
+                margin-top:25px;
+                margin-bottom:8px;
+            ">
+                👥 Users Analytics
+            </h2>
+
+            <p style="
+                text-align:center;
+                color:#94a3b8;
+                margin-bottom:25px;
+            ">
+                Admin Dashboard
+            </p>
+
+            <div style="
+                background:#1e293b;
+                padding:15px;
+                border-radius:12px;
+                margin-bottom:20px;
+                border-left:4px solid #3b82f6;
+            ">
+
+                <strong>
+                    👥 Total Users:
+                </strong>
+
+                ${data.total_users}
+
+            </div>
+
+            ${
+                usersHtml ||
+                `
+                <p style="
+                    text-align:center;
+                    color:#94a3b8;
+                ">
+                    No users found.
+                </p>
+                `
+            }
+
+        </div>
     `;
 }
+
 
 function showAdminDashboard() {
     closeUserDropdown();
+
     document.getElementById("content").innerHTML = `
-    <div class="content-box" style="max-width:640px;margin:0 auto;">
-        <button onclick="showHome()">🏠 Main Dashboard</button>
-        <h2 style="text-align:center;margin-top:25px;">🛠️ Admin Dashboard</h2>
-        <p style="text-align:center;color:#94a3b8;margin-bottom:20px;">
-            The admin control panel will appear here.
-        </p>
-        <div style="background:#0f172a;padding:30px;border-radius:14px;border:1px solid #334155;text-align:center;">
-            <p style="color:#64748b;margin:0;">Admin feature — coming soon</p>
+        ${getHeroBanner()}
+
+        <div class="content-box">
+
+            <button onclick="showHome()">
+                🏠 Main Dashboard
+            </button>
+
+            <h2 style="
+                text-align:center;
+                margin-top:25px;
+                margin-bottom:10px;
+            ">
+                🛠️ Admin Dashboard
+            </h2>
+
+            <p style="
+                text-align:center;
+                color:#94a3b8;
+                margin-bottom:25px;
+            ">
+                Platform Administration
+            </p>
+
+            <div class="training-menu">
+
+                <!-- USERS ANALYTICS CARD -->
+
+                <div
+                    class="training-card"
+                    onclick="showUsersAnalytics()"
+                >
+                    <div class="training-icon">
+                        👥
+                    </div>
+
+                    <div class="training-title">
+                        Users Analytics
+                    </div>
+
+                    <div class="training-description">
+                        Users, Exams & Performance
+                    </div>
+                </div>
+
+                <!-- USER ROLES & PERMISSIONS CARD -->
+
+                <div
+                    class="training-card"
+                    onclick="showUserRolesPermissions()"
+                >
+                    <div class="training-icon">
+                        🔐
+                    </div>
+
+                    <div class="training-title">
+                        User Roles & Permissions
+                    </div>
+
+                    <div class="training-description">
+                        Manage Platform Access
+                    </div>
+                </div>
+
+            </div>
+
         </div>
-    </div>
     `;
 }
 
+
+function showUserRolesPermissions() {
+    closeUserDropdown();
+
+    document.getElementById("content").innerHTML = `
+        ${getHeroBanner()}
+
+        <div class="content-box">
+
+            <div class="mobile-nav-buttons">
+
+                <button onclick="showHome()">
+                    🏠 Main Dashboard
+                </button>
+
+                <button onclick="showAdminDashboard()">
+                    ↩️ Admin Dashboard
+                </button>
+
+            </div>
+
+            <h2 style="
+                text-align:center;
+                margin-top:25px;
+                margin-bottom:10px;
+            ">
+                🔐 User Roles & Permissions
+            </h2>
+
+            <p style="
+                text-align:center;
+                color:#94a3b8;
+                margin-bottom:25px;
+            ">
+                Manage Platform Access
+            </p>
+
+            <div class="training-menu">
+
+<div
+    class="training-card"
+    onclick="showAdminUsers()"
+>
+                    <div class="training-icon">
+                        👤
+                    </div>
+
+                    <div class="training-title">
+                        Users
+                    </div>
+
+                    <div class="training-description">
+                        View Registered Users
+                    </div>
+                </div>
+
+                <div
+    class="training-card"
+    onclick="showAdminPermissions()"
+>
+
+                    <div class="training-icon">
+                        🛡️
+                    </div>
+
+                    <div class="training-title">
+                        Permissions
+                    </div>
+
+                    <div class="training-description">
+                        Manage User Access
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+async function showAdminUsers() {
+    closeUserDropdown();
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+        ${getHeroBanner()}
+
+        <div class="content-box">
+
+            <div class="mobile-nav-buttons">
+
+                <button onclick="showHome()">
+                    🏠 Main Dashboard
+                </button>
+
+                <button onclick="showUserRolesPermissions()">
+                    ↩️ Roles & Permissions
+                </button>
+
+            </div>
+
+            <h2 style="
+                text-align:center;
+                margin-top:25px;
+                margin-bottom:10px;
+            ">
+                👤 Registered Users
+            </h2>
+
+            <p style="
+                text-align:center;
+                color:#94a3b8;
+                margin-bottom:25px;
+            ">
+                Loading Users...
+            </p>
+
+        </div>
+    `;
+
+    const { data, error } =
+        await window.supabaseClient
+            .functions
+            .invoke(
+                "admin-users-analytics",
+                {
+                    body: {}
+                }
+            );
+
+    if (error || !data) {
+        console.error(
+            "Admin Users Error:",
+            error
+        );
+
+        content.innerHTML = `
+            ${getHeroBanner()}
+
+            <div class="content-box">
+
+                <button onclick="showUserRolesPermissions()">
+                    ↩️ Roles & Permissions
+                </button>
+
+                <h2 style="text-align:center;">
+                    👤 Registered Users
+                </h2>
+
+                <p style="
+                    text-align:center;
+                    color:#fca5a5;
+                    margin-top:30px;
+                    font-weight:bold;
+                ">
+                    ⛔ Admin Access Required
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    const users =
+        data.users || [];
+
+    let usersHtml = "";
+
+    users.forEach(user => {
+
+        const lastLogin =
+            user.last_login
+                ? new Date(
+                    user.last_login
+                ).toLocaleString()
+                : "No Login Data";
+
+        usersHtml += `
+            <div style="
+                background:#0f172a;
+                padding:18px;
+                margin-top:15px;
+                border-radius:12px;
+                border:1px solid #334155;
+            ">
+
+                <h3 style="
+                    margin:0 0 15px 0;
+                    color:#93c5fd;
+                ">
+                    👤 ${user.nickname}
+                </h3>
+
+                <p>
+                    <strong>📚 Total Exams:</strong>
+                    ${user.total_exams}
+                </p>
+
+                <p>
+                    <strong>🎯 Average Score:</strong>
+                    ${user.average_score}%
+                </p>
+
+                <p>
+                    <strong>🏆 Best Score:</strong>
+                    ${user.best_score}%
+                </p>
+
+                <p>
+                    <strong>✅ Pass Rate:</strong>
+                    ${user.pass_rate}%
+                </p>
+
+                <p>
+                    <strong>🕒 Last Login:</strong>
+                    ${lastLogin}
+                </p>
+
+            </div>
+        `;
+    });
+
+    content.innerHTML = `
+        ${getHeroBanner()}
+
+        <div class="content-box">
+
+            <div class="mobile-nav-buttons">
+
+                <button onclick="showHome()">
+                    🏠 Main Dashboard
+                </button>
+
+                <button onclick="showUserRolesPermissions()">
+                    ↩️ Roles & Permissions
+                </button>
+
+            </div>
+
+            <h2 style="
+                text-align:center;
+                margin-top:25px;
+                margin-bottom:10px;
+            ">
+                👤 Registered Users
+            </h2>
+
+            <p style="
+                text-align:center;
+                color:#94a3b8;
+                margin-bottom:20px;
+            ">
+                Platform User Management
+            </p>
+
+            <div style="
+                background:#1e293b;
+                padding:15px;
+                border-radius:12px;
+                border-left:4px solid #3b82f6;
+                margin-bottom:20px;
+            ">
+                <strong>
+                    👥 Total Registered Users:
+                </strong>
+
+                ${data.total_users}
+            </div>
+
+            ${
+                usersHtml ||
+                `
+                <p style="
+                    text-align:center;
+                    color:#94a3b8;
+                ">
+                    No registered users found.
+                </p>
+                `
+            }
+
+        </div>
+    `;
+}
+
+async function showAdminPermissions() {
+    closeUserDropdown();
+
+    const content =
+        document.getElementById("content");
+
+    content.innerHTML = `
+        ${getHeroBanner()}
+
+        <div class="content-box">
+
+            <div class="mobile-nav-buttons">
+
+                <button onclick="showHome()">
+                    🏠 Main Dashboard
+                </button>
+
+                <button onclick="showUserRolesPermissions()">
+                    ↩️ Roles & Permissions
+                </button>
+
+            </div>
+
+            <h2 style="
+                text-align:center;
+                margin-top:25px;
+                margin-bottom:10px;
+            ">
+                🛡️ Permissions
+            </h2>
+
+            <p style="
+                text-align:center;
+                color:#94a3b8;
+                margin-bottom:25px;
+            ">
+                Loading User Permissions...
+            </p>
+
+        </div>
+    `;
+
+    const { data, error } =
+        await window.supabaseClient
+            .functions
+            .invoke(
+                "admin-users-analytics",
+                {
+                    body: {}
+                }
+            );
+
+    if (error || !data) {
+
+        console.error(
+            "Admin Permissions Error:",
+            error
+        );
+
+        content.innerHTML = `
+            ${getHeroBanner()}
+
+            <div class="content-box">
+
+                <button onclick="showUserRolesPermissions()">
+                    ↩️ Roles & Permissions
+                </button>
+
+                <h2 style="
+                    text-align:center;
+                    margin-top:25px;
+                ">
+                    🛡️ Permissions
+                </h2>
+
+                <p style="
+                    text-align:center;
+                    color:#fca5a5;
+                    margin-top:30px;
+                    font-weight:bold;
+                ">
+                    ⛔ Admin Access Required
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    const users =
+        data.users || [];
+
+    let usersHtml = "";
+
+    users.forEach(user => {
+
+        usersHtml += `
+            <div style="
+                background:#0f172a;
+                padding:18px;
+                margin-top:15px;
+                border-radius:12px;
+                border:1px solid #334155;
+            ">
+
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    justify-content:space-between;
+                    gap:15px;
+                    flex-wrap:wrap;
+                ">
+
+                    <div>
+
+                        <h3 style="
+                            margin:0 0 6px 0;
+                            color:#93c5fd;
+                        ">
+                            👤 ${user.nickname}
+                        </h3>
+
+                        <p style="
+                            margin:0;
+                            color:#94a3b8;
+                            font-size:13px;
+                        ">
+                            Platform User
+                        </p>
+
+                    </div>
+
+<div style="
+    padding:8px 14px;
+    border-radius:999px;
+    background:${
+        user.is_admin
+            ? 'rgba(168,85,247,0.15)'
+            : 'rgba(59,130,246,0.15)'
+    };
+    border:1px solid ${
+        user.is_admin
+            ? 'rgba(168,85,247,0.35)'
+            : 'rgba(59,130,246,0.35)'
+    };
+    color:${
+        user.is_admin
+            ? '#c4b5fd'
+            : '#93c5fd'
+    };
+    font-weight:bold;
+">
+    ${
+        user.is_admin
+            ? '🛡️ Administrator'
+            : '👤 Standard User'
+    }
+</div>
+
+</div>
+
+</div>
+`;
+});
+
+    content.innerHTML = `
+        ${getHeroBanner()}
+
+        <div class="content-box">
+
+            <div class="mobile-nav-buttons">
+
+                <button onclick="showHome()">
+                    🏠 Main Dashboard
+                </button>
+
+                <button onclick="showUserRolesPermissions()">
+                    ↩️ Roles & Permissions
+                </button>
+
+            </div>
+
+            <h2 style="
+                text-align:center;
+                margin-top:25px;
+                margin-bottom:10px;
+            ">
+                🛡️ Permissions
+            </h2>
+
+            <p style="
+                text-align:center;
+                color:#94a3b8;
+                margin-bottom:20px;
+            ">
+                Platform Access Management
+            </p>
+
+            <div style="
+                background:#1e293b;
+                padding:15px;
+                border-radius:12px;
+                border-left:4px solid #a855f7;
+                margin-bottom:20px;
+            ">
+                <strong>
+                    👥 Users:
+                </strong>
+
+                ${data.total_users}
+            </div>
+
+            ${
+                usersHtml ||
+                `
+                <p style="
+                    text-align:center;
+                    color:#94a3b8;
+                ">
+                    No registered users found.
+                </p>
+                `
+            }
+
+        </div>
+    `;
+}
 
 function showHome() {
 
@@ -1263,7 +2041,7 @@ margin-bottom:30px;
         color:#dbeafe;
         font-size:13px;
         ">
-            ${mtbeQuestionsFO.length} Questions
+            Question Bank Available
         </div>
 
             </div>
@@ -1293,7 +2071,7 @@ margin-bottom:30px;
     font-weight:bold;
     color:#bfdbfe;
     ">
-        ${mtbeQuestionsCO.length} Questions
+        Question Bank Available
     </div>
 
 </div>
@@ -1323,7 +2101,7 @@ margin-bottom:30px;
     font-weight:bold;
     color:#bfdbfe;
     ">
-        ${mtbeQuestionsSSV.length} Questions
+        Question Bank Available
     </div>
 
 </div>
@@ -1407,7 +2185,7 @@ font-weight:bold;
 color:#dcfce7;
 font-size:13px;
 ">
-    ${metathesisQuestionsFO.length} Questions
+    Question Bank Available
 </div>
 
 </div>
@@ -1439,7 +2217,7 @@ font-size:13px;
     color:#dcfce7;
     font-size:13px;
     ">
-        ${metathesisQuestionsCO.length} Questions
+        Question Bank Available
     </div>
 
 </div>
@@ -1471,7 +2249,7 @@ font-size:13px;
     color:#dcfce7;
     font-size:13px;
     ">
-        ${metathesisQuestionsSSV.length} Questions
+        Question Bank Available
     </div>
 
 </div>
@@ -1492,6 +2270,15 @@ function setMTBERole(role) {
 }
 
 
+/* =========================================
+   LEGACY QUESTION COUNT DISPLAY
+
+   Current question counts are calculated
+   from local backup question files.
+
+   Counts must be migrated to Supabase
+   before removing local question banks.
+========================================= */
 
 
 function showMTBEMenu() {
@@ -1778,7 +2565,7 @@ margin-bottom:30px;
         color:#ddd6fe;
         font-size:13px;
         ">
-            ${mtbeQuestionsFO.length + metathesisQuestionsFO.length + safetyQuestions.length} Questions
+            Question Bank Available
         </div>
 
     </div>
@@ -1811,7 +2598,7 @@ margin-bottom:30px;
     color:#ddd6fe;
     font-size:13px;
     ">
-        ${mtbeQuestionsCO.length + metathesisQuestionsCO.length + safetyQuestions.length} Questions
+        Question Bank Available
     </div>
 
 </div>
@@ -1842,7 +2629,7 @@ margin-bottom:30px;
     color:#ddd6fe;
     font-size:13px;
     ">
-        ${mtbeQuestionsSSV.length + metathesisQuestionsSSV.length + safetyQuestions.length} Questions
+        Question Bank Available
     </div>
 
 </div>
@@ -1983,6 +2770,12 @@ letter-spacing:0.5px;
 `;
 }
 
+/* =========================================
+   LEGACY QUESTION BANK SOURCE
+   Temporary local question arrays.
+   Must remain until Supabase Question Bank
+   migration is completed and validated.
+========================================= */
 
                               /* ================QUESTION DATA SOURCES======= */
 
@@ -1991,76 +2784,102 @@ letter-spacing:0.5px;
                               /* ========= MTBE QUESTION SOURCE ======== */
 
 
-function getMTBEQuestions() {
+async function getMTBEQuestions() {
 
-    if (currentRole === "CO") {
-        return mtbeQuestionsCO;
+    const { data, error } =
+        await window.supabaseClient
+            .functions
+            .invoke(
+                "question-bank",
+                {
+                    body: {
+                        plant: "MTBE",
+                        role: currentRole
+                    }
+                }
+            );
+
+    if (error) {
+        console.error(error);
+        return [];
     }
 
-    if (currentRole === "FO") {
-        return mtbeQuestionsFO;
-    }
-
-    if (currentRole === "SSV") {
-        return mtbeQuestionsSSV;
-    }
-
-    return [];
+    return data?.questions || [];
 }
-
 
                               /* ================= METATHESIS QUESTION SOURCE ================= */
 
-function getMetathesisQuestions() {
+async function getMetathesisQuestions() {
 
-    if (currentRole === "CO") {
-        return metathesisQuestionsCO;
+    const { data, error } =
+        await window.supabaseClient
+            .functions
+            .invoke(
+                "question-bank",
+                {
+                    body: {
+                        plant: "METATHESIS",
+                        role: currentRole
+                    }
+                }
+            );
+
+    if (error) {
+        console.error(error);
+        return [];
     }
 
-    if (currentRole === "FO") {
-        return metathesisQuestionsFO;
-    }
-
-    if (currentRole === "SSV") {
-        return metathesisQuestionsSSV;
-    }
-
-    return [];
+    return data?.questions || [];
 }
-
-
 
                               /* ================= MERGE QUESTION SOURCE ================= */
 
-function getMergeQuestions() {
+async function getMergeQuestions() {
 
-    if (currentRole === "FO") {
-        return [
-            ...mtbeQuestionsFO,
-            ...metathesisQuestionsFO,
-            ...safetyQuestions
-        ];
-    }
+    const { data: mtbeResult } =
+        await window.supabaseClient
+            .functions
+            .invoke(
+                "question-bank",
+                {
+                    body: {
+                        plant: "MTBE",
+                        role: currentRole
+                    }
+                }
+            );
 
-    if (currentRole === "CO") {
-        return [
-            ...mtbeQuestionsCO,
-            ...metathesisQuestionsCO,
-            ...safetyQuestions
-        ];
-    }
+    const { data: metaResult } =
+        await window.supabaseClient
+            .functions
+            .invoke(
+                "question-bank",
+                {
+                    body: {
+                        plant: "METATHESIS",
+                        role: currentRole
+                    }
+                }
+            );
 
-    if (currentRole === "SSV") {
-        return [
-            ...mtbeQuestionsSSV,
-            ...metathesisQuestionsSSV,
-            ...safetyQuestions
-        ];
-    }
+    const { data: safetyResult } =
+        await window.supabaseClient
+            .functions
+            .invoke(
+                "question-bank",
+                {
+                    body: {
+                        plant: "SAFETY"
+                    }
+                }
+            );
 
-    return [];
+    return [
+        ...(mtbeResult?.questions || []),
+        ...(metaResult?.questions || []),
+        ...(safetyResult?.questions || [])
+    ];
 }
-
 
                               /* ============================QUESTION BANK STATE MANAGEMENT==================== */
 
@@ -2101,11 +2920,11 @@ if (currentPage === "safety") {
 
 
 
-function showMTBE() {
+async function showMTBE() {
 
     currentPage = "mtbe";
 
-    const mtbeQuestions = getMTBEQuestions();
+    const mtbeQuestions = await getMTBEQuestions();
 
     let html = `
 
@@ -2335,11 +3154,11 @@ document.getElementById("content").innerHTML = html;
                                           // METATHESIS
                                          // ======================
 
-function showMeta() {
+async function showMeta() {
 
     currentPage = "meta";
 
-    const metathesisQuestions = getMetathesisQuestions();
+    const metathesisQuestions = await getMetathesisQuestions();
 
     let html = `
 
@@ -2592,7 +3411,29 @@ document.getElementById("content").innerHTML = html;
 }
 
 
+/* ================= SAFETY QUESTION SOURCE ================= */
 
+async function getSafetyQuestions() {
+
+    const { data, error } =
+        await window.supabaseClient
+            .functions
+            .invoke(
+                "question-bank",
+                {
+                    body: {
+                        plant: "SAFETY"
+                    }
+                }
+            );
+
+    if (error) {
+        console.error(error);
+        return [];
+    }
+
+    return data?.questions || [];
+}
 
                                       // ======================
                                      // SAFETY MENU
@@ -2632,7 +3473,7 @@ ${getHeroBanner()}
         font-size:14px;
         letter-spacing:0.5px;
         ">
-        ${safetyQuestions.length} Questions
+        Question Bank Available
         </p>
 
 
@@ -2680,12 +3521,13 @@ ${getHeroBanner()}
 
 <!-- SAFETY RANDOM EXAM CARD -->
 
+
+
 <div
     class="training-card"
     onclick="startRandomSAFETYExam()"
     style="background:#dc2626;"
 >
-
     <div class="training-icon">🎲</div>
 
     <div class="training-title">
@@ -2695,33 +3537,29 @@ ${getHeroBanner()}
     <div class="training-description">
         Quick Practice
     </div>
-
 </div>
 
-<!-- EXAM TEST CARD -->
+
+<!-- SAFETY TEST EXAM CARD -->
 
 <div
     class="training-card"
-    onclick="startExamTest()"
-    style="background:#2563eb;"
+    onclick="startSafetyTestExam()"
+    style="background:#dc2626;"
 >
-
     <div class="training-icon">🧪</div>
 
     <div class="training-title">
-        Exam Test
+        Test Exam
     </div>
 
     <div class="training-description">
-        4 Questions Test
+        2 Questions • System Test
     </div>
-
 </div>
 
         </div>
-
     </div>
-
     `;
 }
 
@@ -2732,9 +3570,11 @@ ${getHeroBanner()}
 
 
 
-function showSafety() {
+async function showSafety() {
 
     currentPage = "safety";
+
+    const safetyQuestions = await getSafetyQuestions();
 
     let html = `
 
@@ -2846,26 +3686,26 @@ safetyQuestions.forEach((q, index) => {
 
                                     <!-- SAFETY CORRECT ANSWER MARKER -->
 
-            ${i === q.correct ? ' ✅' : ''}
 
-            </p>
 
-        `;
+${(
+    (q.answer !== undefined && option === q.answer) ||
+    (q.correct !== undefined && i === q.correct)
+) ? ' ✅' : ''}
 
-    });
+</p>
 
-    html += `
+`;
+});
 
-        </div>
-
-    `;
+html += `
+    </div>
+`;
 
 });
 
 html += `
-
     </div>
-
 `;
 
 document.getElementById("content").innerHTML = html;
@@ -2873,15 +3713,16 @@ document.getElementById("content").innerHTML = html;
 
 
 
+
                                     // ======================
                                     // MERGE QUESTION BANK
                                     // ======================
 
-function showMergeQuestionBank() {
+async function showMergeQuestionBank() {
 
     currentPage = "Merge";
 
-    const MergeQuestions = getMergeQuestions();
+    const MergeQuestions = await getMergeQuestions();
 
     let html = `
 
@@ -3056,65 +3897,124 @@ let score = 0;
 let examTitle = "";
 let answerSubmitted = false;
 
+let currentExamSessionId = null;
+let currentExamQuestion = null;
+let currentExamTotalQuestions = 0;
+let currentExamUsesBackend = false;
+
+
+async function startBackendExam(
+    moduleName,
+    role,
+    examType
+) {
+    const client =
+        window.supabaseClient ||
+        window.supabase;
+
+    if (!client?.functions) {
+        showWarning(
+            "Unable to connect to Supabase ⚠️"
+        );
+        return;
+    }
+
+    const {
+        data,
+        error
+    } = await client.functions.invoke(
+        "start-exam",
+        {
+            body: {
+                module: moduleName,
+                role: role,
+                exam_type: examType
+            }
+        }
+    );
+
+    if (error || !data?.question) {
+        console.error(
+            "Start exam error:",
+            error
+        );
+
+        alert(
+            "Unable to start the exam. Please try again."
+        );
+
+        return;
+    }
+
+    currentModule = data.module;
+    currentRole = data.role;
+    currentExamType = data.exam_type;
+
+    currentExamSessionId =
+        data.session_id;
+
+    currentExamQuestion =
+        data.question;
+
+    currentExamTotalQuestions =
+        data.total_questions;
+
+    currentExamUsesBackend = true;
+
+    currentQuestions = [
+        data.question
+    ];
+
+    currentQuestion = 0;
+    score = 0;
+    answerSubmitted = false;
+
+    examTitle =
+        data.module === "SAFETY"
+            ? "Safety"
+            : data.module === "MERGE"
+            ? `Merge ${data.role}`
+            : `${data.module} ${data.role}`;
+
+    showQuestion();
+}
                                             // ======================
                                            // MTBE FULL EXAM INITIALIZER
                                           // ======================
 
-function startMTBE() {
 
-    currentModule = "MTBE";
-currentExamType = "Full Exam";
 
-    examTitle = `MTBE ${currentRole}`;
-
-    currentQuestions = getMTBEQuestions();
-
-    currentQuestion = 0;
-
-    score = 0;
-
-    showQuestion();
+async function startMTBE() {
+    await startBackendExam(
+        "MTBE",
+        currentRole,
+        "Full Exam"
+    );
 }
-
 
                                          // ======================
                                         // METATHESIS FULL EXAM INITIALIZER
                                        // ======================
 
-function startMetathesis() {
-
-    currentModule = "METATHESIS";
-currentExamType = "Full Exam";
-    examTitle = `METATHESIS ${currentRole}`;
-
-    currentQuestions = getMetathesisQuestions();
-
-    currentQuestion = 0;
-
-    score = 0;
-
-    showQuestion();
+async function startMetathesis() {
+    await startBackendExam(
+        "METATHESIS",
+        currentRole,
+        "Full Exam"
+    );
 }
-
 
 
                                       // ======================
                                      // SAFETY FULL EXAM INITIALIZER
                                     // ======================
 
-function startSafety() {
-
-    currentModule = "SAFETY";
-currentExamType = "Full Exam";
-    examTitle = "Safety";
-
-    currentQuestions = safetyQuestions;
-
-    currentQuestion = 0;
-
-    score = 0;
-
-    showQuestion();
+async function startSafety() {
+    await startBackendExam(
+        "SAFETY",
+        "ALL",
+        "Full Exam"
+    );
 }
 
 
@@ -3123,117 +4023,73 @@ currentExamType = "Full Exam";
                                     // ======================
 
 
-function startMergeExam() {
-
-    currentModule = "MERGE";
-currentExamType = "Full Exam";
-    examTitle = `Merge ${currentRole}`;
-
-    currentQuestions = getMergeQuestions();
-
-    currentQuestion = 0;
-
-    score = 0;
-
-    showQuestion();
+async function startMergeExam() {
+    await startBackendExam(
+        "MERGE",
+        currentRole,
+        "Full Exam"
+    );
 }
-
 
 
                                       // ======================
                                      // MERGE RANDOM EXAM INITIALIZER
                                     // ======================
 
-function startRandomMergeExam() {
-
-    currentModule = "MERGE";
-currentExamType = "Random Exam";
-    examTitle = "Merge " + currentRole;
-
-    currentQuestions = [...getMergeQuestions()]
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 40);
-
-    currentQuestion = 0;
-
-    score = 0;
-
-    showQuestion();
+async function startRandomMergeExam() {
+    await startBackendExam(
+        "MERGE",
+        currentRole,
+        "Random Exam"
+    );
 }
-
                                       // ======================
                                      // MTBE RANDOM EXAM INITIALIZER
                                     // ======================
 
-function startRandomMTBEExam() {
-
-    currentModule = "MTBE";
-currentExamType = "Random Exam";
-    examTitle = `MTBE ${currentRole}`;
-
-    const allQuestions = [
-        ...getMTBEQuestions(),
-    ];
-
-    currentQuestions = [...allQuestions]
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 40);
-
-    currentQuestion = 0;
-
-    score = 0;
-
-    showQuestion();
+async function startRandomMTBEExam() {
+    await startBackendExam(
+        "MTBE",
+        currentRole,
+        "Random Exam"
+    );
 }
 
+                                      // ======================
+                                     // METATHESIS RANDOM EXAM INITIALIZER
+                                    // ======================
 
-function startRandomMETATHESISExam() {
 
-    currentModule = "METATHESIS";
-currentExamType = "Random Exam";
-    examTitle = `METATHESIS ${currentRole}`;
 
-    const allQuestions = [
-        ...getMetathesisQuestions(),
-    ];
-
-    currentQuestions = [...allQuestions]
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 40);
-
-    currentQuestion = 0;
-
-    score = 0;
-
-    showQuestion();
+async function startRandomMETATHESISExam() {
+await startBackendExam(
+"METATHESIS",
+currentRole,
+"Random Exam"
+);
 }
                                       // ======================
                                      // SAFETY RANDOM EXAM INITIALIZER
                                     // ======================
 
-function startRandomSAFETYExam() {
 
-    currentModule = "SAFETY";
-currentExamType = "Random Exam";
-    examTitle = "Safety";
 
-    const allQuestions = [
-        ...safetyQuestions,
-    ];
-
-    currentQuestions = [...allQuestions]
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 40);
-
-    currentQuestion = 0;
-
-    score = 0;
-
-    showQuestion();
+async function startRandomSAFETYExam() {
+    await startBackendExam(
+        "SAFETY",
+        "ALL",
+        "Random Exam"
+    );
 }
 
 
-
+async function startSafetyTestExam() {
+    await startBackendExam(
+        "SAFETY",
+        "ALL",
+        "Test Exam"
+    );
+}
                                       // ======================
                                      // QUESTION ENGINE
                                     // ======================
@@ -3242,7 +4098,10 @@ currentExamType = "Random Exam";
 function showQuestion() {
 
     // CURRENT QUESTION DATA
-    const q = currentQuestions[currentQuestion];
+    const q = currentExamUsesBackend
+        ? currentExamQuestion
+        : currentQuestions[currentQuestion];
+
     answerSubmitted = false;
 
     // EXAM COLOR THEME
@@ -3277,26 +4136,29 @@ function showQuestion() {
 
 <div class="mobile-nav-buttons">
 
-<button onclick="showHome()">
-🏠 Main Dashboard
-</button>
+    <button onclick="showHome()">
+        🏠 Main Dashboard
+    </button>
 
-<button onclick="
-if (examTitle.includes('MTBE')) {
-    showMTBEMenu();
-}
-else if (examTitle.includes('METATHESIS')) {
-    showMetathesisMenu();
-}
-else if (examTitle.includes('Merge')) {
-    showMergeMenu();
-}
-else if (examTitle.includes('Safety')) {
-    showSafetyMenu();
-}
-">
-↩️ Back to Menu
-</button>
+    <button onclick="
+        if (currentModule === 'MTBE') {
+            showMTBEMenu();
+        }
+        else if (currentModule === 'METATHESIS') {
+            showMetathesisMenu();
+        }
+        else if (currentModule === 'MERGE') {
+            showMergeMenu();
+        }
+        else if (currentModule === 'SAFETY') {
+            showSafetyMenu();
+        }
+        else {
+            showHome();
+        }
+    ">
+        ↩️ Back to Menu
+    </button>
 
 </div>
 
@@ -3341,19 +4203,23 @@ max-width:760px;
 
                                     <!-- QUESTION ENGINE EXAM TYPE AND QUESTION COUNT -->
 
-    <p style="
-    margin:4px 0 0 0;
-    font-size:15px;
-    font-weight:bold;
-    ">
-    ${examTitle.includes('Random')
-    ? `Random Exam • ${currentQuestions.length} Questions`
-    : `Full Exam • ${currentQuestions.length} Questions`}
-    </p>
 
+
+<p style="
+margin:4px 0 0 0;
+font-size:15px;
+font-weight:bold;
+">
+${currentExamType} • ${
+    currentExamUsesBackend
+        ? currentExamTotalQuestions
+        : currentQuestions.length
+} Questions
+</p>
 
 
                                     <!-- QUESTION ENGINE PROGRESS INDICATOR -->
+
 
 <p style="
 margin:8px 0 0 0;
@@ -3361,9 +4227,16 @@ font-size:14px;
 font-weight:bold;
 color:#ffffff;
 ">
-Question ${currentQuestion + 1} of ${currentQuestions.length}
+Question ${
+    currentExamUsesBackend
+        ? currentQuestion + 1
+        : currentQuestion + 1
+} of ${
+    currentExamUsesBackend
+        ? currentExamTotalQuestions
+        : currentQuestions.length
+}
 </p>
-
 
                                     <!-- QUESTION ENGINE WARNING CONTAINER -->
 
@@ -3512,15 +4385,14 @@ function showWarning(message) {
                                      // ANSWER VALIDATION
                                     // ======================
 
-function checkAnswer() {
+async function checkAnswer() {
 
     const selected =
-    document.querySelector(
-        'input[name="answer"]:checked'
-    );
+        document.querySelector(
+            'input[name="answer"]:checked'
+        );
 
     if (!selected) {
-
         showWarning(
             "Please select an answer first ⚠️"
         );
@@ -3528,122 +4400,259 @@ function checkAnswer() {
         return;
     }
 
-    const chosen =
-    Number(selected.value);
+    const submitButton =
+        document.getElementById("submitBtn");
 
-    const q = currentQuestions[currentQuestion];
+    const nextButton =
+        document.getElementById("nextBtn");
 
-    const correct =
-    q.correct !== undefined
-    ? q.correct
-    : q.options.indexOf(q.answer);
-    answerSubmitted = true;
+    const resultBox =
+        document.getElementById("result");
 
-                                    
-                                    // CORRECT ANSWER HANDLER
+    const selectedIndex =
+        Number(selected.value);
 
-    if (chosen === correct) {
+    const question =
+        currentExamUsesBackend
+            ? currentExamQuestion
+            : currentQuestions[currentQuestion];
 
-        score++;
+    const selectedAnswer =
+        question.options[selectedIndex];
 
-        document.getElementById("result").innerHTML = `
+    if (
+        currentExamUsesBackend &&
+        currentExamSessionId
+    ) {
+        submitButton.disabled = true;
 
-                                    <!-- CORRECT ANSWER MESSAGE -->
+        const originalButtonText =
+            submitButton.innerHTML;
 
-        <div style="
-        margin-top:15px;
-        padding:12px;
-        border-radius:10px;
-        background:rgba(34,197,94,0.15);
-        border-left:4px solid #22c55e;
-        ">
+        submitButton.innerHTML =
+            "⏳ Checking...";
 
-            <p style="
-            color:#22c55e;
-            font-weight:bold;
-            font-size:20px;
-            margin:0;
-            ">
-                ✅ Correct Answer
-            </p>
+        const client =
+            window.supabaseClient ||
+            window.supabase;
 
-        </div>
+        if (!client?.functions) {
+            submitButton.disabled = false;
+            submitButton.innerHTML =
+                originalButtonText;
 
-        `;
+            showWarning(
+                "Unable to connect to Supabase ⚠️"
+            );
 
+            return;
+        }
 
+        const {
+            data,
+            error
+        } = await client.functions.invoke(
+            "exam-answer",
+            {
+                body: {
+                    session_id:
+                        currentExamSessionId,
 
-                                    // INCORRECT ANSWER HANDLER
+                    selected_answer:
+                        selectedAnswer
+                }
+            }
+        );
 
-    } else {
+        if (
+            error ||
+            typeof data?.correct !== "boolean"
+        ) {
+            console.error(
+                "Answer submission error:",
+                error
+            );
 
-        document.getElementById("result").innerHTML = `
+            submitButton.disabled = false;
+            submitButton.innerHTML =
+                originalButtonText;
 
-                                    <!-- INCORRECT ANSWER MESSAGE -->
+            showWarning(
+                "Unable to submit the answer ⚠️"
+            );
 
-        <div style="
-        margin-top:15px;
-        padding:12px;
-        border-radius:10px;
-        background:rgba(239,68,68,0.15);
-        border-left:4px solid #ef4444;
-        ">
+            return;
+        }
 
-            <p style="
-            color:#ef4444;
-            font-weight:bold;
-            font-size:20px;
-            margin:0;
-            ">
-                ❌ Incorrect Answer
-            </p>
+        answerSubmitted = true;
 
-        </div>
+        if (data.correct) {
+            score++;
 
-                                    <!-- CORRECT ANSWER DISPLAY -->
+            resultBox.innerHTML = `
+                <div style="
+                    margin-top:15px;
+                    padding:12px;
+                    border-radius:10px;
+                    background:rgba(34,197,94,0.15);
+                    border-left:4px solid #22c55e;
+                ">
 
-        <div style="
-        margin-top:10px;
-        padding:12px;
-        border-radius:10px;
-        background:rgba(34,197,94,0.15);
-        border-left:4px solid #22c55e;
-        ">
+                    <p style="
+                        color:#22c55e;
+                        font-weight:bold;
+                        font-size:20px;
+                        margin:0;
+                    ">
+                        ✅ Correct Answer
+                    </p>
 
-            <p style="
-            color:#22c55e;
-            font-weight:bold;
-            font-size:18px;
-            margin:0;
-            ">
-                ✅ Correct Answer:
-                ${currentQuestions[currentQuestion].options[correct]}
-            </p>
+                </div>
+            `;
+        } else {
+            resultBox.innerHTML = `
+                <div style="
+                    margin-top:15px;
+                    padding:12px;
+                    border-radius:10px;
+                    background:rgba(239,68,68,0.15);
+                    border-left:4px solid #ef4444;
+                ">
 
-        </div>
+                    <p style="
+                        color:#ef4444;
+                        font-weight:bold;
+                        font-size:20px;
+                        margin:0;
+                    ">
+                        ❌ Incorrect Answer
+                    </p>
 
-        `;
+                </div>
 
+                <div style="
+                    margin-top:10px;
+                    padding:12px;
+                    border-radius:10px;
+                    background:rgba(34,197,94,0.15);
+                    border-left:4px solid #22c55e;
+                ">
+
+                    <p style="
+                        color:#22c55e;
+                        font-weight:bold;
+                        font-size:18px;
+                        margin:0;
+                    ">
+                        ✅ Correct Answer:
+                        ${data.correct_answer}
+                    </p>
+
+                </div>
+            `;
+        }
+
+        document
+            .querySelectorAll(
+                'input[name="answer"]'
+            )
+            .forEach(
+                radio =>
+                    radio.disabled = true
+            );
+
+        submitButton.innerHTML =
+            "✅ Answer Submitted";
+
+        nextButton.disabled = false;
+
+        return;
     }
 
+    const correctIndex =
+        question.options.indexOf(
+            question.answer
+        );
 
+    answerSubmitted = true;
 
-                                    // DISABLE ANSWER OPTIONS
+    if (selectedIndex === correctIndex) {
+        score++;
+
+        resultBox.innerHTML = `
+            <div style="
+                margin-top:15px;
+                padding:12px;
+                border-radius:10px;
+                background:rgba(34,197,94,0.15);
+                border-left:4px solid #22c55e;
+            ">
+
+                <p style="
+                    color:#22c55e;
+                    font-weight:bold;
+                    font-size:20px;
+                    margin:0;
+                ">
+                    ✅ Correct Answer
+                </p>
+
+            </div>
+        `;
+    } else {
+        resultBox.innerHTML = `
+            <div style="
+                margin-top:15px;
+                padding:12px;
+                border-radius:10px;
+                background:rgba(239,68,68,0.15);
+                border-left:4px solid #ef4444;
+            ">
+
+                <p style="
+                    color:#ef4444;
+                    font-weight:bold;
+                    font-size:20px;
+                    margin:0;
+                ">
+                    ❌ Incorrect Answer
+                </p>
+
+            </div>
+
+            <div style="
+                margin-top:10px;
+                padding:12px;
+                border-radius:10px;
+                background:rgba(34,197,94,0.15);
+                border-left:4px solid #22c55e;
+            ">
+
+                <p style="
+                    color:#22c55e;
+                    font-weight:bold;
+                    font-size:18px;
+                    margin:0;
+                ">
+                    ✅ Correct Answer:
+                    ${question.answer}
+                </p>
+
+            </div>
+        `;
+    }
 
     document
-    .querySelectorAll('input[name="answer"]')
-    .forEach(r => r.disabled = true);
+        .querySelectorAll(
+            'input[name="answer"]'
+        )
+        .forEach(
+            radio =>
+                radio.disabled = true
+        );
 
-
-                                    // DISABLE SUBMIT BUTTON
-
-    document.getElementById("submitBtn").disabled = true;
-
-
-                                    // ENABLE NEXT QUESTION BUTTON
-
-    document.getElementById("nextBtn").disabled = false;
-
+    submitButton.disabled = true;
+    nextButton.disabled = false;
 }
 
 
@@ -3651,198 +4660,340 @@ function checkAnswer() {
                                      // NAVIGATION
                                     // ======================
 
-function nextQuestion() {
-
-    const selected =
-    document.querySelector(
-        'input[name="answer"]:checked'
-    );
 
 
+async function nextQuestion() {
 
-                                    // VALIDATE ANSWER SUBMISSION
-
-if (!answerSubmitted) {
-
-    showWarning(
-        "Please submit your answer first ⚠️"
-    );
-
-    return;
-}
-
-
-
-                                    // MOVE TO NEXT QUESTION
-
-    currentQuestion++;
-
-
-
-                                    // CHECK EXAM COMPLETION
-
-    if (currentQuestion >= currentQuestions.length) {
-
-        finishExam();
+    if (!answerSubmitted) {
+        showWarning(
+            "Please submit your answer first ⚠️"
+        );
 
         return;
     }
 
+    if (
+        currentExamUsesBackend &&
+        currentExamSessionId
+    ) {
+        const nextButton =
+            document.getElementById("nextBtn");
 
+        nextButton.disabled = true;
 
-                                    // RENDER NEXT QUESTION
+        const originalButtonText =
+            nextButton.innerHTML;
+
+        nextButton.innerHTML =
+            "⏳ Loading...";
+
+        const client =
+            window.supabaseClient ||
+            window.supabase;
+
+        if (!client?.functions) {
+            nextButton.disabled = false;
+            nextButton.innerHTML =
+                originalButtonText;
+
+            showWarning(
+                "Unable to connect to Supabase ⚠️"
+            );
+
+            return;
+        }
+
+        const {
+            data,
+            error
+        } = await client.functions.invoke(
+            "next-question",
+            {
+                body: {
+                    session_id:
+                        currentExamSessionId
+                }
+            }
+        );
+
+        if (error || !data) {
+            console.error(
+                "Next question error:",
+                error
+            );
+
+            nextButton.disabled = false;
+            nextButton.innerHTML =
+                originalButtonText;
+
+            showWarning(
+                "Unable to load the next question ⚠️"
+            );
+
+            return;
+        }
+
+        if (data.completed === true) {
+            score =
+                Number(data.score) || 0;
+
+            currentExamTotalQuestions =
+                Number(
+                    data.total_questions
+                ) || currentExamTotalQuestions;
+
+            currentQuestion =
+                currentExamTotalQuestions;
+
+            answerSubmitted = false;
+
+            finishExam();
+
+            return;
+        }
+
+        if (!data.question) {
+            nextButton.disabled = false;
+            nextButton.innerHTML =
+                originalButtonText;
+
+            showWarning(
+                "Question data is unavailable ⚠️"
+            );
+
+            return;
+        }
+
+        currentExamQuestion =
+            data.question;
+
+        currentQuestion =
+            Number(data.current_question) - 1;
+
+        currentExamTotalQuestions =
+            Number(data.total_questions);
+
+        currentQuestions = [
+            data.question
+        ];
+
+        answerSubmitted = false;
+
+        showQuestion();
+
+        return;
+    }
+
+    currentQuestion++;
+
+    if (
+        currentQuestion >=
+        currentQuestions.length
+    ) {
+        finishExam();
+        return;
+    }
 
     showQuestion();
 }
-
 
                                       // ======================
                                      // EXAM RESULTS
                                     // ======================
 
-function finishExam() {
+
+
+
+
+async function finishExam() {
 
     console.log("finishExam fired");
 
-    // CALCULATE EXAM SCORE
+    const totalQuestions =
+        currentExamUsesBackend
+            ? currentExamTotalQuestions
+            : currentQuestions.length;
+
+    if (
+        !Number.isInteger(totalQuestions) ||
+        totalQuestions <= 0
+    ) {
+        console.error(
+            "Invalid total questions:",
+            totalQuestions
+        );
+
+        alert(
+            "Unable to calculate the exam result."
+        );
+
+        return;
+    }
+
     const percent =
-    Math.round(
-        (score / currentQuestions.length) * 100
+        Math.round(
+            (score / totalQuestions) * 100
+        );
+
+    const passed =
+        percent >= 80;
+
+    console.log(
+        "SAVE TEST",
+        localStorage.getItem("nickname"),
+        currentModule,
+        currentRole,
+        currentExamType,
+        score,
+        totalQuestions,
+        percent
     );
 
-    // DETERMINE PASS OR FAIL STATUS
-    const passed = percent >= 80;
+    console.log(
+        "MODULE =",
+        currentModule,
+        "ROLE =",
+        currentRole,
+        "EXAM TYPE =",
+        currentExamType
+    );
 
-console.log(
-    "SAVE TEST",
-    localStorage.getItem("nickname"),
-    currentModule,
-    currentRole,
-    "Full Exam",
-    score,
-    currentQuestions.length,
-    percent
-);
+    try {
+        await saveExamResult(
+            localStorage.getItem("nickname"),
+            currentModule,
+            currentRole,
+            currentExamType,
+            score,
+            totalQuestions,
+            percent
+        );
+    } catch (error) {
+        console.error(
+            "Exam result saving error:",
+            error
+        );
+    }
 
-console.log(
-    "MODULE =", currentModule,
-    "ROLE =", currentRole
-);
+    document.getElementById(
+        "content"
+    ).innerHTML = `
 
-saveExamResult(
-    localStorage.getItem("nickname"),
-    currentModule,
-    currentRole,
-    "Full Exam",
-    score,
-    currentQuestions.length,
-    percent
-);
+        ${getHeroBanner()}
 
+        <div class="content-box">
 
-    document.getElementById("content").innerHTML = `
+            <!-- EXAM RESULTS HEADER -->
 
-${getHeroBanner()}
-
-    <div class="content-box">
-
-                                    <!-- EXAM RESULTS HEADER -->
-
-        <div style="
-        background:${passed ? '#166534' : '#991b1b'};
-        padding:15px 20px;
-        border-radius:12px;
-        margin-bottom:20px;
-        border-left:4px solid ${passed ? '#86efac' : '#fca5a5'};
-        ">
-
-                                    <!-- EXAM COMPLETION TITLE -->
-
-            <h2 style="margin:0 0 8px 0;">
-                🎉 Exam Completed
-            </h2>
-
-
-
-                                    <!-- EXAM TITLE -->
-
-            <p style="
-            margin:0 0 10px 0;
-            font-size:18px;
-            font-weight:bold;
+            <div style="
+                background:${
+                    passed
+                        ? "#166534"
+                        : "#991b1b"
+                };
+                padding:15px 20px;
+                border-radius:12px;
+                margin-bottom:20px;
+                border-left:4px solid ${
+                    passed
+                        ? "#86efac"
+                        : "#fca5a5"
+                };
             ">
-                ${examTitle}
-            </p>
 
-                                    <!-- EXAM STATUS -->
+                <h2 style="
+                    margin:0 0 8px 0;
+                ">
+                    🎉 Exam Completed
+                </h2>
 
-            <p style="margin:0;">
-                ${passed ? '✅ PASS' : '❌ FAIL'}
-            </p>
+                <p style="
+                    margin:0 0 10px 0;
+                    font-size:18px;
+                    font-weight:bold;
+                ">
+                    ${examTitle}
+                </p>
+
+                <p style="margin:0;">
+                    ${
+                        passed
+                            ? "✅ PASS"
+                            : "❌ FAIL"
+                    }
+                </p>
+
+            </div>
+
+            <!-- RESULTS SUMMARY CARD -->
+
+            <div style="
+                background:#0f172a;
+                padding:20px;
+                border-radius:12px;
+                border:1px solid #334155;
+            ">
+
+                <h3>
+                    📊 Results Summary
+                </h3>
+
+                <p>
+                    <strong>Exam Type:</strong>
+                    ${currentExamType}
+                </p>
+
+                <p>
+                    <strong>Score:</strong>
+                    ${score} / ${totalQuestions}
+                </p>
+
+                <p>
+                    <strong>Percentage:</strong>
+                    ${percent}%
+                </p>
+
+                <p style="
+                    font-size:20px;
+                    font-weight:bold;
+                    color:${
+                        passed
+                            ? "#86efac"
+                            : "#fca5a5"
+                    };
+                ">
+                    ${
+                        passed
+                            ? "🌟 Excellent Work!"
+                            : "💪 Keep Practicing and Try Again!"
+                    }
+                </p>
+
+            </div>
+
+            <br>
+
+            <!-- RESULTS PAGE ACTION BUTTONS -->
+
+            <button onclick="showHome()">
+                🏠 Main Dashboard
+            </button>
+
+            <button onclick="retakeExam()">
+                🔄 Retake Exam
+            </button>
 
         </div>
-
-                                    <!-- RESULTS SUMMARY CARD -->
-
-        <div style="
-        background:#0f172a;
-        padding:20px;
-        border-radius:12px;
-        border:1px solid #334155;
-        ">
-
-                                    <!-- RESULTS SUMMARY TITLE -->
-
-            <h3>📊 Results Summary</h3>
-
-                                    <!-- EXAM SCORE -->
-
-            <p>
-                <strong>Score:</strong>
-                ${score} / ${currentQuestions.length}
-            </p>
-
-                                    <!-- EXAM PERCENTAGE -->
-
-            <p>
-                <strong>Percentage:</strong>
-                ${percent}%
-            </p>
-
-                                    <!-- EXAM PERFORMANCE MESSAGE -->
-
-            <p style="
-            font-size:20px;
-            font-weight:bold;
-            color:${passed ? '#86efac' : '#fca5a5'};
-            ">
-                ${passed
-                    ? '🌟 Excellent Work!'
-                    : '💪 Keep Practicing and Try Again!'}
-            </p>
-
-        </div>
-
-        <br>
-
-                                    <!-- RESULTS PAGE ACTION BUTTONS -->
-
-        <button onclick="showHome()">
-            🏠 Main Dashboard
-        </button>
-
-<button onclick="retakeExam()">
-    🔄 Retake Exam
-</button>
-
-    </div>
-
     `;
 }
 
 
-function retakeExam() {
-
+async function retakeExam() {
+    await startBackendExam(
+        currentModule,
+        currentRole,
+        currentExamType
+    );
 }
 
 console.log("SCRIPT LOADED");
