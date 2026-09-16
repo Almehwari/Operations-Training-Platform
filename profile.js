@@ -153,35 +153,7 @@ autoLogin().then(profile => {
   }
 });
 
-async function saveExamResult(
-  nickname,
-  module,
-  role,
-  examType,
-  scoreValue,
-  totalQuestions,
-  percentage
-) {
-  const { data: { user } } = await db.auth.getUser();
 
-  if (!user) return false;
-
-  const { error } = await db
-    .from("exam_results")
-    .insert({
-      user_id: user.id,
-      nickname: nickname,
-      module: module,
-      role: role,
-      exam_type: examType,
-      score: scoreValue,
-      total_questions: totalQuestions,
-      correct_answers: scoreValue,
-      score_percentage: percentage
-    });
-
-  return !error;
-}
 
 async function getUserExamResults() {
   const { data: { user } } = await db.auth.getUser();
