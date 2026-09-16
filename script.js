@@ -4858,22 +4858,7 @@ async function finishExam() {
         currentExamType
     );
 
-    try {
-        await saveExamResult(
-            localStorage.getItem("nickname"),
-            currentModule,
-            currentRole,
-            currentExamType,
-            score,
-            totalQuestions,
-            percent
-        );
-    } catch (error) {
-        console.error(
-            "Exam result saving error:",
-            error
-        );
-    }
+
 
     document.getElementById(
         "content"
