@@ -10,11 +10,15 @@ async function getProfile() {
 
   const { data } = await db
     .from("profiles")
-    .select("id, user_id, nickname, created_at, last_login")
+    .select("id, user_id, nickname, created_at, last_login, is_admin")
     .eq("user_id", user.id)
     .single();
 
-  return data;
+  window.currentUserIsAdmin =
+    data?.is_admin === true;
+
+return data;
+
 }
 
 async function updateLastLogin(profileId) {
@@ -67,13 +71,17 @@ async function registerOrLogin(nickname, pin) {
 
   const { data: profile, error: profileError } = await db
     .from("profiles")
-    .select("id, user_id, nickname, created_at, last_login")
+    .select("id, user_id, nickname, created_at, last_login, is_admin")
     .eq("user_id", data.user.id)
     .single();
 
   if (profileError || !profile) {
     return false;
   }
+
+window.currentUserIsAdmin =
+    profile.is_admin === true;
+
 
   await db
     .from("profiles")
@@ -95,8 +103,11 @@ function saveCurrentUser(nickname) {
 }
 
 async function logoutUser() {
-  await db.auth.signOut();
-  localStorage.removeItem("nickname");
+    await db.auth.signOut();
+
+    window.currentUserIsAdmin = false;
+
+    localStorage.removeItem("nickname");
 }
 
 function isLoggedIn() {
