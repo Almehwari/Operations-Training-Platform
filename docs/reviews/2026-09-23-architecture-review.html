@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Architecture review for Operations Training Platform, 2026-09-23</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "neutral",
+        securityLevel: "loose",
+        flowchart: { nodeSpacing: 22, rankSpacing: 28, curve: "basis" },
+        sequence: { mirrorActors: false, messageMargin: 16, boxMargin: 4, actorMargin: 30 },
+      });
+    </script>
+    <style>
+      .seam { stroke-dasharray: 5 4; }
+      .leak { stroke: #dc2626; }
+      .deep { background: linear-gradient(135deg, #0f172a, #1e293b); }
+      .lbl { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+      .cell { background: #fff; border: 1px solid #cbd5e1; border-radius: 3px; padding: 2px 4px; word-break: break-all; line-height: 1.15; }
+      .cell.drift { border-color: #dc2626; background: #fef2f2; color: #991b1b; }
+      .cell.none { background: transparent; border: 1px dashed #e2e8f0; color: #cbd5e1; text-align: center; }
+      .dot { width: 38px; height: 38px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; }
+      pre.mermaid { background: transparent; margin: 0; display: flex; justify-content: center; }
+      .diagram { min-height: 320px; }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-slate-900 font-sans antialiased">
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-14">
+
+      <!-- ============================== HEADER ============================== -->
+      <header class="space-y-5">
+        <div class="lbl text-emerald-700">Architecture review</div>
+        <h1 class="font-serif text-4xl tracking-tight">Operations Training Platform</h1>
+        <p class="text-sm text-slate-600">
+          2026-09-23 &middot; <span class="font-mono">Almehwari/Operations-Training-Platform@8a40d39</span> (main, 2026-09-17), byte-identical to the local download
+          &middot; whole app, weighted to the exam engine
+        </p>
+
+        <div class="flex flex-wrap gap-2 text-xs">
+          <span class="rounded-full border border-stone-300 bg-white px-3 py-1">6,315 lines &middot; <span class="font-mono">script.js</span> 5,025</span>
+          <span class="rounded-full border border-stone-300 bg-white px-3 py-1">82 inline <span class="font-mono">onclick</span> strings</span>
+          <span class="rounded-full border border-stone-300 bg-white px-3 py-1">47 <span class="font-mono">innerHTML</span> writes</span>
+          <span class="rounded-full border border-stone-300 bg-white px-3 py-1">0 tests</span>
+          <span class="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-red-800">Hot spot: exam engine, +1,815/&minus;664 on 2026-09-17</span>
+          <span class="rounded-full border border-stone-300 bg-white px-3 py-1">69 commits, 2026-07-03 &rarr; 09-17</span>
+        </div>
+
+        <p class="text-xs text-slate-500 max-w-3xl">
+          <span class="font-semibold text-slate-700">Plant</span> = the code's <span class="font-mono">plant</span> / <span class="font-mono">module</span>
+          (MTBE, METATHESIS, SAFETY, MERGE). Below, &ldquo;module&rdquo; always means the architectural sense.
+          <span class="font-semibold text-slate-700">Role</span> = FO, CO, SSV (SAFETY sends <span class="font-mono">"ALL"</span>).
+          <span class="font-semibold text-slate-700">Exam type</span> = Full, Random, Test.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-6 text-xs text-slate-600 pt-1">
+          <span class="flex items-center gap-2"><span class="inline-block w-6 h-4 border border-slate-500 bg-white rounded-sm"></span>module</span>
+          <span class="flex items-center gap-2"><svg width="30" height="8"><line x1="0" y1="4" x2="30" y2="4" stroke="#0f172a" stroke-width="1.5" class="seam" /></svg>seam</span>
+          <span class="flex items-center gap-2"><svg width="30" height="10"><line x1="0" y1="5" x2="23" y2="5" stroke="#dc2626" stroke-width="1.5" /><path d="M23 1 L30 5 L23 9 Z" fill="#dc2626" /></svg>leakage</span>
+          <span class="flex items-center gap-2"><span class="inline-block w-6 h-4 deep border-2 border-slate-900 rounded-sm"></span>deep module</span>
+          <span class="flex items-center gap-2"><span class="inline-block w-6 h-4 rounded-sm border border-red-500 bg-red-50"></span>drifted copy / defect</span>
+        </div>
+
+        <nav class="flex flex-wrap gap-x-5 gap-y-1 text-sm pt-2">
+          <a class="hover:underline" href="#c1">C1 Exam session</a>
+          <a class="hover:underline" href="#c2">C2 Plant catalog</a>
+          <a class="hover:underline" href="#c3">C3 Identity</a>
+          <a class="hover:underline" href="#c4">C4 Question bank</a>
+          <a class="hover:underline" href="#c5">C5 Progress summary</a>
+          <a class="hover:underline" href="#c6">C6 Admin roster</a>
+          <a class="hover:underline" href="#c7">C7 Render module</a>
+          <a class="hover:underline" href="#findings">Findings F1&ndash;F22</a>
+          <a class="hover:underline font-semibold text-emerald-700" href="#top-recommendation">Top recommendation</a>
+        </nav>
+      </header>
+
+      <section id="candidates" class="space-y-12">
+
+        <!-- ============================== C1 ============================== -->
+        <article id="c1" class="rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden">
+          <div class="px-7 pt-6 pb-4 border-b border-stone-100">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="font-mono text-xs text-slate-400">C1</span>
+              <span class="rounded-full bg-emerald-100 text-emerald-800 px-2.5 py-0.5 text-xs font-semibold">Strong</span>
+              <span class="rounded-full border border-slate-300 text-slate-600 px-2.5 py-0.5 text-xs">ports &amp; adapters</span>
+            </div>
+            <h2 class="font-serif text-2xl">Deepen the Exam session</h2>
+            <ul class="mt-3 font-mono text-sm text-slate-600 space-y-0.5">
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:3894&ndash;3980 &middot; exam globals, startBackendExam</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:3987&ndash;4092 &middot; nine pass-through start* functions</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:4098&ndash;4338 &middot; showQuestion</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:4388&ndash;4656 &middot; checkAnswer</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:4665&ndash;4798 &middot; nextQuestion</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:4808&ndash;4982 &middot; finishExam, retakeExam</li>
+            </ul>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 p-6 bg-stone-50/70">
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">Before &middot; five functions, one flag, nine globals</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-3">
+                <pre class="mermaid">
+flowchart TB
+  GL[("9 mutable globals · backend flag read 9×")]
+  SB["startBackendExam ← 10 entry points"]
+  SQ["showQuestion · builds HTML"]
+  CA["checkAnswer · reads the DOM"]
+  NQ["nextQuestion"]
+  FE["finishExam · pass ≥ 80 on client"]
+  SE(["start-exam"])
+  EA(["exam-answer"])
+  NX(["next-question"])
+  SB --> SQ
+  SQ --> CA
+  CA --> NQ
+  NQ -- "next" --> SQ
+  NQ -- "done" --> FE
+  SB -.-> SE
+  CA -.-> EA
+  NQ -.-> NX
+  GL -.- SB
+  GL -.- SQ
+  GL -.- CA
+  GL -.- NQ
+  GL -.- FE
+  classDef fn fill:#ffffff,stroke:#475569,color:#0f172a
+  classDef ext fill:#f8fafc,stroke:#94a3b8,color:#475569,stroke-dasharray:4 3
+  classDef leak fill:#fef2f2,stroke:#dc2626,color:#991b1b,stroke-width:2px
+  class SB,SQ,CA,NQ,FE fn
+  class SE,EA,NX ext
+  class GL leak
+  linkStyle 8,9,10,11,12 stroke:#dc2626,stroke-width:1.5px
+                </pre>
+              </div>
+            </figure>
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">After &middot; one deep module behind a port</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-4 flex flex-col gap-2">
+                <div class="rounded border border-slate-300 px-3 py-2 text-center">
+                  <div class="lbl text-slate-500">Exam view</div>
+                  <div class="text-xs text-slate-600">renders the state it is handed</div>
+                </div>
+                <div class="text-center text-[10px] text-slate-400 leading-none">&#9650; next state &nbsp;&middot;&nbsp; &#9660; start &middot; answer &middot; advance</div>
+                <div class="deep rounded-md border-4 border-slate-900 text-white p-3 flex-1 flex flex-col justify-center">
+                  <div class="flex justify-center gap-1.5">
+                    <span class="rounded bg-emerald-400/20 text-emerald-200 px-2 py-0.5 text-xs">start</span>
+                    <span class="rounded bg-emerald-400/20 text-emerald-200 px-2 py-0.5 text-xs">answer</span>
+                    <span class="rounded bg-emerald-400/20 text-emerald-200 px-2 py-0.5 text-xs">advance</span>
+                  </div>
+                  <div class="lbl text-slate-300 text-center mt-2">Exam session</div>
+                  <div class="mt-2 grid grid-cols-3 gap-1 text-[10px] text-slate-400">
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1 text-center">attempt state</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1 text-center">progress</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1 text-center">in-flight guard</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1 text-center">protocol order</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1 text-center">error modes</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1 text-center">result + passed</div>
+                  </div>
+                </div>
+                <svg class="w-full" height="12"><line x1="0" y1="6" x2="100%" y2="6" stroke="#0f172a" stroke-width="1.5" class="seam" /></svg>
+                <div class="lbl text-slate-500 text-center -mt-1">port &middot; exam server</div>
+                <div class="grid grid-cols-2 gap-2">
+                  <div class="rounded border border-slate-300 bg-white p-2 text-center text-xs">Supabase Edge Functions<div class="lbl text-slate-400">production</div></div>
+                  <div class="rounded border border-slate-300 bg-white p-2 text-center text-xs">In-memory exam server<div class="lbl text-slate-400">tests</div></div>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div class="px-7 py-5 grid md:grid-cols-3 gap-6 text-sm">
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Problem</h3>
+              <p>An exam attempt is nine mutable globals shared by five DOM-writing functions. Three of them each own one leg of the start-exam / exam-answer / next-question protocol. Four of them re-check <span class="font-mono text-xs">currentExamUsesBackend</span>, which is never false once an exam starts, so about 100 lines are unreachable.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Solution</h3>
+              <p>Make the Exam session one deep module. It owns the attempt and the whole protocol behind a small interface (start, answer, advance) and returns the next state for a thin view to render. The Edge Functions sit behind a port.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Wins</h3>
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li>Locality: one protocol, one module</li>
+                <li>Leverage: ten entry points, one interface</li>
+                <li>Tests: in-memory exam server, no DOM</li>
+                <li>~100 unreachable lines deleted</li>
+                <li>In-flight guard written once</li>
+              </ul>
+            </div>
+          </div>
+          <div class="px-7 pb-5 text-xs text-slate-500">Two adapters make this a real seam: Edge Functions in production, an in-memory exam server in tests. First ES module and <span class="font-mono">node:test</span> in the repo. Resolves <a class="underline" href="#f11">F11</a>, <a class="underline" href="#f12">F12</a>, <a class="underline" href="#f13">F13</a>, <a class="underline" href="#f14">F14</a>, <a class="underline" href="#f15">F15</a>.</div>
+        </article>
+
+        <!-- ============================== C2 ============================== -->
+        <article id="c2" class="rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden">
+          <div class="px-7 pt-6 pb-4 border-b border-stone-100">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="font-mono text-xs text-slate-400">C2</span>
+              <span class="rounded-full bg-emerald-100 text-emerald-800 px-2.5 py-0.5 text-xs font-semibold">Strong</span>
+              <span class="rounded-full border border-slate-300 text-slate-600 px-2.5 py-0.5 text-xs">in-process</span>
+            </div>
+            <h2 class="font-serif text-2xl">Turn the per-Plant copies into one Plant catalog</h2>
+            <ul class="mt-3 font-mono text-sm text-slate-600 space-y-0.5">
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:1535&ndash;1974 &middot; showHome, four hand-written Plant cards</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:1979&ndash;2771 &middot; three role pickers, three role setters, three Plant menus</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:3442&ndash;3564 &middot; showSafetyMenu</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:3987&ndash;4092 &middot; nine start* functions</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:2898&ndash;2915, 4108&ndash;4124, 4143&ndash;4158 &middot; three dispatch ladders</li>
+            </ul>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 p-6 bg-stone-50/70">
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">Before &middot; 27 per-Plant functions + 4 cards + 3 ladders</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-3">
+                <table class="w-full font-mono text-[9px] border-separate" style="border-spacing:3px">
+                  <thead>
+                    <tr class="lbl text-slate-500"><th></th><th>MTBE</th><th>METATHESIS</th><th>MERGE</th><th>SAFETY</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><th class="lbl text-left text-slate-400 font-normal pr-1">home card</th><td class="cell">showHome &sect;1</td><td class="cell">showHome &sect;2</td><td class="cell">showHome &sect;4</td><td class="cell">showHome &sect;3</td></tr>
+                    <tr><th class="lbl text-left text-slate-400 font-normal pr-1">roles</th><td class="cell">showMTBERoles</td><td class="cell drift">showMetathesisRoles</td><td class="cell">showMergeRoles</td><td class="cell none">&mdash;</td></tr>
+                    <tr><th class="lbl text-left text-slate-400 font-normal pr-1">setter</th><td class="cell">setMTBERole</td><td class="cell">setMetathesisRole</td><td class="cell">setMergeRole</td><td class="cell none">&mdash;</td></tr>
+                    <tr><th class="lbl text-left text-slate-400 font-normal pr-1">menu</th><td class="cell">showMTBEMenu</td><td class="cell">showMetathesisMenu</td><td class="cell">showMergeMenu</td><td class="cell">showSafetyMenu</td></tr>
+                    <tr><th class="lbl text-left text-slate-400 font-normal pr-1">fetch</th><td class="cell">getMTBEQuestions</td><td class="cell">getMetathesisQuestions</td><td class="cell drift">getMergeQuestions</td><td class="cell">getSafetyQuestions</td></tr>
+                    <tr><th class="lbl text-left text-slate-400 font-normal pr-1">bank</th><td class="cell">showMTBE</td><td class="cell">showMeta</td><td class="cell drift">showMergeQuestionBank</td><td class="cell drift">showSafety</td></tr>
+                    <tr><th class="lbl text-left text-slate-400 font-normal pr-1">full</th><td class="cell">startMTBE</td><td class="cell">startMetathesis</td><td class="cell">startMergeExam</td><td class="cell">startSafety</td></tr>
+                    <tr><th class="lbl text-left text-slate-400 font-normal pr-1">random</th><td class="cell">startRandomMTBEExam</td><td class="cell">startRandomMETATHESISExam</td><td class="cell">startRandomMergeExam</td><td class="cell">startRandomSAFETYExam</td></tr>
+                    <tr><th class="lbl text-left text-slate-400 font-normal pr-1">test</th><td class="cell none">&mdash;</td><td class="cell none">&mdash;</td><td class="cell none">&mdash;</td><td class="cell">startSafetyTestExam</td></tr>
+                  </tbody>
+                </table>
+                <div class="mt-2 space-y-1 font-mono text-[10px] text-slate-700">
+                  <div class="border-l-2 border-red-500 pl-2">examTitle.includes(&hellip;) &rarr; colour <span class="text-slate-400">4108</span></div>
+                  <div class="border-l-2 border-red-500 pl-2">currentModule === &hellip; &rarr; back to menu <span class="text-slate-400">4143</span></div>
+                  <div class="border-l-2 border-red-500 pl-2">currentPage === "mtbe"|"meta"|"safety", no "Merge" &rarr; re-render <span class="text-slate-400">2898</span></div>
+                </div>
+              </div>
+            </figure>
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">After &middot; one table, one view each</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-4 flex flex-col gap-3">
+                <div class="deep rounded-md border-4 border-slate-900 text-white p-3">
+                  <div class="lbl text-slate-300 mb-2 text-center">Plant catalog</div>
+                  <table class="w-full text-[10px] text-slate-200">
+                    <thead><tr class="lbl text-slate-400 text-left"><th class="font-normal">Plant</th><th class="font-normal">roles</th><th class="font-normal">exam types</th><th class="font-normal">palette</th><th class="font-normal">made of</th></tr></thead>
+                    <tbody class="font-mono">
+                      <tr><td>MTBE</td><td>FO CO SSV</td><td>Full Random</td><td><span class="inline-block w-3 h-3 rounded-sm" style="background:#0d47a1"></span></td><td class="text-slate-500">&mdash;</td></tr>
+                      <tr><td>METATHESIS</td><td>FO CO SSV</td><td>Full Random</td><td><span class="inline-block w-3 h-3 rounded-sm" style="background:#2e7d32"></span></td><td class="text-slate-500">&mdash;</td></tr>
+                      <tr><td>SAFETY</td><td class="text-slate-500">none</td><td>Full Random Test</td><td><span class="inline-block w-3 h-3 rounded-sm" style="background:#dc2626"></span></td><td class="text-slate-500">&mdash;</td></tr>
+                      <tr><td>MERGE</td><td>FO CO SSV</td><td>Full Random</td><td><span class="inline-block w-3 h-3 rounded-sm" style="background:#5b21b6"></span></td><td>MTBE+META+SAFETY</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <svg class="w-full" height="22" viewBox="0 0 400 22" preserveAspectRatio="none"><path d="M200 0 L50 20 M200 0 L150 20 M200 0 L250 20 M200 0 L350 20" stroke="#64748b" stroke-width="1" fill="none" /></svg>
+                <div class="grid grid-cols-4 gap-2 text-center">
+                  <div class="rounded border border-slate-300 p-2"><div class="lbl text-slate-500">home card</div><div class="text-xs">&times;1</div></div>
+                  <div class="rounded border border-slate-300 p-2"><div class="lbl text-slate-500">role picker</div><div class="text-xs">&times;1</div></div>
+                  <div class="rounded border border-slate-300 p-2"><div class="lbl text-slate-500">Plant menu</div><div class="text-xs">&times;1</div></div>
+                  <div class="rounded border border-slate-300 p-2"><div class="lbl text-slate-500">bank view</div><div class="text-xs">&times;1 &middot; C4</div></div>
+                </div>
+                <div class="text-center text-[11px] text-slate-500">each parametrised by Plant &middot; &ldquo;start exam&rdquo; goes to the Exam session (<a class="underline" href="#c1">C1</a>)</div>
+              </div>
+            </figure>
+          </div>
+          <div class="px-7 py-5 grid md:grid-cols-3 gap-6 text-sm">
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Problem</h3>
+              <p>What a Plant is (its roles, its exam types, its colours, and the fact that MERGE is MTBE + METATHESIS + SAFETY) exists only as 27 per-Plant functions and three string-matching ladders. Adding a Plant takes about a dozen edits, and the copies have already drifted.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Solution</h3>
+              <p>Put every Plant fact in one Plant catalog. Render the home card, role picker, Plant menu and exam colours from it, with one view each, parametrised by Plant.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Wins</h3>
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li>Locality: a Plant is one row</li>
+                <li>New Plant: add a row</li>
+                <li>~900 lines of copies deleted</li>
+                <li>Names follow from the Plant key</li>
+                <li>Tests: catalog invariants, not screenshots</li>
+              </ul>
+            </div>
+          </div>
+          <div class="px-7 pb-5 text-xs text-slate-500">Deletion test: removing showMetathesisRoles, showMergeRoles and the two extra menus loses nothing that a catalog row can't hold, so they are pass-through copies. Resolves <a class="underline" href="#f16">F16</a>, <a class="underline" href="#f20">F20</a>; part of <a class="underline" href="#f19">F19</a>.</div>
+        </article>
+
+        <!-- ============================== C3 ============================== -->
+        <article id="c3" class="rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden">
+          <div class="px-7 pt-6 pb-4 border-b border-stone-100">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="font-mono text-xs text-slate-400">C3</span>
+              <span class="rounded-full bg-emerald-100 text-emerald-800 px-2.5 py-0.5 text-xs font-semibold">Strong</span>
+              <span class="rounded-full border border-slate-300 text-slate-600 px-2.5 py-0.5 text-xs">mock &middot; Supabase Auth is external</span>
+            </div>
+            <h2 class="font-serif text-2xl">One Identity module owns who is signed in</h2>
+            <ul class="mt-3 font-mono text-sm text-slate-600 space-y-0.5">
+              <li><a class="hover:underline" href="../../profile.js">profile.js</a>:1&ndash;172 &middot; auth, profile, bootstrap, results query</li>
+              <li><a class="hover:underline" href="../../supabase.js">supabase.js</a>:1&ndash;14</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:6&ndash;106 &middot; getHeroBanner reads localStorage + window.currentUserIsAdmin</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:108&ndash;252 &middot; showLogin, two diverged login handlers</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:719&ndash;729 &middot; switchUser, logout</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:1956&ndash;1972, 4987&ndash;5025 &middot; welcome banner, showWelcomeBack, second bootstrap</li>
+            </ul>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 p-6 bg-stone-50/70">
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">Before &middot; two bootstraps, un-awaited sign-out</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-3">
+                <pre class="mermaid">
+sequenceDiagram
+  participant P as profile.js
+  participant S as script.js
+  participant A as Supabase Auth
+  participant C as screen
+  P->>A: autoLogin()
+  S->>A: autoLogin() again
+  A-->>P: profile
+  P->>C: showHome + banner
+  A-->>S: profile
+  S->>C: showWelcomeBack, last writer wins
+  Note over S,C: on Logout or Switch User
+  S-)A: logoutUser(), not awaited
+  S->>C: showLogin reads stale nickname + admin flag
+                </pre>
+              </div>
+            </figure>
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">After &middot; one owner of identity</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-4 grid grid-cols-[1fr_1.6fr_auto_1fr] gap-3 items-center">
+                <div class="space-y-2">
+                  <div class="rounded border border-slate-300 p-1.5 text-center text-[11px]">hero banner</div>
+                  <div class="rounded border border-slate-300 p-1.5 text-center text-[11px]">login view</div>
+                  <div class="rounded border border-slate-300 p-1.5 text-center text-[11px]">progress views</div>
+                  <div class="rounded border border-slate-300 p-1.5 text-center text-[11px]">admin menu</div>
+                  <div class="lbl text-slate-400 text-center leading-tight">read identity,<br />never localStorage</div>
+                </div>
+                <div class="deep rounded-md border-4 border-slate-900 text-white p-3 h-full flex flex-col justify-center">
+                  <div class="flex flex-wrap justify-center gap-1">
+                    <span class="rounded bg-emerald-400/20 text-emerald-200 px-1.5 py-0.5 text-[11px]">who is signed in</span>
+                    <span class="rounded bg-emerald-400/20 text-emerald-200 px-1.5 py-0.5 text-[11px]">sign in</span>
+                    <span class="rounded bg-emerald-400/20 text-emerald-200 px-1.5 py-0.5 text-[11px]">sign out</span>
+                  </div>
+                  <div class="lbl text-slate-300 text-center mt-2">Identity</div>
+                  <div class="mt-2 space-y-1 text-[10px] text-slate-400">
+                    <div class="rounded border border-slate-600/60 px-1.5 py-0.5 text-center">bootstraps once</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-0.5 text-center">sign-out before re-render</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-0.5 text-center">admin flag from profile</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-0.5 text-center">nickname + PIN rules</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-0.5 text-center">local mirror = cache only</div>
+                  </div>
+                </div>
+                <svg width="10" height="260"><line x1="5" y1="0" x2="5" y2="260" stroke="#0f172a" stroke-width="1.5" class="seam" /></svg>
+                <div class="space-y-2">
+                  <div class="lbl text-slate-500 text-center">port &middot; auth</div>
+                  <div class="rounded border border-slate-300 p-2 text-center text-[11px]">supabase-js Auth + profiles<div class="lbl text-slate-400">production</div></div>
+                  <div class="rounded border border-slate-300 p-2 text-center text-[11px]">fake auth<div class="lbl text-slate-400">tests</div></div>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div class="px-7 py-5 grid md:grid-cols-3 gap-6 text-sm">
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Problem</h3>
+              <p>Who is signed in lives in four places: the Supabase session, the profiles row, localStorage <span class="font-mono text-xs">nickname</span>, and <span class="font-mono text-xs">window.currentUserIsAdmin</span>. Two racing bootstraps and an un-awaited logout write them at different times, so the header can show a user the session no longer has.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Solution</h3>
+              <p>Make one Identity module the only reader and writer of sign-in state. It bootstraps once, finishes sign-out before anything re-renders, and hands views one identity value derived from the session and profile.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Wins</h3>
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li>One bootstrap, one landing screen</li>
+                <li>Sign-out ordering lives in one place</li>
+                <li>localStorage demoted to a cache</li>
+                <li>Tests: fake auth adapter, no DOM</li>
+                <li>Five dead functions deleted</li>
+              </ul>
+            </div>
+          </div>
+          <div class="px-7 pb-5 text-xs text-slate-500">Resolves <a class="underline" href="#f6">F6</a>, <a class="underline" href="#f7">F7</a>, <a class="underline" href="#f8">F8</a>, <a class="underline" href="#f9">F9</a>, <a class="underline" href="#f10">F10</a>.</div>
+        </article>
+
+        <!-- ============================== C4 ============================== -->
+        <article id="c4" class="rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden">
+          <div class="px-7 pt-6 pb-4 border-b border-stone-100">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="font-mono text-xs text-slate-400">C4</span>
+              <span class="rounded-full bg-emerald-100 text-emerald-800 px-2.5 py-0.5 text-xs font-semibold">Strong</span>
+              <span class="rounded-full border border-slate-300 text-slate-600 px-2.5 py-0.5 text-xs">ports &amp; adapters</span>
+            </div>
+            <h2 class="font-serif text-2xl">Deepen the Question bank: load once, normalise, group</h2>
+            <ul class="mt-3 font-mono text-sm text-slate-600 space-y-0.5">
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:2787&ndash;2882, 3416&ndash;3436 &middot; four question fetchers</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:2890&ndash;2915 &middot; collapsedSections, currentPage, toggleSection</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:2923&ndash;3150 &middot; showMTBE</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:3157&ndash;3411 &middot; showMeta</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:3573&ndash;3712 &middot; showSafety</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:3721&ndash;3884 &middot; showMergeQuestionBank</li>
+            </ul>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 p-6 bg-stone-50/70">
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">Before &middot; what one section-toggle click passes through</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-3 space-y-1.5 text-xs">
+                <div class="h-10 border-l-4 border-red-500 bg-red-50 pl-3 flex items-center justify-between pr-2"><span class="font-mono text-[11px]">onclick="toggleSection('${sectionName}')"</span><span class="text-[10px] text-red-700">an apostrophe breaks it &middot; 3020</span></div>
+                <div class="h-10 border-l-4 border-slate-300 bg-stone-50 pl-3 flex items-center justify-between pr-2"><span><span class="font-mono text-[11px]">currentPage</span> ladder</span><span class="text-[10px] text-slate-500">no "Merge" branch &middot; 2898</span></div>
+                <div class="h-10 border-l-4 border-slate-300 bg-stone-50 pl-3 flex items-center justify-between pr-2"><span>whole page rebuilt by one of four copies</span><span class="text-[10px] text-slate-500">showMTBE / showMeta / &hellip;</span></div>
+                <div class="h-10 border-l-4 border-red-500 bg-red-50 pl-3 flex items-center justify-between pr-2"><span>question-bank Edge Function called again</span><span class="text-[10px] text-red-700">network on every click &middot; 2927</span></div>
+                <div class="h-10 border-l-4 border-red-500 bg-red-50 pl-3 flex items-center justify-between pr-2"><span>group by section, two copies</span><span class="text-[10px] text-red-700">throws if first has none &middot; 3003</span></div>
+                <div class="h-10 border-l-4 border-amber-400 bg-amber-50 pl-3 flex items-center justify-between pr-2"><span><span class="font-mono text-[11px]">answer</span> text or <span class="font-mono text-[11px]">correct</span> index?</span><span class="text-[10px] text-amber-800">re-derived &times;5</span></div>
+                <div class="h-10 border-l-4 border-slate-300 bg-stone-50 pl-3 flex items-center justify-between pr-2"><span>raw strings &rarr; innerHTML</span><span class="text-[10px] text-slate-500">see C7</span></div>
+              </div>
+            </figure>
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">After &middot; one thick band, one thin view</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-3 flex flex-col gap-2 text-xs">
+                <div class="h-12 border-l-4 border-slate-400 bg-stone-50 pl-3 flex items-center justify-between pr-2"><span>Bank view, parametrised by Plant</span><span class="text-[10px] text-slate-500">toggle = re-render from memory</span></div>
+                <div class="deep flex-1 rounded-md border-4 border-slate-900 text-white p-3 flex flex-col justify-center">
+                  <div class="lbl text-slate-300 mb-2">Question bank</div>
+                  <div class="grid grid-cols-2 gap-1 text-[10px] text-slate-400">
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1">loads once per Plant + Role</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1">MERGE from the catalog, concurrent</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1">one question shape, correct option resolved</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1">sections, incl. leading unsectioned</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1">failure is a value, not []</div>
+                    <div class="rounded border border-slate-600/60 px-1.5 py-1">collapse state per Plant</div>
+                  </div>
+                </div>
+                <svg class="w-full" height="12"><line x1="0" y1="6" x2="100%" y2="6" stroke="#0f172a" stroke-width="1.5" class="seam" /></svg>
+                <div class="grid grid-cols-2 gap-2 text-center">
+                  <div class="rounded border border-slate-300 p-1.5">question-bank Edge Function<div class="lbl text-slate-400">production</div></div>
+                  <div class="rounded border border-slate-300 p-1.5">question fixtures<div class="lbl text-slate-400">tests</div></div>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div class="px-7 py-5 grid md:grid-cols-3 gap-6 text-sm">
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Problem</h3>
+              <p>Four shallow fetchers wrap one question-bank call, and each bank view works out sections and the correct option from two answer formats. As a result, grouping throws when the first question has no section, only two Plants get sections at all, and every toggle refetches the whole bank.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Solution</h3>
+              <p>Make the Question bank one module. It loads a Plant's questions once (for MERGE, the three parts in parallel, taken from the Plant catalog), normalises them into sections of one question shape, and serves re-renders from memory.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Wins</h3>
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li>Two answer formats become one at the seam</li>
+                <li>Toggling re-renders without network</li>
+                <li>Sections for every Plant</li>
+                <li>Tests: fixture adapter covers edge cases</li>
+                <li>Four bank views become one</li>
+              </ul>
+            </div>
+          </div>
+          <div class="px-7 pb-5 text-xs text-slate-500">Resolves <a class="underline" href="#f17">F17</a>, <a class="underline" href="#f18">F18</a>, <a class="underline" href="#f19">F19</a>; part of <a class="underline" href="#f4">F4</a>.</div>
+        </article>
+
+        <!-- ============================== C5 ============================== -->
+        <article id="c5" class="rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden">
+          <div class="px-7 pt-6 pb-4 border-b border-stone-100">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="font-mono text-xs text-slate-400">C5</span>
+              <span class="rounded-full bg-amber-100 text-amber-800 px-2.5 py-0.5 text-xs font-semibold">Worth exploring</span>
+              <span class="rounded-full border border-slate-300 text-slate-600 px-2.5 py-0.5 text-xs">in-process</span>
+            </div>
+            <h2 class="font-serif text-2xl">One Progress summary; the server owns the pass mark</h2>
+            <ul class="mt-3 font-mono text-sm text-slate-600 space-y-0.5">
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:300&ndash;460 &middot; showAnalytics</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:463&ndash;717 &middot; showMyProgress</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:4833&ndash;4839 &middot; finishExam pass/fail</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:871, 1231 &middot; server-computed pass_rate (admin-users-analytics)</li>
+              <li><a class="hover:underline" href="../../profile.js">profile.js</a>:158&ndash;172 &middot; getUserExamResults</li>
+            </ul>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 p-6 bg-stone-50/70">
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">Before &middot; interface a test must supply vs. the logic it reaches</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-4 flex items-end justify-around gap-3">
+                <div class="flex flex-col items-center gap-1">
+                  <div class="flex items-end gap-1 h-[230px]">
+                    <div class="w-9 h-[210px] rounded-t border border-slate-500 bg-slate-100 flex items-center justify-center"><span class="lbl text-slate-500 -rotate-90 whitespace-nowrap">DOM + auth + fetch</span></div>
+                    <div class="w-9 h-[50px] rounded-t border border-red-500 bg-red-50 flex items-center justify-center"><span class="text-[9px] text-red-700 font-mono">&ge;80</span></div>
+                  </div>
+                  <div class="font-mono text-[10px]">showAnalytics</div>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                  <div class="flex items-end gap-1 h-[230px]">
+                    <div class="w-9 h-[210px] rounded-t border border-slate-500 bg-slate-100 flex items-center justify-center"><span class="lbl text-slate-500 -rotate-90 whitespace-nowrap">DOM + auth + fetch</span></div>
+                    <div class="w-9 h-[70px] rounded-t border border-red-500 bg-red-50 flex items-center justify-center"><span class="text-[9px] text-red-700 font-mono">&ge;80</span></div>
+                  </div>
+                  <div class="font-mono text-[10px]">showMyProgress</div>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                  <div class="flex items-end gap-1 h-[230px]">
+                    <div class="w-9 h-[180px] rounded-t border border-slate-500 bg-slate-100 flex items-center justify-center"><span class="lbl text-slate-500 -rotate-90 whitespace-nowrap">9 globals + DOM</span></div>
+                    <div class="w-9 h-[22px] rounded-t border border-red-500 bg-red-50 flex items-center justify-center"><span class="text-[9px] text-red-700 font-mono">&ge;80</span></div>
+                  </div>
+                  <div class="font-mono text-[10px]">finishExam</div>
+                </div>
+                <div class="flex flex-col items-center gap-1 opacity-70">
+                  <div class="flex items-end h-[230px]">
+                    <div class="w-16 h-[90px] rounded-t border border-dashed border-slate-400 flex items-center justify-center text-center"><span class="text-[9px] text-slate-500 px-1">pass_rate, rule unseen</span></div>
+                  </div>
+                  <div class="font-mono text-[10px]">server</div>
+                </div>
+              </div>
+              <div class="mt-1 flex gap-4 text-[10px] text-slate-500"><span>left bar = interface</span><span>right bar = implementation</span></div>
+            </figure>
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">After &middot; short interface, tall implementation</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-4 flex items-end justify-center gap-10">
+                <div class="flex flex-col items-center gap-1">
+                  <div class="flex items-end gap-1 h-[230px]">
+                    <div class="w-12 h-[36px] rounded-t border border-slate-500 bg-slate-100 flex items-center justify-center"><span class="text-[9px] text-slate-600 text-center leading-tight">results in</span></div>
+                    <div class="w-44 h-[220px] rounded-t deep border-4 border-slate-900 text-slate-300 text-[10px] p-2 flex flex-col justify-end gap-1">
+                      <div class="lbl text-slate-200">Progress summary</div>
+                      <div>average &middot; best</div>
+                      <div>pass rate from <span class="font-mono">passed</span></div>
+                      <div>count per Plant</div>
+                      <div>last exam</div>
+                      <div>junk rows filtered once</div>
+                      <div>improvement over time</div>
+                    </div>
+                  </div>
+                  <div class="font-mono text-[10px]">pure &middot; no DOM, no auth</div>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                  <div class="w-28 h-[80px] rounded border border-dashed border-slate-500 flex items-center justify-center text-center text-[10px] text-slate-600 p-2"><p>server records <span class="font-mono">passed</span> on each exam result</p></div>
+                  <div class="lbl text-slate-400">single pass mark</div>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div class="px-7 py-5 grid md:grid-cols-3 gap-6 text-sm">
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Problem</h3>
+              <p>Average, best, pass rate and the 80% pass mark are recomputed inside two render functions and <span class="font-mono text-xs">finishExam</span>, and admin-users-analytics computes its own pass rate on the server. That gives two definitions, and a trainee and an admin can see them disagree.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Solution</h3>
+              <p>Summarise a trainee's results in one pure Progress summary, and have the server record <span class="font-mono text-xs">passed</span> on each exam result so the pass mark lives in one place.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Wins</h3>
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li>One pass mark, owned by the server</li>
+                <li>Pure function: arrays in, summary out</li>
+                <li>Views shrink to layout</li>
+                <li>Improvement gets a real definition</li>
+              </ul>
+            </div>
+          </div>
+          <div class="px-7 pb-5 text-xs text-slate-500">Resolves <a class="underline" href="#f14">F14</a>, <a class="underline" href="#f21">F21</a>. Cheap, but the pass mark only gets one owner once the server change lands.</div>
+        </article>
+
+        <!-- ============================== C6 ============================== -->
+        <article id="c6" class="rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden">
+          <div class="px-7 pt-6 pb-4 border-b border-stone-100">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="font-mono text-xs text-slate-400">C6</span>
+              <span class="rounded-full bg-amber-100 text-amber-800 px-2.5 py-0.5 text-xs font-semibold">Worth exploring</span>
+              <span class="rounded-full border border-slate-300 text-slate-600 px-2.5 py-0.5 text-xs">ports &amp; adapters</span>
+            </div>
+            <h2 class="font-serif text-2xl">Collapse three admin screens onto one Admin roster</h2>
+            <ul class="mt-3 font-mono text-sm text-slate-600 space-y-0.5">
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:735&ndash;940 &middot; showUsersAnalytics</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:1098&ndash;1304 &middot; showAdminUsers</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:1306&ndash;1533 &middot; showAdminPermissions</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:943&ndash;1095 &middot; showAdminDashboard, showUserRolesPermissions</li>
+            </ul>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 p-6 bg-stone-50/70">
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">Before &middot; the same call tree, three times</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-3 grid grid-cols-3 gap-2 text-[10px]">
+                <div class="rounded border border-slate-400 p-2 flex flex-col gap-1.5">
+                  <div class="font-mono text-[10px] font-semibold">showUsersAnalytics</div>
+                  <div class="rounded border border-slate-300 px-1.5 py-1">loading HTML</div>
+                  <div class="rounded border border-slate-300 px-1.5 py-1">invoke admin-users-analytics</div>
+                  <div class="rounded border border-red-400 bg-red-50 text-red-800 px-1.5 py-1">any error &rarr; &ldquo;Admin Access Required&rdquo;</div>
+                  <div class="rounded border border-slate-300 px-1.5 py-1 flex-1">per-user card loop: stats</div>
+                </div>
+                <div class="rounded border border-red-400 p-2 flex flex-col gap-1.5">
+                  <div class="font-mono text-[10px] font-semibold">showAdminUsers</div>
+                  <div class="rounded border border-slate-300 px-1.5 py-1">loading HTML</div>
+                  <div class="rounded border border-slate-300 px-1.5 py-1">invoke admin-users-analytics</div>
+                  <div class="rounded border border-red-400 bg-red-50 text-red-800 px-1.5 py-1">any error &rarr; &ldquo;Admin Access Required&rdquo;</div>
+                  <div class="rounded border border-slate-300 px-1.5 py-1 flex-1">per-user card loop: same stats</div>
+                  <div class="text-red-700">diff = titles + back button</div>
+                </div>
+                <div class="rounded border border-slate-400 p-2 flex flex-col gap-1.5">
+                  <div class="font-mono text-[10px] font-semibold">showAdminPermissions</div>
+                  <div class="rounded border border-slate-300 px-1.5 py-1">loading HTML</div>
+                  <div class="rounded border border-slate-300 px-1.5 py-1">invoke admin-users-analytics</div>
+                  <div class="rounded border border-red-400 bg-red-50 text-red-800 px-1.5 py-1">any error &rarr; &ldquo;Admin Access Required&rdquo;</div>
+                  <div class="rounded border border-slate-300 px-1.5 py-1 flex-1">per-user card loop: admin badge</div>
+                </div>
+              </div>
+            </figure>
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">After &middot; the tree collapses into one module</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-4 flex flex-col gap-2 text-xs">
+                <div class="grid grid-cols-3 gap-2 text-center">
+                  <div class="rounded border border-slate-300 p-1.5"><div class="lbl text-slate-500">analytics</div>columns preset</div>
+                  <div class="rounded border border-slate-300 p-1.5"><div class="lbl text-slate-500">registered</div>columns preset</div>
+                  <div class="rounded border border-slate-300 p-1.5"><div class="lbl text-slate-500">permissions</div>columns preset</div>
+                </div>
+                <div class="text-center text-[10px] text-slate-400">one roster view</div>
+                <div class="deep flex-1 rounded-md border-4 border-slate-900 text-white p-3 flex flex-col justify-center">
+                  <div class="lbl text-slate-300 text-center mb-2">Admin roster</div>
+                  <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-400 text-center">
+                    <div class="rounded border border-slate-600/60 px-1 py-1 opacity-70">one fetch</div>
+                    <div class="rounded border border-slate-600/60 px-1 py-1 opacity-70">user rows</div>
+                    <div class="rounded border border-slate-600/60 px-1 py-1 opacity-70">totals</div>
+                  </div>
+                  <div class="mt-2 flex justify-center gap-1.5">
+                    <span class="rounded bg-emerald-400/20 text-emerald-200 px-2 py-0.5 text-[10px]">roster</span>
+                    <span class="rounded bg-amber-400/20 text-amber-200 px-2 py-0.5 text-[10px]">denied</span>
+                    <span class="rounded bg-amber-400/20 text-amber-200 px-2 py-0.5 text-[10px]">expired</span>
+                    <span class="rounded bg-red-400/20 text-red-200 px-2 py-0.5 text-[10px]">failed</span>
+                  </div>
+                </div>
+                <svg class="w-full" height="12"><line x1="0" y1="6" x2="100%" y2="6" stroke="#0f172a" stroke-width="1.5" class="seam" /></svg>
+                <div class="grid grid-cols-2 gap-2 text-center">
+                  <div class="rounded border border-slate-300 p-1.5">admin-users-analytics<div class="lbl text-slate-400">production</div></div>
+                  <div class="rounded border border-slate-300 p-1.5">fake roster<div class="lbl text-slate-400">tests</div></div>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div class="px-7 py-5 grid md:grid-cols-3 gap-6 text-sm">
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Problem</h3>
+              <p>Three admin screens each call admin-users-analytics, hand-roll a loading state, and turn every failure into &ldquo;Admin Access Required&rdquo;. <span class="font-mono text-xs">showAdminUsers</span> is <span class="font-mono text-xs">showUsersAnalytics</span> with new titles.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Solution</h3>
+              <p>Load the roster through one Admin roster module that tells denied, expired and failed apart. Render it with one view that has three column presets.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Wins</h3>
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li>Deletion test: showAdminUsers goes</li>
+                <li>Denied, expired, failed told apart</li>
+                <li>One fetch path to secure</li>
+                <li>Tests: fake roster adapter</li>
+              </ul>
+            </div>
+          </div>
+          <div class="px-7 pb-5 text-xs text-slate-500">Resolves <a class="underline" href="#f5">F5</a> on the client. Admin access is enforced inside the Edge Function, which isn't in the repo (<a class="underline" href="#f22">F22</a>).</div>
+        </article>
+
+        <!-- ============================== C7 ============================== -->
+        <article id="c7" class="rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden">
+          <div class="px-7 pt-6 pb-4 border-b border-stone-100">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="font-mono text-xs text-slate-400">C7</span>
+              <span class="rounded-full bg-amber-100 text-amber-800 px-2.5 py-0.5 text-xs font-semibold">Worth exploring</span>
+              <span class="rounded-full border border-slate-300 text-slate-600 px-2.5 py-0.5 text-xs">in-process</span>
+            </div>
+            <h2 class="font-serif text-2xl">Escape by default at one Render module</h2>
+            <ul class="mt-3 font-mono text-sm text-slate-600 space-y-0.5">
+                            <li><a class="hover:underline" href="../../script.js">script.js</a>:3020, 3274 &middot; section name inside onclick</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:3101&ndash;3120, 3360&ndash;3374, 3671&ndash;3685, 3839&ndash;3853 &middot; bank question text + options</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:4268, 4292, 4548 &middot; exam question, options, correct_answer</li>
+              <li><a class="hover:underline" href="../../script.js">script.js</a>:843, 1211, 1426 &middot; nicknames on admin screens</li>
+            </ul>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 p-6 bg-stone-50/70">
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">Before &middot; 16 sites, each on its own</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-4 flex flex-col gap-3">
+                <div>
+                  <div class="lbl text-slate-500 mb-1">stored questions, sections, answers</div>
+                  <div class="flex flex-wrap gap-1.5">
+                    <div class="dot bg-red-100 text-red-800 border border-red-400">3020</div><div class="dot bg-red-100 text-red-800 border border-red-400">3274</div>
+                    <div class="dot bg-red-100 text-red-800 border border-red-400">3101</div><div class="dot bg-red-100 text-red-800 border border-red-400">3120</div>
+                    <div class="dot bg-red-100 text-red-800 border border-red-400">3360</div><div class="dot bg-red-100 text-red-800 border border-red-400">3374</div>
+                    <div class="dot bg-red-100 text-red-800 border border-red-400">3671</div><div class="dot bg-red-100 text-red-800 border border-red-400">3685</div>
+                    <div class="dot bg-red-100 text-red-800 border border-red-400">3839</div><div class="dot bg-red-100 text-red-800 border border-red-400">3853</div>
+                    <div class="dot bg-red-100 text-red-800 border border-red-400">4268</div><div class="dot bg-red-100 text-red-800 border border-red-400">4292</div>
+                    <div class="dot bg-red-100 text-red-800 border border-red-400">4548</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="lbl text-slate-500 mb-1">stored nicknames</div>
+                  <div class="flex flex-wrap gap-1.5">
+                    <div class="dot bg-red-100 text-red-800 border border-red-400">843</div><div class="dot bg-red-100 text-red-800 border border-red-400">1211</div><div class="dot bg-red-100 text-red-800 border border-red-400">1426</div>
+                  </div>
+                </div>
+                <div class="mt-auto flex items-center gap-2 text-[11px] text-red-700">
+                  <svg width="40" height="10"><line x1="0" y1="5" x2="33" y2="5" stroke="#dc2626" stroke-width="1.5" /><path d="M33 1 L40 5 L33 9 Z" fill="#dc2626" /></svg>
+                  <span class="font-mono">innerHTML</span>, raw &middot; no escaping helper exists in the repo
+                </div>
+              </div>
+            </figure>
+            <figure>
+              <figcaption class="lbl text-slate-500 mb-2">After &middot; every site crosses one seam</figcaption>
+              <div class="diagram rounded-lg border border-slate-200 bg-white p-4 flex flex-col gap-3">
+                <div class="flex flex-wrap gap-1.5 justify-center">
+                  <div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">3020</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">3274</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">3101</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">3120</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">3360</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">3374</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">3671</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">3685</div>
+                  <div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">3839</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">3853</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">4268</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">4292</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">4548</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">843</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">1211</div><div class="dot bg-emerald-50 text-emerald-800 border border-emerald-400">1426</div>
+                </div>
+                <svg class="w-full" height="26" viewBox="0 0 400 26" preserveAspectRatio="none"><path d="M40 0 L200 24 M120 0 L200 24 M200 0 L200 24 M280 0 L200 24 M360 0 L200 24" stroke="#64748b" stroke-width="1" fill="none" /></svg>
+                <div class="deep rounded-md border-4 border-slate-900 text-white p-3 text-center">
+                  <div class="lbl text-slate-300">Render module</div>
+                  <div class="mt-1 flex justify-center gap-1.5 text-[10px]">
+                    <span class="rounded bg-emerald-400/20 text-emerald-200 px-2 py-0.5">escapes text by default</span>
+                    <span class="rounded bg-emerald-400/20 text-emerald-200 px-2 py-0.5">attribute-safe</span>
+                    <span class="rounded bg-slate-500/30 text-slate-300 px-2 py-0.5">trusted fragments marked</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-center gap-2 text-[11px] text-slate-600">
+                  <svg width="40" height="10"><line x1="0" y1="5" x2="33" y2="5" stroke="#0f172a" stroke-width="1.5" /><path d="M33 1 L40 5 L33 9 Z" fill="#0f172a" /></svg>
+                  <span class="font-mono">#content</span>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div class="px-7 py-5 grid md:grid-cols-3 gap-6 text-sm">
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Problem</h3>
+              <p>Every view concatenates HTML and assigns it to <span class="font-mono text-xs">innerHTML</span>, so escaping is left to each site, and none of them does it. 16 sites interpolate stored strings raw.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Solution</h3>
+              <p>Route views through one small Render module whose templates escape interpolated values by default and make trusted fragments explicit.</p>
+            </div>
+            <div>
+              <h3 class="lbl text-slate-500 mb-1">Wins</h3>
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li>Locality: escaping has one owner</li>
+                <li>Apostrophes stop breaking section toggles</li>
+                <li>New views safe by default</li>
+                <li>Tests: one table of escapes</li>
+              </ul>
+            </div>
+          </div>
+          <div class="px-7 pb-5 text-xs text-slate-500">Resolves <a class="underline" href="#f4">F4</a>. Adopt it view by view as C1, C2 and C4 rewrite them.</div>
+        </article>
+      </section>
+
+      <!-- ============================== FINDINGS ============================== -->
+      <section id="findings" class="space-y-4">
+        <h2 class="font-serif text-2xl">Findings</h2>
+        <p class="text-xs text-slate-500">Line numbers are true of <span class="font-mono">8a40d39</span>. &ldquo;Verify&rdquo; means the evidence points at the database or Edge Functions, which aren't in the repo.</p>
+        <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white">
+          <table class="w-full text-sm">
+            <thead class="bg-stone-100 text-left">
+              <tr class="lbl text-slate-500">
+                <th class="px-3 py-2 font-normal">ID</th><th class="px-3 py-2 font-normal">Severity</th><th class="px-3 py-2 font-normal">Finding</th><th class="px-3 py-2 font-normal">Where</th><th class="px-3 py-2 font-normal">By</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-100 align-top">
+              <tr id="f1"><td class="px-3 py-2 font-mono text-xs">F1&ndash;F3</td><td class="px-3 py-2"><span class="rounded bg-red-100 text-red-800 px-1.5 text-xs">security</span></td><td class="px-3 py-2">Reported privately to the maintainer; not published here.</td><td class="px-3 py-2 font-mono text-xs">&mdash;</td><td class="px-3 py-2 text-xs">&mdash;</td></tr>
+              <tr id="f4"><td class="px-3 py-2 font-mono text-xs">F4</td><td class="px-3 py-2"><span class="rounded bg-amber-100 text-amber-800 px-1.5 text-xs">medium</span></td><td class="px-3 py-2">Question text, options, correct answers, section names and nicknames reach <span class="font-mono text-xs">innerHTML</span> unescaped. A section name also lands inside an <span class="font-mono text-xs">onclick</span> JS string, so a section called &ldquo;Operator's Duties&rdquo; can't be toggled.</td><td class="px-3 py-2 font-mono text-xs">script.js:3020, 3274, 3101, 3120, 3360, 3374, 3671, 3685, 3839, 3853, 4268, 4292, 4548, 843, 1211, 1426</td><td class="px-3 py-2 text-xs">C7, C4</td></tr>
+              <tr id="f5"><td class="px-3 py-2 font-mono text-xs">F5</td><td class="px-3 py-2"><span class="rounded bg-amber-100 text-amber-800 px-1.5 text-xs">medium &middot; verify</span></td><td class="px-3 py-2">Admin screens are gated only by whether the menu shows them. Any failure reads &ldquo;Admin Access Required&rdquo;, so denial, an expired session and an outage look the same.</td><td class="px-3 py-2 font-mono text-xs">script.js:72&ndash;92, 780&ndash;813, 1150&ndash;1182, 1358&ndash;1394</td><td class="px-3 py-2 text-xs">C6</td></tr>
+              <tr id="f6"><td class="px-3 py-2 font-mono text-xs">F6</td><td class="px-3 py-2"><span class="rounded bg-amber-100 text-amber-800 px-1.5 text-xs">medium</span></td><td class="px-3 py-2">Logout and Switch User call <span class="font-mono text-xs">logoutUser()</span> without awaiting it, so <span class="font-mono text-xs">showLogin()</span> renders the previous user's name and dropdown, including Admin items. switchUser and logout are identical.</td><td class="px-3 py-2 font-mono text-xs">script.js:719&ndash;729, 5005&ndash;5008 &middot; profile.js:105&ndash;111</td><td class="px-3 py-2 text-xs">C3</td></tr>
+              <tr id="f7"><td class="px-3 py-2 font-mono text-xs">F7</td><td class="px-3 py-2"><span class="rounded bg-amber-100 text-amber-800 px-1.5 text-xs">medium</span></td><td class="px-3 py-2">Two <span class="font-mono text-xs">autoLogin()</span> bootstraps run on load and render different screens (Home + banner vs Welcome Back). Whichever finishes last wins, and the auth and profile round-trips are doubled.</td><td class="px-3 py-2 font-mono text-xs">profile.js:141&ndash;154 &middot; script.js:5017&ndash;5025</td><td class="px-3 py-2 text-xs">C3</td></tr>
+              <tr id="f8"><td class="px-3 py-2 font-mono text-xs">F8</td><td class="px-3 py-2"><span class="rounded bg-amber-100 text-amber-800 px-1.5 text-xs">medium</span></td><td class="px-3 py-2">The header trusts localStorage <span class="font-mono text-xs">nickname</span> while data calls trust the Supabase session. After the session expires, the login screen still shows a signed-in header, and Analytics shows zeros.</td><td class="px-3 py-2 font-mono text-xs">script.js:6&ndash;9, 1962 &middot; profile.js:117&ndash;119, 158&ndash;172</td><td class="px-3 py-2 text-xs">C3</td></tr>
+              <tr id="f9"><td class="px-3 py-2 font-mono text-xs">F9</td><td class="px-3 py-2"><span class="rounded bg-slate-100 text-slate-700 px-1.5 text-xs">low</span></td><td class="px-3 py-2">Clicking &ldquo;Enter Platform&rdquo; with a wrong PIN shows nothing. Only the Enter-key handler shows the error, because the two handlers have diverged.</td><td class="px-3 py-2 font-mono text-xs">script.js:200&ndash;219 vs 221&ndash;250</td><td class="px-3 py-2 text-xs">C3</td></tr>
+              <tr id="f10"><td class="px-3 py-2 font-mono text-xs">F10</td><td class="px-3 py-2"><span class="rounded bg-slate-100 text-slate-700 px-1.5 text-xs">low</span></td><td class="px-3 py-2">Five profile.js functions have no callers, and updateLastLogin's logic is re-inlined in registerOrLogin.</td><td class="px-3 py-2 font-mono text-xs">profile.js:24&ndash;31, 97&ndash;99, 113&ndash;115, 133&ndash;139</td><td class="px-3 py-2 text-xs">C3</td></tr>
+              <tr id="f11"><td class="px-3 py-2 font-mono text-xs">F11</td><td class="px-3 py-2"><span class="rounded bg-amber-100 text-amber-800 px-1.5 text-xs">medium</span></td><td class="px-3 py-2">The local exam path can't be reached (<span class="font-mono text-xs">currentExamUsesBackend</span> is never false after start). It is about 100 lines, its grader only knows <span class="font-mono text-xs">answer</span>, one ternary has identical arms, and the <span class="font-mono text-xs">window.supabase</span> fallback is dead.</td><td class="px-3 py-2 font-mono text-xs">script.js:3903, 3962, 4101&ndash;4103, 4213&ndash;4238, 4415&ndash;4418, 4572&ndash;4655, 4787&ndash;4797, 4812&ndash;4815, 3911&ndash;3913</td><td class="px-3 py-2 text-xs">C1</td></tr>
+              <tr id="f12"><td class="px-3 py-2 font-mono text-xs">F12</td><td class="px-3 py-2"><span class="rounded bg-slate-100 text-slate-700 px-1.5 text-xs">low</span></td><td class="px-3 py-2">Starting an exam has no in-flight guard, so a double-click opens two server sessions and the one that answers last takes over the globals.</td><td class="px-3 py-2 font-mono text-xs">script.js:3906&ndash;3980</td><td class="px-3 py-2 text-xs">C1</td></tr>
+              <tr id="f13"><td class="px-3 py-2 font-mono text-xs">F13</td><td class="px-3 py-2"><span class="rounded bg-slate-100 text-slate-700 px-1.5 text-xs">low</span></td><td class="px-3 py-2">&ldquo;Unable to connect&rdquo; before an exam starts is never shown, because <span class="font-mono text-xs">#warningBox</span> only exists on the question screen.</td><td class="px-3 py-2 font-mono text-xs">script.js:3915&ndash;3919, 4345&ndash;4350</td><td class="px-3 py-2 text-xs">C1</td></tr>
+              <tr id="f14"><td class="px-3 py-2 font-mono text-xs">F14</td><td class="px-3 py-2"><span class="rounded bg-amber-100 text-amber-800 px-1.5 text-xs">medium</span></td><td class="px-3 py-2">The 80% pass mark is hard-coded in three places on the client, and the server computes its own <span class="font-mono text-xs">pass_rate</span>.</td><td class="px-3 py-2 font-mono text-xs">script.js:325, 493, 4839, 871, 1231</td><td class="px-3 py-2 text-xs">C5, C1</td></tr>
+              <tr id="f15"><td class="px-3 py-2 font-mono text-xs">F15</td><td class="px-3 py-2"><span class="rounded bg-slate-100 text-slate-700 px-1.5 text-xs">low</span></td><td class="px-3 py-2">&ldquo;LEGACY &hellip; must remain&rdquo; comments and a &ldquo;SAVE TEST&rdquo; log outlived the migration and suggest the client still saves results. It doesn't.</td><td class="px-3 py-2 font-mono text-xs">script.js:2273&ndash;2281, 2773&ndash;2778, 4810, 4841&ndash;4859, 4984 &middot; supabase.js:10&ndash;12</td><td class="px-3 py-2 text-xs">C1</td></tr>
+              <tr id="f16"><td class="px-3 py-2 font-mono text-xs">F16</td><td class="px-3 py-2"><span class="rounded bg-slate-100 text-slate-700 px-1.5 text-xs">low &middot; verify</span></td><td class="px-3 py-2">&ldquo;Test Exam: 2 Questions &middot; System Test&rdquo; is offered to every trainee. Its results presumably count toward their analytics.</td><td class="px-3 py-2 font-mono text-xs">script.js:3543&ndash;3559, 4086&ndash;4092</td><td class="px-3 py-2 text-xs">C2</td></tr>
+              <tr id="f17"><td class="px-3 py-2 font-mono text-xs">F17</td><td class="px-3 py-2"><span class="rounded bg-amber-100 text-amber-800 px-1.5 text-xs">medium</span></td><td class="px-3 py-2">Section grouping throws when the first question has no <span class="font-mono text-xs">section</span> (<span class="font-mono text-xs">sections[""]</span> is never created), so the bank page never renders.</td><td class="px-3 py-2 font-mono text-xs">script.js:2992&ndash;3005, 3234&ndash;3247</td><td class="px-3 py-2 text-xs">C4</td></tr>
+              <tr id="f18"><td class="px-3 py-2 font-mono text-xs">F18</td><td class="px-3 py-2"><span class="rounded bg-amber-100 text-amber-800 px-1.5 text-xs">medium</span></td><td class="px-3 py-2">Every section toggle re-runs the page function, which calls the question-bank Edge Function again.</td><td class="px-3 py-2 font-mono text-xs">script.js:2898&ndash;2915, 2927, 3161, 3577</td><td class="px-3 py-2 text-xs">C4</td></tr>
+              <tr id="f19"><td class="px-3 py-2 font-mono text-xs">F19</td><td class="px-3 py-2"><span class="rounded bg-slate-100 text-slate-700 px-1.5 text-xs">low</span></td><td class="px-3 py-2">The Merge bank makes three serial fetches and never reads <span class="font-mono text-xs">error</span>. Its MTBE + METATHESIS + SAFETY composition is defined again in start-exam.</td><td class="px-3 py-2 font-mono text-xs">script.js:2837&ndash;2882</td><td class="px-3 py-2 text-xs">C4, C2</td></tr>
+              <tr id="f20"><td class="px-3 py-2 font-mono text-xs">F20</td><td class="px-3 py-2"><span class="rounded bg-slate-100 text-slate-700 px-1.5 text-xs">low</span></td><td class="px-3 py-2">The Metathesis role picker leaves a <span class="font-mono text-xs">&lt;div&gt;</span> unclosed (17 opened, 16 closed), which shows the copies have drifted.</td><td class="px-3 py-2 font-mono text-xs">script.js:2119&ndash;2263</td><td class="px-3 py-2 text-xs">C2</td></tr>
+              <tr id="f21"><td class="px-3 py-2 font-mono text-xs">F21</td><td class="px-3 py-2"><span class="rounded bg-slate-100 text-slate-700 px-1.5 text-xs">low</span></td><td class="px-3 py-2">The &ldquo;Improvement&rdquo; KPI is best minus average, not change over time, and an <span class="font-mono text-xs">"EMPTY"</span> module placeholder is filtered in one place only.</td><td class="px-3 py-2 font-mono text-xs">script.js:443&ndash;450, 505</td><td class="px-3 py-2 text-xs">C5</td></tr>
+              <tr id="f22"><td class="px-3 py-2 font-mono text-xs">F22</td><td class="px-3 py-2"><span class="rounded bg-amber-100 text-amber-800 px-1.5 text-xs">medium</span></td><td class="px-3 py-2">The server side of every seam is unversioned. Five Edge Functions (question-bank, start-exam, exam-answer, next-question, admin-users-analytics) and the RLS policies aren't in the repo, so no contract can be read, diffed or tested.</td><td class="px-3 py-2 font-mono text-xs">&mdash;</td><td class="px-3 py-2 text-xs">C1, C3, C4, C6</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================== TOP RECOMMENDATION ============================== -->
+      <section id="top-recommendation">
+        <div class="rounded-2xl border-2 border-emerald-600 bg-white p-8 shadow-sm">
+          <div class="lbl text-emerald-700 mb-2">Top recommendation</div>
+          <h2 class="font-serif text-3xl"><a class="hover:underline" href="#c1">C1 &middot; Deepen the Exam session</a></h2>
+          <p class="mt-3 max-w-3xl">This is the hottest code: checkAnswer, nextQuestion, showQuestion and finishExam took +1,815/&minus;664 on 2026-09-17, the same day result saving moved to the server. Its Edge Function protocol is already a clean seam that justifies two adapters, and the ES module + <span class="font-mono text-sm">node:test</span> setup it introduces is the pattern C3 and C4 will reuse.</p>
+          <p class="mt-4 text-sm rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 text-amber-900">Don't hold these for any refactor: act on the privately reported F1&ndash;F3.</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
