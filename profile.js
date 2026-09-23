@@ -138,20 +138,7 @@ async function rememberCurrentUser(profile) {
   saveCurrentUser(profile.nickname);
 }
 
-autoLogin().then(profile => {
-  if (!profile) return;
-
-  if (typeof showHome === "function") {
-    showHome();
-  }
-
-  const banner = document.getElementById("welcome-banner");
-
-  if (banner) {
-    banner.style.display = "block";
-    banner.innerHTML = `👋 Welcome Back, ${profile.nickname}`;
-  }
-});
+// The start-up screen (Welcome Back or Login) is chosen once, at the end of script.js.
 
 
 
