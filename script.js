@@ -3,10 +3,27 @@
                     // ======================
 
 
-function getHeroBanner() {
+function getHeroBanner(variant) {
     const nickname = getSavedNickname();
 
-    if (!nickname) {
+    // Inner screens get a one-row header so the task starts above the fold;
+    // login, dashboard and welcome keep the full banner.
+    if (variant !== "full" && variant !== "login") {
+        return `
+        <header class="app-header">
+
+            <div class="app-header-brand" onclick="goHome()" aria-label="Go to Main Dashboard">
+                <div class="app-header-title">MTBE / METATHESIS TRAINING</div>
+                <p class="app-header-subtitle">Operations Training &amp; Assessment Platform</p>
+            </div>
+
+            ${nickname ? getUserMenu(nickname) : ""}
+
+        </header>
+        `;
+    }
+
+    if (!nickname || variant === "login") {
         return `
         <div class="hero-banner">
 
@@ -31,6 +48,8 @@ function getHeroBanner() {
     return `
     <div class="hero-banner">
 
+        ${getUserMenu(nickname)}
+
         <h1>MTBE / METATHESIS TRAINING</h1>
 
         <p class="subtitle">
@@ -45,13 +64,28 @@ function getHeroBanner() {
             Developed by FO.Abdullah Al-Mehwari
         </p>
 
-        <!-- USER PROFILE BUTTON + DROPDOWN -->
+    </div>
+    `;
+}
+
+                    // ======================
+                    // USER PROFILE BUTTON + DROPDOWN
+                    // ======================
+
+function getUserMenu(nickname) {
+    return `
         <div class="hero-user-wrapper">
 
-            <div class="hero-user-btn" onclick="toggleUserDropdown(event)">
-                <span class="hero-user-icon">👤</span>
+            <div
+                class="hero-user-btn"
+                onclick="toggleUserDropdown(event)"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="heroUserDropdown"
+            >
+                <span class="hero-user-icon" aria-hidden="true">👤</span>
                 <span class="hero-user-name">${nickname}</span>
-                <span class="hero-user-arrow" id="heroUserArrow">▼</span>
+                <span class="hero-user-arrow" id="heroUserArrow" aria-hidden="true">▼</span>
             </div>
 
             <div class="hero-user-dropdown" id="heroUserDropdown">
@@ -67,7 +101,6 @@ function getHeroBanner() {
                 <div class="dropdown-item" onclick="switchUser()">
                     🔄 Switch User
                 </div>
-
 
 ${
     window.currentUserIsAdmin === true
@@ -91,8 +124,6 @@ ${
         : ''
 }
 
-
-
                 <div class="dropdown-item dropdown-item-danger" onclick="logout()">
                     🚪 Logout
                 </div>
@@ -100,8 +131,6 @@ ${
             </div>
 
         </div>
-
-    </div>
     `;
 }
 
@@ -109,7 +138,7 @@ function showLogin() {
 
   document.getElementById("content").innerHTML = `
 
-${getHeroBanner()}
+${getHeroBanner("login")}
 
     <div class="dashboard-cards">
 
@@ -121,53 +150,51 @@ ${getHeroBanner()}
           </div>
         </div>
 
-        <p class="login-label">
-          Username
-        </p>
+        <form id="login-form" class="login-form" novalidate>
 
-<input
-    id="Username"
-    type="text"
-    placeholder="Enter Username"
-    class="login-input"
-    value="${localStorage.getItem('lastUsername') || ''}"
-    autocomplete="username"
->
+            <label class="login-label" for="Username">
+              Username
+            </label>
 
-        <p class="login-label">
-          PIN
-        </p>
+            <input
+                id="Username"
+                type="text"
+                placeholder="Enter Username"
+                class="login-input"
+                autocomplete="username"
+                autocapitalize="none"
+                spellcheck="false"
+                aria-describedby="login-message"
+            >
 
-<input
-    id="pin"
-    type="password"
-    placeholder="6-digit PIN"
-    class="login-input"
-    autocomplete="current-password"
-    minlength="6"
-    maxlength="6"
-    inputmode="numeric"
-    pattern="[0-9]{6}"
->
+            <label class="login-label" for="pin">
+              PIN
+            </label>
 
-        <button
-          id="login-btn"
-          class="login-button"
-        >
-          Enter Platform
-        </button>
-<div id="login-message" style="
-display:none;
-margin-top:12px;
-padding:12px;
-border-radius:12px;
-background:rgba(239,68,68,0.12);
-border:1px solid rgba(239,68,68,0.25);
-color:#fca5a5;
-font-size:14px;
-font-weight:600;
-text-align:center;
-"></div>
+            <input
+                id="pin"
+                type="password"
+                placeholder="6-digit PIN"
+                class="login-input"
+                autocomplete="current-password"
+                maxlength="6"
+                inputmode="numeric"
+                pattern="[0-9]{6}"
+                aria-describedby="login-message"
+            >
+
+            <button
+              id="login-btn"
+              class="login-button"
+              type="submit"
+            >
+              Enter Platform
+            </button>
+
+            <div id="login-message" class="login-message" role="alert"></div>
+
+        </form>
+
       </div>
 
     </div>
@@ -197,58 +224,79 @@ text-align:center;
 
   `;
 
-document.getElementById("login-btn")
-  .addEventListener("click", async () => {
+    // Set through the DOM, not the template, so a stored value is never parsed as HTML.
+    document.getElementById("Username").value =
+        localStorage.getItem("lastUsername") || "";
 
-      const nickname =
-        document.getElementById("Username").value.trim();
+    document.getElementById("login-form")
+        .addEventListener("submit", submitLogin);
+}
 
-      const pin =
-        document.getElementById("pin").value.trim();
+function showLoginMessage(message) {
+    document.getElementById("login-message").textContent = message;
+}
 
-      console.log("Login Button Clicked");
+// One path for the button and the Enter key, with validation that names the problem.
+async function submitLogin(event) {
+    event.preventDefault();
 
-      const profile =
-        await registerOrLogin(nickname, pin);
-localStorage.setItem("lastUsername", nickname);
+    const usernameInput = document.getElementById("Username");
+    const pinInput = document.getElementById("pin");
+    const button = document.getElementById("login-btn");
 
-      if (profile) {
-          showHome();
-      }
+    const nickname = usernameInput.value.trim();
+    const pin = pinInput.value.trim();
 
-  });
+    usernameInput.removeAttribute("aria-invalid");
+    pinInput.removeAttribute("aria-invalid");
 
-document.getElementById("pin")
-  .addEventListener("keydown", async (e) => {
+    let invalidInput = null;
 
-      if (e.key === "Enter") {
+    if (!nickname) {
+        invalidInput = usernameInput;
+        showLoginMessage("Enter your username.");
+    } else if (!/^[a-z0-9_]+$/i.test(nickname)) {
+        invalidInput = usernameInput;
+        showLoginMessage("Usernames can only use letters, numbers and underscores.");
+    } else if (!/^\d{6}$/.test(pin)) {
+        invalidInput = pinInput;
+        showLoginMessage("Your PIN must be exactly 6 digits.");
+    }
 
-          const nickname =
-            document.getElementById("Username").value.trim();
+    if (invalidInput) {
+        invalidInput.setAttribute("aria-invalid", "true");
+        invalidInput.focus();
+        return;
+    }
 
-          const pin =
-            document.getElementById("pin").value.trim();
+    showLoginMessage("");
+    button.disabled = true;
+    button.textContent = "Signing in…";
 
-          const profile =
-            await registerOrLogin(nickname, pin);
-localStorage.setItem("lastUsername", nickname);
-          if (profile) {
-              showHome();
-          } else {
-              document.getElementById("login-message").style.display = "block";
-              document.getElementById("login-message").innerHTML = "❌ Incorrect Username or PIN";
-document.getElementById("login-message").style.opacity = "1";
+    let profile = null;
 
-              setTimeout(() => {
-                  document.getElementById("login-message").style.display = "none";
-              }, 3000);
+    try {
+        profile = await registerOrLogin(nickname, pin);
+    } catch (error) {
+        console.error("Login error:", error);
+        button.disabled = false;
+        button.textContent = "Enter Platform";
+        showLoginMessage("Can't reach the server. Check your connection and try again.");
+        return;
+    }
 
-          }
+    if (profile) {
+        localStorage.setItem("lastUsername", nickname);
+        showHome();
+        return;
+    }
 
-      }
-
-  });
-
+    button.disabled = false;
+    button.textContent = "Enter Platform";
+    showLoginMessage("❌ Incorrect Username or PIN");
+    pinInput.value = "";
+    pinInput.setAttribute("aria-invalid", "true");
+    pinInput.focus();
 }
 
 
@@ -263,24 +311,99 @@ function toggleUserDropdown(event) {
     const arrow = document.getElementById('heroUserArrow');
     if (!dropdown) return;
     const isOpen = dropdown.classList.contains('dropdown-open');
+    const button = document.querySelector('.hero-user-btn');
     if (isOpen) {
         dropdown.classList.remove('dropdown-open');
         if (arrow) arrow.classList.remove('arrow-rotated');
+        if (button) button.setAttribute('aria-expanded', 'false');
     } else {
         dropdown.classList.add('dropdown-open');
         if (arrow) arrow.classList.add('arrow-rotated');
+        if (button) button.setAttribute('aria-expanded', 'true');
     }
 }
 
 function closeUserDropdown() {
     const dropdown = document.getElementById('heroUserDropdown');
     const arrow = document.getElementById('heroUserArrow');
+    const button = document.querySelector('.hero-user-btn');
     if (dropdown) dropdown.classList.remove('dropdown-open');
     if (arrow) arrow.classList.remove('arrow-rotated');
+    if (button) button.setAttribute('aria-expanded', 'false');
 }
 document.addEventListener('click', function () {
     closeUserDropdown();
 });
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') closeUserDropdown();
+});
+
+                    // ======================
+                    // KEYBOARD ACCESS FOR CLICKABLE CARDS
+                    // ======================
+
+// Screens render clickable <div onclick> cards; give each one button
+// semantics so Tab reaches it and Enter / Space activate it.
+(function makeClickableCardsKeyboardReachable() {
+    const content = document.getElementById("content");
+    if (!content) return;
+
+    const upgrade = () => {
+        content
+            .querySelectorAll("div[onclick]:not([tabindex])")
+            .forEach(element => {
+                element.tabIndex = 0;
+                element.setAttribute("role", "button");
+            });
+    };
+
+    new MutationObserver(upgrade)
+        .observe(content, { childList: true, subtree: true });
+
+    content.addEventListener("keydown", event => {
+        const element = event.target;
+        if (!element.matches || !element.matches('div[role="button"][onclick]')) return;
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            element.click();
+        }
+    });
+})();
+
+                    // ======================
+                    // SHARED SCREEN HELPERS
+                    // ======================
+
+// Question text, options and section names come from the database;
+// escape them before they go into a template.
+function escapeHtml(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+// Skeleton placeholder while a screen waits for Supabase.
+function showLoading(label) {
+    document.getElementById("content").innerHTML = `
+        ${getHeroBanner()}
+        <div class="content-box">
+            <div class="loading-state" role="status" aria-live="polite">
+                <span class="visually-hidden">${escapeHtml(label)}</span>
+                <div class="skeleton skeleton-title"></div>
+                <div class="skeleton"></div>
+                <div class="skeleton skeleton-block"></div>
+                <div class="skeleton skeleton-block"></div>
+            </div>
+        </div>
+    `;
+}
+
+function getPlantClass(plant) {
+    return "plant-" + String(plant || "mtbe").toLowerCase();
+}
 
 // ======================
 // USER MENU PAGES
@@ -297,163 +420,89 @@ document.addEventListener('click', function () {
 // MY PROGRESS
 // ======================
 
+// Pass mark and formulas are the ones the screens used before; now computed once.
+function summarizeResults(results) {
+    const totalExams = results.length;
+    const scores = results.map(exam => Number(exam.score_percentage) || 0);
+
+    const averageScore = totalExams
+        ? Math.round(scores.reduce((sum, score) => sum + score, 0) / totalExams)
+        : 0;
+
+    const bestScore = totalExams
+        ? Math.max(...scores)
+        : 0;
+
+    const passRate = totalExams
+        ? Math.round((scores.filter(score => score >= 80).length / totalExams) * 100)
+        : 0;
+
+    return { totalExams, averageScore, bestScore, passRate };
+}
+
+function statCard(label, value, barPercent, tone) {
+    const width = Math.max(0, Math.min(barPercent, 100));
+
+    return `
+        <div class="stat-card stat-${tone}">
+            <span class="stat-label">${label}</span>
+            <span class="stat-value">${value}</span>
+            <div class="stat-bar" aria-hidden="true">
+                <span style="width:${width}%;"></span>
+            </div>
+        </div>
+    `;
+}
+
+function progressEmptyState() {
+    return `
+        <div class="empty-state">
+            <h3>No exams yet</h3>
+            <p>
+                Take a Full or Random exam from any training module.
+                Your scores and pass rate will show up here.
+            </p>
+            <button class="btn-primary" onclick="showHome()">
+                Go to Main Dashboard
+            </button>
+        </div>
+    `;
+}
+
 async function showAnalytics() {
     closeUserDropdown();
-const nickname = getSavedNickname();
 
-const results = await getUserExamResults(nickname);
+    showLoading("Loading analytics…");
 
-const totalExams = results.length;
-
-const averageScore = totalExams
-    ? Math.round(
-        results.reduce((sum, exam) =>
-            sum + exam.score_percentage, 0
-        ) / totalExams
-    )
-    : 0;
-
-const bestScore = totalExams
-    ? Math.max(
-        ...results.map(exam => exam.score_percentage)
-    )
-    : 0;
-
-const passRate = totalExams
-    ? Math.round(
-        (results.filter(exam =>
-            exam.score_percentage >= 80
-        ).length / totalExams) * 100
-    )
-    : 0;
+    const results = await getUserExamResults();
+    const stats = summarizeResults(results);
 
     document.getElementById("content").innerHTML = `
     ${getHeroBanner()}
 
     <div class="content-box">
 
-<h2 class="progress-title">📊 Analytics Dashboard</h2>
-
-        <div class="my-progress-grid">
-
-            <div class="kpi-card kpi-card-blue">
-
-                <div style="
-                display:flex;
-                align-items:center;
-                gap:8px;
-                font-weight:bold;
-                margin-bottom:4px;
-                ">
-
-<span>📚 Total Exams</span>
-<span>${totalExams}</span>
-                </div>
-
-                <div class="progress-bar">
-<div class="progress-fill progress-fill-blue"
-     style="width:${Math.min(totalExams * 10, 100)}%;">
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="kpi-card kpi-card-green">
-
-                <div style="
-                display:flex;
-                align-items:center;
-                gap:8px;
-                font-weight:bold;
-                margin-bottom:4px;
-                ">
-
-<span>✅ Pass Rate</span>
-<span>${passRate}%</span>
-
-
-                </div>
-
-                <div class="progress-bar">
-<div class="progress-fill progress-fill-green"
-     style="width:${passRate}%;">
-                    </div>
-                </div>
-
-            </div>
-
-<div class="kpi-card kpi-card-purple">
-
-    <div style="
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-weight:bold;
-    margin-bottom:4px;
-    ">
-
-        <span>🎯 Average Score</span>
-        <span>${averageScore}%</span>
-
-    </div>
-
-    <div class="progress-bar">
-        <div class="progress-fill progress-fill-purple"
-             style="width:${averageScore}%;">
+        <div class="mobile-nav-buttons">
+            <button onclick="showHome()">🏠 Main Dashboard</button>
+            <button onclick="showMyProgress()">📈 My Progress</button>
         </div>
-    </div>
 
-</div>
+        <h2 class="page-title">📊 Analytics Dashboard</h2>
+        <p class="page-subtitle">Across all of your exams</p>
 
-            <div class="kpi-card kpi-card-gold">
-
-                <div style="
-                display:flex;
-                align-items:center;
-                gap:8px;
-                font-weight:bold;
-                margin-bottom:4px;
-                ">
-
-
-
-<span>🏆 Best Score</span>
-<span>${bestScore}%</span>
-
-                </div>
-
-                <div class="progress-bar">
-                    <div class="progress-fill progress-fill-gold"
-                         style="width:${bestScore}%;">
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="kpi-card kpi-card-blue">
-
-                <div style="
-                display:flex;
-                align-items:center;
-                gap:8px;
-                font-weight:bold;
-                margin-bottom:4px;
-                ">
-
-                    <span>📈 Improvement</span>
-                    <span>${bestScore - averageScore}%</span>
-
-                </div>
-
-                <div class="progress-bar">
-                    <div class="progress-fill progress-fill-blue"
-                         style="width:${Math.max(bestScore - averageScore, 0)}%;">
-                    </div>
-                </div>
-
-            </div>
-
+        ${
+            stats.totalExams
+                ? `
+        <div class="stat-grid">
+            ${statCard("📚 Total Exams", stats.totalExams, Math.min(stats.totalExams * 10, 100), "blue")}
+            ${statCard("✅ Pass Rate", stats.passRate + "%", stats.passRate, "green")}
+            ${statCard("🎯 Average Score", stats.averageScore + "%", stats.averageScore, "purple")}
+            ${statCard("🏆 Best Score", stats.bestScore + "%", stats.bestScore, "gold")}
+            ${statCard("📈 Improvement", (stats.bestScore - stats.averageScore) + "%", stats.bestScore - stats.averageScore, "blue")}
         </div>
+                `
+                : progressEmptyState()
+        }
 
     </div>
     `;
@@ -463,269 +512,108 @@ const passRate = totalExams
 async function showMyProgress() {
     closeUserDropdown();
 
-    const nickname = getSavedNickname();
+    showLoading("Loading your progress…");
 
-    const results = await getUserExamResults(nickname);
+    const results = await getUserExamResults();
+    const stats = summarizeResults(results);
 
-    const totalExams = results.length;
-
-    const averageScore = totalExams
-    ? Math.round(
-        results.reduce((sum, exam) =>
-            sum + exam.score_percentage, 0
-        ) / totalExams
-    )
-    : 0;
-
-    const bestScore = totalExams
-    ? Math.max(
-        ...results.map(exam => exam.score_percentage)
-    )
-    : 0;
-
-    const lastExam = totalExams
-    ? results[0]
-    : null;
-
-    const passRate = totalExams
-    ? Math.round(
-        (results.filter(exam =>
-            exam.score_percentage >= 80
-        ).length / totalExams) * 100
-    )
-    : 0;
+    const lastExam = results[0] || null;
 
     const lastExamDate = lastExam
-    ? new Date(lastExam.created_at).toLocaleDateString()
-    : "No Exams";
-
-const moduleStats = {};
-
-results.forEach(exam => {
-if (!exam.module || exam.module === "EMPTY") {
-    return;
-}
-
-const moduleName = exam.module;
-    if (!moduleStats[moduleName]) {
-        moduleStats[moduleName] = 0;
-    }
-
-    moduleStats[moduleName]++;
-});
-
-const moduleStatsHtml = Object.entries(moduleStats)
-    .map(([module, count]) =>
-        `
-<div class="module-card">
-
-<div class="info-row">
-    <span>📚 ${module}</span>
-<strong>${count}</strong>
-</div>
-
-<div class="progress-bar">
-    <div class="progress-fill progress-fill-blue"
-         style="width:${Math.min(count * 25, 100)}%;">
-    </div>
-</div>
-
-        `
-    )
-    .join('');
-
-
-document.getElementById("content").innerHTML = `
-${getHeroBanner()}
-
-<div class="content-box">
-
-<button onclick="showHome()" class="back-home-btn">
-🏠 Main Dashboard
-</button>
-
-
-<h2 class="progress-title">
-📈 My Progress
-</h2>
-
-<div class="progress-title-line"></div>
-
-<div class="section-banner">
-📊 Performance Summary
-</div>
-
-<div class="my-progress-grid">
-
-
-<div class="kpi-card kpi-card-purple">
-
-<div style="
-display:flex;
-align-items:center;
-gap:8px;
-font-weight:bold;
-margin-bottom:2px;
-">
-
-<span>📚 Exams</span>
-
-<span>${totalExams}</span>
-
-</div>
-
-<div class="progress-bar">
-    <div class="progress-fill progress-fill-purple"
-         style="width:${Math.min(totalExams * 10, 100)}%;">
-    </div>
-</div>
-
-</div>
-
-
-
-
-<div class="kpi-card kpi-card-blue">
-
-<div style="
-display:flex;
-align-items:center;
-gap:8px;
-font-weight:bold;
-margin-bottom:2px;
-">
-
-<span>🎯 Average</span>
-
-<span>${averageScore}%</span>
-
-</div>
-
-<div class="progress-bar">
-    <div class="progress-fill progress-fill-blue"
-         style="width:${averageScore}%;">
-    </div>
-</div>
-
-</div>
-
-
-
-<div class="kpi-card kpi-card-gold">
-
-<div style="
-display:flex;
-align-items:center;
-gap:8px;
-font-weight:bold;
-margin-bottom:2px;
-">
-
-<span>🏆 Best</span>
-
-<span>${bestScore}%</span>
-
-</div>
-
-<div class="progress-bar">
-    <div class="progress-fill progress-fill-gold"
-         style="width:${bestScore}%;">
-    </div>
-</div>
-
-</div>
-
-
-
-<div class="kpi-card kpi-card-green">
-
-<div style="
-display:flex;
-align-items:center;
-gap:8px;
-font-weight:bold;
-margin-bottom:2px;
-">
-
-<span>✅ Pass</span>
-
-<span>${passRate}%</span>
-
-</div>
-
-<div class="progress-bar">
-    <div class="progress-fill progress-fill-green"
-         style="width:${passRate}%;">
-    </div>
-</div>
-
-</div>
-
-
-<div class="section-banner">
-🕒 Last Exam
-</div>
-
-<div class="last-exam-card last-exam-module">
-
-    <div class="info-row">
-        <span>📚 Module</span>
-        <strong>${lastExam?.module || '-'}</strong>
-    </div>
-
-</div>
-
-<div class="last-exam-card last-exam-role">
-    <div class="info-row">
-        <span>👤 Role</span>
-        <strong>${lastExam?.role || '-'}</strong>
-    </div>
-
-</div>
-
-<div class="last-exam-card last-exam-type">
-    <div class="info-row">
-        <span>📝 Type</span>
-        <strong>${lastExam?.exam_type || '-'}</strong>
-    </div>
-
-</div>
-
-
-
-<div class="last-exam-card last-exam-score-card">
-    <div class="info-row">
-        <span>🎯 Score</span>
-        <strong>${lastExam?.score_percentage || 0}%</strong>
-    </div>
-
-    <div class="progress-bar">
-        <div class="progress-fill progress-fill-blue"
-             style="width:${lastExam?.score_percentage || 0}%;">
+        ? new Date(lastExam.created_at).toLocaleDateString()
+        : "-";
+
+    const moduleStats = {};
+
+    results.forEach(exam => {
+        if (!exam.module || exam.module === "EMPTY") {
+            return;
+        }
+
+        moduleStats[exam.module] = (moduleStats[exam.module] || 0) + 1;
+    });
+
+    const moduleRows = Object.entries(moduleStats)
+        .map(([module, count]) => `
+            <li class="${getPlantClass(module)}">
+                <span>📚 ${escapeHtml(module)}</span>
+                <div class="stat-bar" aria-hidden="true">
+                    <span style="width:${Math.min(count * 25, 100)}%; background:var(--plant);"></span>
+                </div>
+                <strong>${count}</strong>
+            </li>
+        `)
+        .join("");
+
+    document.getElementById("content").innerHTML = `
+    ${getHeroBanner()}
+
+    <div class="content-box">
+
+        <div class="mobile-nav-buttons">
+            <button onclick="showHome()">🏠 Main Dashboard</button>
+            <button onclick="showAnalytics()">📊 Analytics</button>
         </div>
-    </div>
 
-</div>
+        <h2 class="page-title">📈 My Progress</h2>
+        <p class="page-subtitle">Your exam history at a glance</p>
 
-<div class="module-stats-grid">
-${moduleStatsHtml || '<p>No module data available</p>'}
-</div>
+        ${
+            stats.totalExams
+                ? `
+        <h3 class="section-heading">📊 Performance Summary</h3>
 
+        <div class="stat-grid">
+            ${statCard("📚 Exams", stats.totalExams, Math.min(stats.totalExams * 10, 100), "purple")}
+            ${statCard("🎯 Average", stats.averageScore + "%", stats.averageScore, "blue")}
+            ${statCard("🏆 Best", stats.bestScore + "%", stats.bestScore, "gold")}
+            ${statCard("✅ Pass", stats.passRate + "%", stats.passRate, "green")}
         </div>
+
+        <h3 class="section-heading">🕒 Last Exam</h3>
+
+        <dl class="detail-list">
+            <div><dt>📚 Module</dt><dd>${escapeHtml(lastExam.module || "-")}</dd></div>
+            <div><dt>👤 Role</dt><dd>${escapeHtml(lastExam.role || "-")}</dd></div>
+            <div><dt>📝 Type</dt><dd>${escapeHtml(lastExam.exam_type || "-")}</dd></div>
+            <div><dt>🎯 Score</dt><dd>${Number(lastExam.score_percentage) || 0}%</dd></div>
+            <div><dt>📅 Date</dt><dd>${lastExamDate}</dd></div>
+        </dl>
+
+        <h3 class="section-heading">📚 Exams per Module</h3>
+
+        ${
+            moduleRows
+                ? `<ul class="plant-counts">${moduleRows}</ul>`
+                : `<p class="page-subtitle">No module data available</p>`
+        }
+                `
+                : progressEmptyState()
+        }
+
     </div>
     `;
 }
 
-function switchUser() {
+// Finish signing out before rendering, so the login screen never shows the previous user.
+async function signOutAndShowLogin() {
     closeUserDropdown();
-    logoutUser();
-    showLogin();
+    document.body.classList.add("is-busy");
+
+    try {
+        await logoutUser();
+    } finally {
+        document.body.classList.remove("is-busy");
+        showLogin();
+    }
+}
+
+function switchUser() {
+    return signOutAndShowLogin();
 }
 
 function logout() {
-    closeUserDropdown();
-    logoutUser();
-    showLogin();
+    return signOutAndShowLogin();
 }
 
                     // ======================
@@ -744,9 +632,11 @@ async function showUsersAnalytics() {
 
         <div class="content-box">
 
+            <div class="mobile-nav-buttons">
             <button onclick="showHome()">
                 🏠 Main Dashboard
             </button>
+            </div>
 
             <h2 style="
                 text-align:center;
@@ -789,9 +679,11 @@ async function showUsersAnalytics() {
 
             <div class="content-box">
 
+                <div class="mobile-nav-buttons">
                 <button onclick="showHome()">
                     🏠 Main Dashboard
                 </button>
+                </div>
 
                 <h2 style="text-align:center;">
                     👥 Users Analytics
@@ -887,9 +779,11 @@ async function showUsersAnalytics() {
 
         <div class="content-box">
 
+            <div class="mobile-nav-buttons">
             <button onclick="showHome()">
                 🏠 Main Dashboard
             </button>
+            </div>
 
             <h2 style="
                 text-align:center;
@@ -912,7 +806,7 @@ async function showUsersAnalytics() {
                 padding:15px;
                 border-radius:12px;
                 margin-bottom:20px;
-                border-left:4px solid #3b82f6;
+                border:1px solid rgba(255,255,255,0.08);
             ">
 
                 <strong>
@@ -948,9 +842,11 @@ function showAdminDashboard() {
 
         <div class="content-box">
 
+            <div class="mobile-nav-buttons">
             <button onclick="showHome()">
                 🏠 Main Dashboard
             </button>
+            </div>
 
             <h2 style="
                 text-align:center;
@@ -1277,7 +1173,7 @@ async function showAdminUsers() {
                 background:#1e293b;
                 padding:15px;
                 border-radius:12px;
-                border-left:4px solid #3b82f6;
+                border:1px solid rgba(255,255,255,0.08);
                 margin-bottom:20px;
             ">
                 <strong>
@@ -1506,7 +1402,7 @@ async function showAdminPermissions() {
                 background:#1e293b;
                 padding:15px;
                 border-radius:12px;
-                border-left:4px solid #a855f7;
+                border:1px solid rgba(255,255,255,0.08);
                 margin-bottom:20px;
             ">
                 <strong>
@@ -1537,7 +1433,7 @@ function showHome() {
 
       document.getElementById("content").innerHTML = `
 
-${getHeroBanner()}
+${getHeroBanner("full")}
 
 
 
@@ -1595,24 +1491,7 @@ Training Modules
 
                               <!-- DASHBOARD Sing in PAGE -->
 
-<div id="welcome-banner" style="
-display:none;
-position:absolute;
-top:440px;
-left:50%;
-transform:translateX(-50%);
-width:320px;
-max-width:320px;
-text-align:center;
-padding:8px 12px;
-border-radius:12px;
-background:rgba(74,222,128,0.12);
-border:1px solid rgba(74,222,128,0.25);
-color:#4ade80;
-font-size:14px;
-font-weight:600;
-z-index:100;
-"></div>
+<div id="welcome-banner" class="toast" role="status" style="display:none;"></div>
 
                               <!-- DASHBOARD PAGE SUBTITLE -->
 
@@ -1958,7 +1837,7 @@ document.getElementById("welcome-banner");
 
 if (welcomeBanner) {
 
-    welcomeBanner.innerHTML =
+    welcomeBanner.textContent =
     `Welcome Back, ${localStorage.getItem("nickname") || ""}`;
 
     welcomeBanner.style.display = "block";
@@ -1985,9 +1864,11 @@ ${getHeroBanner()}
 
                                   <!-- NAVIGATION BUTTONS -->
 
+<div class="mobile-nav-buttons">
 <button onclick="showHome()">
     🏠 Main Dashboard
 </button>
+</div>
 
                                      <!-- MTBE ROLES PAGE TITLE -->
 
@@ -2126,9 +2007,11 @@ ${getHeroBanner()}
 
                                      <!-- METATHESIS ROLES NAVIGATION BUTTONS -->
 
+        <div class="mobile-nav-buttons">
         <button onclick="showHome()">
             🏠 Main Dashboard
         </button>
+        </div>
 
                                     <!-- METATHESIS ROLES PAGE TITLE -->
 
@@ -2255,6 +2138,8 @@ font-size:13px;
 </div>
 
                               <!-- METATHESIS ROLES END POSITION CARDS CONTAINER -->
+
+</div>
 
 </div>
 
@@ -2509,9 +2394,11 @@ ${getHeroBanner()}
 
                               <!-- MERGE ROLES NAVIGATION BUTTONS -->
 
+<div class="mobile-nav-buttons">
 <button onclick="showHome()">
     🏠 Main Dashboard
 </button>
+</div>
 
                               <!-- MERGE ROLES PAGE TITLE -->
 
@@ -2888,526 +2775,178 @@ async function getMergeQuestions() {
                               /* ================= QUESTION BANK VARIABLES ================= */
 
 let collapsedSections = {};
-let currentPage = "";
 let currentRole = "";
 let currentExamType = "";
 let currentModule = "";
 
-                              /* ================= QUESTION BANK SECTION TOGGLE ================= */
+                              /* ================= QUESTION BANK RENDERING ================= */
 
-function toggleSection(sectionName) {
+// Questions without a section belong to the section above them;
+// any before the first section header go under "General".
+function groupBySection(questions) {
+    const sections = [];
+    let current = null;
 
-    collapsedSections[sectionName] =
-        !collapsedSections[sectionName];
+    questions.forEach(q => {
+        if (q.section || !current) {
+            const name = q.section || "General";
 
-    if (currentPage === "mtbe") {
-        showMTBE();
-    }
+            current = sections.find(section => section.name === name);
 
-    if (currentPage === "meta") {
-        showMeta();
-    }
+            if (!current) {
+                current = { name, questions: [] };
+                sections.push(current);
+            }
+        }
 
-if (currentPage === "safety") {
-    showSafety();
+        current.questions.push(q);
+    });
+
+    return sections;
 }
 
+function renderBankQuestion(q, number, sectionName) {
+    const options = (q.options || [])
+        .map((option, i) => {
+            const isCorrect =
+                (q.answer !== undefined && option === q.answer) ||
+                (q.correct !== undefined && i === q.correct);
+
+            return `
+                <li class="qb-option${isCorrect ? " is-correct" : ""}">
+                    <span class="answer-key" aria-hidden="true">${String.fromCharCode(65 + i)}</span>
+                    <span class="answer-text">${escapeHtml(option)}</span>
+                    ${isCorrect ? `<span class="answer-tag">✅ Correct</span>` : ""}
+                </li>
+            `;
+        })
+        .join("");
+
+    return `
+        <article class="qb-card">
+            <p class="qb-number">Question ${number}</p>
+            ${sectionName ? `<p class="qb-section-name">${escapeHtml(sectionName)}</p>` : ""}
+            <p class="qb-question">${escapeHtml(q.question)}</p>
+            <ol class="qb-options">${options}</ol>
+        </article>
+    `;
+}
+
+function renderBankSections(questions, pageKey) {
+    return groupBySection(questions)
+        .map((section, index) => {
+            const key = pageKey + ":" + section.name;
+            const collapsed = collapsedSections[key] === true;
+            const bodyId = `qb-${pageKey}-section-${index}`;
+
+            return `
+                <section>
+                    <button
+                        class="qb-section-toggle"
+                        aria-expanded="${!collapsed}"
+                        aria-controls="${bodyId}"
+                        data-section="${escapeHtml(key)}"
+                        onclick="toggleSection(this)"
+                    >
+                        <span class="qb-chevron" aria-hidden="true">▼</span>
+                        📂 ${escapeHtml(section.name)}
+                        <span class="qb-section-count">${section.questions.length} questions</span>
+                    </button>
+
+                    <div id="${bodyId}" ${collapsed ? "hidden" : ""}>
+                        ${section.questions.map((q, i) => renderBankQuestion(q, i + 1, section.name)).join("")}
+                    </div>
+                </section>
+            `;
+        })
+        .join("");
+}
+
+                              /* ================= QUESTION BANK SECTION TOGGLE ================= */
+
+// Collapsing only hides the section; the bank is not fetched again.
+function toggleSection(button) {
+    const key = button.dataset.section;
+    const expanded = button.getAttribute("aria-expanded") === "true";
+
+    collapsedSections[key] = expanded;
+    button.setAttribute("aria-expanded", String(!expanded));
+
+    const body = document.getElementById(button.getAttribute("aria-controls"));
+    if (body) body.hidden = expanded;
+}
+
+async function renderQuestionBank(page) {
+    showLoading("Loading question bank…");
+
+    const questions = await page.load();
+
+    const body = !questions.length
+        ? `
+            <div class="empty-state">
+                <h3>No questions to show</h3>
+                <p>This question bank is empty or couldn't be loaded. Try again in a moment.</p>
+                <button class="btn-primary" onclick="${page.reload}()">Try Again</button>
+            </div>
+        `
+        : page.grouped
+            ? renderBankSections(questions, page.key)
+            : questions.map((q, i) => renderBankQuestion(q, i + 1)).join("");
+
+    document.getElementById("content").innerHTML = `
+    ${getHeroBanner()}
+
+    <div class="content-box ${getPlantClass(page.plant)}">
+
+        <div class="mobile-nav-buttons">
+            <button onclick="showHome()">🏠 Main Dashboard</button>
+            <button onclick="${page.back}()">↩️ ${page.backLabel}</button>
+        </div>
+
+        <div class="qb-header">
+            <h2>${page.title}</h2>
+            ${page.subtitle ? `<p>${page.subtitle}</p>` : ""}
+            <p>Total Questions: ${questions.length}</p>
+        </div>
+
+        ${body}
+
+    </div>
+    `;
 }
 
                                                // ======================
                                               // MTBE QUESTION BANK PAGE
                                              // ======================
 
-
-
 async function showMTBE() {
-
-    currentPage = "mtbe";
-
-    const mtbeQuestions = await getMTBEQuestions();
-
-    let html = `
-
-    <div class="content-box">
-
-    <div class="mobile-nav-buttons">
-
-    <button onclick="showHome()">
-        🏠 Main Dashboard
-    </button>
-
-    <button onclick="showMTBEMenu()">
-        ↩️ Back to Menu
-    </button>
-
-    </div>
-
-    <br><br>
-
-    <!-- MTBE QUESTION BANK PAGE HEADER -->
-
-
-    <div style="
-    background:#1e3a8a;
-    padding:10px 20px;
-    border-radius:12px;
-    margin-top:8px;
-    margin-bottom:10px;
-    border-left:4px solid #93c5fd;
-    box-shadow:0 0 12px rgba(59,130,246,0.15);
-    ">
-
-                              <!-- MTBE QUESTION BANK PAGE TITLE -->
-
-<h2 style="margin-bottom:5px;">
-📘 MTBE ${currentRole} Question Bank
-</h2>
-
-                              <!-- MTBE QUESTION BANK QUESTION COUNT -->
-
-<p style="
-margin:0;
-padding-left:10px;
-opacity:0.9;
-">
-    Total Questions: ${mtbeQuestions.length}
-</p>
-
-</div>
-
-`;
-
-
-                  /* ================= MTBE QUESTION BANK SECTION ORGANIZER ================= */
-
-let currentSection = "";
-
-const sections = {};
-
-
-
-            /* ================= MTBE QUESTION BANK GROUP QUESTIONS BY SECTION ================= */
-
-
-mtbeQuestions.forEach((q) => {
-
-    if (q.section) {
-
-        currentSection = q.section;
-
-        if (!sections[currentSection]) {
-            sections[currentSection] = [];
-        }
-    }
-
-    sections[currentSection].push(q);
-
-});
-
-
-                  /* ================= MTBE QUESTION BANK RENDER SECTIONS ================= */
-
-Object.keys(sections).forEach((sectionName) => {
-
-    const isCollapsed =
-        collapsedSections[sectionName] || false;
-
-    html += `
-
-                                    <!-- MTBE QUESTION BANK SECTION HADER -->
-
-<div
-onclick="toggleSection('${sectionName}')"
-style="
-background:#1e40af;
-padding:12px 15px;
-margin-top:25px;
-border-radius:12px;
-border-left:5px solid #93c5fd;
-box-shadow:0 0 8px rgba(59,130,246,0.5);
-cursor:pointer;
-"
->
-
-                                    <!-- MTBE QUESTION BANK SECTION TITLE -->
-
-<h3 style="
-margin:0;
-color:white;
-">
-${isCollapsed ? '▶' : '▼'}
-📂 ${sectionName}
-</h3>
-
-</div>
-
-`;
-
-
-
-if (isCollapsed) {
-    return;
+    await renderQuestionBank({
+        key: "mtbe",
+        plant: "MTBE",
+        title: `📘 MTBE ${escapeHtml(currentRole)} Question Bank`,
+        back: "showMTBEMenu",
+        backLabel: "Back to Menu",
+        reload: "showMTBE",
+        grouped: true,
+        load: getMTBEQuestions
+    });
 }
-
-                  /* ================= MTBE QUESTION BANK RENDER QUESTION CARDS ================= */
-
-sections[sectionName].forEach((q, index) => {
-
-    html += `
-
-                                    <!-- MTBE QUESTION CARD -->
-
-<div style="
-background:#0f172a;
-padding:15px;
-margin-top:12px;
-border-radius:12px;
-border:1px solid #334155;
-box-shadow:0 0 8px rgba(59,130,246,0.08);
-">
-
-                                    <!-- MTBE QUESTION TITLE -->
-
-<h3 style="
-color:#93c5fd;
-margin:0 0 3px 0;
-">
-Question ${index + 1}
-</h3>
-
-                                    <!-- MTBE QUESTION SECTION NAME -->
-
-<p style="
-font-size:11px;
-letter-spacing:0.5px;
-text-transform:uppercase;
-color:#64748b;
-margin:0 0 10px 0;
-">
-${sectionName}
-</p>
-
-                                    <!-- MTBE QUESTION TEXT -->
-
-<p style="
-font-size:18px;
-margin-bottom:10px;
-line-height:1.3;
-background:rgba(255,255,255,0.03);
-padding:8px 12px;
-border-radius:8px;
-border-left:3px solid #93c5fd;
-">
-${q.question}
-</p>
-
-`;
-
-
-const correct =
-q.correct !== undefined
-? q.correct
-: q.options.indexOf(q.answer);
-
-                          /* ================= MTBE ANSWER OPTIONS ================= */
-
-q.options.forEach((option, i) => {
-
-    html += `
-
-    <p style="margin:8px 0;">
-        ${String.fromCharCode(65 + i)}.
-        ${option}
-
-                                    <!-- MTBE CORRECT ANSWER MARKER -->
-
-        ${(
-            (q.answer !== undefined && option === q.answer) ||
-            (q.correct !== undefined && i === q.correct)
-        ) ? ' ✅' : ''}
-
-    </p>
-
-    `;
-});
-
-html += `
-</div>
-`;
-
-});
-
-});
-
-                         /* ================= MTBE QUESTION BANK END PAGE ================= */
-
-html += `
-</div>
-`;
-
-document.getElementById("content").innerHTML = html;
-
-}
-
 
                                            // ======================
                                           // METATHESIS
                                          // ======================
 
 async function showMeta() {
-
-    currentPage = "meta";
-
-    const metathesisQuestions = await getMetathesisQuestions();
-
-    let html = `
-
-<div class="content-box">
-
-                                    <!-- METATHESIS QUESTION BANK NAVIGATION BUTTONS -->
-
-
-<div class="mobile-nav-buttons">
-
-<button onclick="showHome()">
-    🏠 Main Dashboard
-</button>
-
-<button onclick="showMetathesisMenu()">
-    ↩️ Back to Menu
-</button>
-
-</div>
-
-<br><br>
-
-                                    <!-- METATHESIS QUESTION BANK PAGE HEADER -->
-
-<div style="
-background:#166534;
-padding:10px 20px;
-border-radius:12px;
-margin-top:8px;
-margin-bottom:10px;
-border-left:4px solid #86efac;
-box-shadow:0 0 12px rgba(34,197,94,0.15);
-">
-
-                                    <!-- METATHESIS QUESTION BANK PAGE TITLE -->
-
-<h2 style="
-margin-bottom:5px;
-">
-📗 METATHESIS ${currentRole} Question Bank
-</h2>
-
-                                    <!-- METATHESIS QUESTION BANK QUESTION COUNT -->
-
-<p style="
-margin:0;
-padding-left:12px;
-opacity:0.9;
-">
-    Total Questions: ${metathesisQuestions.length}
-</p>
-
-</div>
-
-`;
-
-
-
-                                        // ======================
-                                       // METATHESIS QUESTION BANK SECTION ORGANIZER
-                                      // ======================
-
-let currentSection = "";
-
-const sections = {};
-
-
-
-                                         // ======================
-                                        // METATHESIS QUESTION BANK GROUP QUESTIONS BY SECTION
-                                       // ======================
-
-metathesisQuestions.forEach((q) => {
-
-    if (q.section) {
-
-        currentSection = q.section;
-
-        if (!sections[currentSection]) {
-            sections[currentSection] = [];
-        }
-    }
-
-    sections[currentSection].push(q);
-
-});
-
-
-
-                                         // ======================
-                                        // METATHESIS QUESTION BANK RENDER SECTIONS
-                                       // ======================
-
-
-Object.keys(sections).forEach((sectionName) => {
-
-    const isCollapsed =
-        collapsedSections[sectionName] || false;
-
-    html += `
-
-
-                          <!-- METATHESIS QUESTION BANK SECTION HADER -->
-
-
-
-
-
-
-
-
-<div
-onclick="toggleSection('${sectionName}')"
-style="
-background:#166534;
-padding:12px 15px;
-margin-top:25px;
-border-radius:12px;
-border-left:5px solid #86efac;
-box-shadow:0 0 8px rgba(34,197,94,0.15);
-cursor:pointer;
-">
-
-
-
-
-
-
-
-                                    <!-- METATHESIS QUESTION BANK SECTION TITLE -->
-
-
-<h3 style="
-margin:0;
-color:white;
-">
-${isCollapsed ? '▶' : '▼'}
-📂 ${sectionName}
-</h3>
-
-</div>
-
-`;
-
-if (isCollapsed) {
-    return;
-}
-
-                                      // ======================
-                                     // METATHESIS QUESTION BANK RENDER QUESTION CARDS
-                                    // ======================
-
-sections[sectionName].forEach((q, index) => {
-
-    html += `
-
-                                    <!-- METATHESIS QUESTION CARD -->
-
-<div style="
-background:#0f172a;
-padding:15px;
-margin-top:12px;
-border-radius:12px;
-border:1px solid #334155;
-">
-
-                                    <!-- METATHESIS QUESTION TITLE -->
-
-<h3 style="
-color:#86efac;
-margin:0 0 5px 0;
-">
-Question ${index + 1}
-</h3>
-
-                                    <!-- METATHESIS QUESTION SECTION NAME -->
-
-<p style="
-font-size:11px;
-letter-spacing:0.5px;
-text-transform:uppercase;
-color:#64748b;
-margin:0 0 10px 0;
-">
-${sectionName}
-</p>
-
-                                    <!-- METATHESIS QUESTION TEXT -->
-
-<p style="
-font-size:18px;
-margin-bottom:10px;
-line-height:1.3;
-background:rgba(255,255,255,0.03);
-padding:8px 12px;
-border-radius:8px;
-border-left:3px solid #86efac;
-">
-${q.question}
-</p>
-
-`;
-
-        q.options.forEach((option, i) => {
-
-            html += `
-
-<p style="
-margin:8px 0;
-">
-
-${String.fromCharCode(65 + i)}.
-${option}
-
-${(
-    (q.answer !== undefined && option === q.answer) ||
-    (q.correct !== undefined && i === q.correct)
-) ? ' ✅' : ''}
-</p>
-
-`;
-
-        });
-
-        html += `
-
-</div>
-
-`;
-
+    await renderQuestionBank({
+        key: "meta",
+        plant: "METATHESIS",
+        title: `📗 METATHESIS ${escapeHtml(currentRole)} Question Bank`,
+        back: "showMetathesisMenu",
+        backLabel: "Back to Menu",
+        reload: "showMeta",
+        grouped: true,
+        load: getMetathesisQuestions
     });
-
-
-
-    });
-
-
-
-    html += `
-
-
-    </div>
-
-
-    `;
-
-
-
-document.getElementById("content").innerHTML = html;
 }
 
 
@@ -3449,9 +2988,11 @@ ${getHeroBanner()}
     <div class="content-box">
 
         <!-- BACK TO MAIN DASHBOARD BUTTON -->
+        <div class="mobile-nav-buttons">
         <button onclick="showHome()">
             🏠 Main Dashboard
         </button>
+        </div>
 
                                     <!-- SAFETY PAGE TITLE -->
         <h2 style="
@@ -3571,144 +3112,16 @@ ${getHeroBanner()}
 
 
 async function showSafety() {
-
-    currentPage = "safety";
-
-    const safetyQuestions = await getSafetyQuestions();
-
-    let html = `
-
-    <div class="content-box">
-
-                                    <!-- SAFETY QUESTION BANK NAVIGATION BUTTONS -->
-
-
-<div class="mobile-nav-buttons">
-
-<button onclick="showHome()">
-    🏠 Main Dashboard
-</button>
-
-<button onclick="showSafetyMenu()">
-    ↩️ Back to Safety Menu
-</button>
-
-</div>
-
-<br><br>
-
-                                    <!-- SAFETY QUESTION BANK PAGE HEADER -->
-
-        <div style="
-        background:#dc2626;
-        padding:10px 20px;
-        border-radius:12px;
-        margin-top:8px;
-        margin-bottom:10px;
-        border-left:4px solid #fecaca;
-        box-shadow:0 0 12px rgba(239,68,68,0.15);
-        ">
-
-                                    <!-- SAFETY QUESTION BANK PAGE TITLE -->
-
-            <h2 style="margin-bottom:5px;">
-                🦺 Safety Question Bank
-            </h2>
-
-                                    <!-- SAFETY QUESTION BANK QUESTION COUNT -->
-
-            <p style="
-            margin:0;
-            padding-left:12px;
-            opacity:0.9;
-            ">
-                Total Questions: ${safetyQuestions.length}
-            </p>
-
-        </div>
-
-    `;
-
-
-                                      // ======================
-                                     // SAFETY QUESTION BANK RENDER QUESTION CARDS
-                                    // ======================
-
-safetyQuestions.forEach((q, index) => {
-
-    html += `
-
-        <!-- SAFETY QUESTION CARD -->
-
-        <div style="
-        background:#0f172a;
-        padding:15px;
-        margin-top:12px;
-        border-radius:12px;
-        border:1px solid #334155;
-        ">
-
-                                    <!-- SAFETY QUESTION TITLE -->
-
-        <h3 style="
-        color:#fecaca;
-        margin:0 0 5px 0;
-        ">
-        Question ${index + 1}
-        </h3>
-
-                                    <!-- SAFETY QUESTION TEXT -->
-
-        <p style="
-        font-size:18px;
-        margin-bottom:10px;
-        line-height:1.3;
-        background:rgba(255,255,255,0.03);
-        padding:8px 12px;
-        border-radius:8px;
-        border-left:3px solid #fecaca;
-        ">
-        ${q.question}
-        </p>
-
-    `;
-
-    q.options.forEach((option, i) => {
-
-        html += `
-
-                                    <!-- SAFETY ANSWER OPTIONS -->
-
-            <p style="margin:8px 0;">
-
-            ${String.fromCharCode(65 + i)}.
-            ${option}
-
-                                    <!-- SAFETY CORRECT ANSWER MARKER -->
-
-
-
-${(
-    (q.answer !== undefined && option === q.answer) ||
-    (q.correct !== undefined && i === q.correct)
-) ? ' ✅' : ''}
-
-</p>
-
-`;
-});
-
-html += `
-    </div>
-`;
-
-});
-
-html += `
-    </div>
-`;
-
-document.getElementById("content").innerHTML = html;
+    await renderQuestionBank({
+        key: "safety",
+        plant: "SAFETY",
+        title: "🦺 Safety Question Bank",
+        back: "showSafetyMenu",
+        backLabel: "Back to Safety Menu",
+        reload: "showSafety",
+        grouped: false,
+        load: getSafetyQuestions
+    });
 }
 
 
@@ -3719,168 +3132,17 @@ document.getElementById("content").innerHTML = html;
                                     // ======================
 
 async function showMergeQuestionBank() {
-
-    currentPage = "Merge";
-
-    const MergeQuestions = await getMergeQuestions();
-
-    let html = `
-
-    ${getHeroBanner()}
-
-    <div class="content-box">
-
-                                    <!-- MERGE QUESTION BANK NAVIGATION BUTTONS -->
-
-
-<div class="mobile-nav-buttons">
-
-<button onclick="showHome()">
-    🏠 Main Dashboard
-</button>
-
-<button onclick="showMergeMenu()">
-    ↩️ Back to Menu
-</button>
-
-</div>
-
-<br><br>
-
-                                    <!-- MERGE QUESTION BANK PAGE HEADER -->
-
-        <div style="
-        background:#1e293b;
-        padding:15px 20px;
-        border-radius:12px;
-        margin-top:8px;
-        margin-bottom:15px;
-        border-left:4px solid #a855f7;
-        max-width:760px;
-        ">
-
-                                    <!-- MERGE QUESTION BANK PAGE TITLE -->
-
-            <h2 style="
-            margin-bottom:5px;
-            ">
-            Merge ${currentRole} 📚
-            </h2>
-
-                                    <!-- MERGE QUESTION BANK DESCRIPTION -->
-
-            <p style="
-            margin:0;
-            opacity:0.85;
-            letter-spacing:0.5px;
-            font-size:14px;
-            color:#ddd6fe;
-            ">
-            MTBE + META + SAFETY
-            </p>
-
-                                    <!-- MERGE QUESTION BANK QUESTION COUNT -->
-
-            <p style="
-            margin:4px 0 0 0;
-            font-size:15px;
-            font-weight:bold;
-            ">
-            Question Bank • ${MergeQuestions.length} Questions
-            </p>
-
-
-        </div>
-
-    `;
-
-
-
-                                     // ======================
-                                    // MERGE QUESTION BANK RENDER QUESTION CARDS
-                                   // ======================
-
-MergeQuestions.forEach((q, index) => {
-
-    if (!q) return;
-
-    html += `
-
-                                    <!-- MERGE QUESTION CARD -->
-
-        <div style="
-        background:#0f172a;
-        padding:15px;
-        margin-top:12px;
-        border-radius:12px;
-        border:1px solid #334155;
-        ">
-
-                                    <!-- MERGE QUESTION TITLE -->
-
-        <h3 style="
-        color:#ddd6fe;
-        margin:0 0 5px 0;
-        ">
-        Question ${index + 1}
-        </h3>
-
-                                    <!-- MERGE QUESTION TEXT -->
-
-        <p style="
-        font-size:18px;
-        margin-bottom:10px;
-        line-height:1.3;
-        background:rgba(255,255,255,0.03);
-        padding:8px 12px;
-        border-radius:8px;
-        border-left:3px solid #ddd6fe;
-        ">
-        ${q.question}
-        </p>
-
-    `;
-
-    q.options.forEach((option, i) => {
-
-        html += `
-
-                                    <!-- MERGE ANSWER OPTIONS -->
-
-            <p style="margin:8px 0;">
-
-            ${String.fromCharCode(65 + i)}.
-            ${option}
-
-                                    <!-- MERGE CORRECT ANSWER MARKER -->
-
-            ${(
-                (q.answer !== undefined && option === q.answer) ||
-                (q.correct !== undefined && i === q.correct)
-            ) ? ' ✅' : ''}
-
-            </p>
-
-        `;
-
+    await renderQuestionBank({
+        key: "merge",
+        plant: "MERGE",
+        title: `🎯 Merge ${escapeHtml(currentRole)} Question Bank`,
+        subtitle: "MTBE + META + SAFETY",
+        back: "showMergeMenu",
+        backLabel: "Back to Menu",
+        reload: "showMergeQuestionBank",
+        grouped: false,
+        load: getMergeQuestions
     });
-
-    html += `
-
-        </div>
-
-    `;
-
-});
-
-html += `
-
-    </div>
-
-`;
-
-document.getElementById("content").innerHTML = html;
-
 }
 
 
@@ -3891,7 +3153,6 @@ document.getElementById("content").innerHTML = html;
 
                                     // EXAM STATE MANAGEMENT
 
-let currentQuestions = [];
 let currentQuestion = 0;
 let score = 0;
 let examTitle = "";
@@ -3900,7 +3161,42 @@ let answerSubmitted = false;
 let currentExamSessionId = null;
 let currentExamQuestion = null;
 let currentExamTotalQuestions = 0;
-let currentExamUsesBackend = false;
+
+let examStarting = false;
+let examInProgress = false;
+
+
+function showPlantMenu(plant) {
+    const menus = {
+        MTBE: showMTBEMenu,
+        METATHESIS: showMetathesisMenu,
+        MERGE: showMergeMenu,
+        SAFETY: showSafetyMenu
+    };
+
+    (menus[plant] || showHome)();
+}
+
+// Leaving mid-exam abandons the attempt, so ask first.
+function confirmLeaveExam() {
+    if (!examInProgress) return true;
+
+    const leave = confirm(
+        "Leave this exam? You won't be able to continue this attempt."
+    );
+
+    if (leave) examInProgress = false;
+
+    return leave;
+}
+
+function goHome() {
+    if (confirmLeaveExam()) showHome();
+}
+
+function leaveExamToMenu() {
+    if (confirmLeaveExam()) showPlantMenu(currentModule);
+}
 
 
 async function startBackendExam(
@@ -3908,30 +3204,41 @@ async function startBackendExam(
     role,
     examType
 ) {
-    const client =
-        window.supabaseClient ||
-        window.supabase;
+    // A double click must not open a second exam session.
+    if (examStarting) return;
+
+    const client = window.supabaseClient;
 
     if (!client?.functions) {
-        showWarning(
-            "Unable to connect to Supabase ⚠️"
+        alert(
+            "Unable to connect to Supabase. Check your connection and try again."
         );
         return;
     }
 
-    const {
-        data,
-        error
-    } = await client.functions.invoke(
-        "start-exam",
-        {
-            body: {
-                module: moduleName,
-                role: role,
-                exam_type: examType
+    examStarting = true;
+
+    showLoading("Starting exam…");
+
+    let data = null;
+    let error = null;
+
+    try {
+        ({ data, error } = await client.functions.invoke(
+            "start-exam",
+            {
+                body: {
+                    module: moduleName,
+                    role: role,
+                    exam_type: examType
+                }
             }
-        }
-    );
+        ));
+    } catch (invokeError) {
+        error = invokeError;
+    } finally {
+        examStarting = false;
+    }
 
     if (error || !data?.question) {
         console.error(
@@ -3942,6 +3249,8 @@ async function startBackendExam(
         alert(
             "Unable to start the exam. Please try again."
         );
+
+        showPlantMenu(moduleName);
 
         return;
     }
@@ -3959,15 +3268,10 @@ async function startBackendExam(
     currentExamTotalQuestions =
         data.total_questions;
 
-    currentExamUsesBackend = true;
-
-    currentQuestions = [
-        data.question
-    ];
-
     currentQuestion = 0;
     score = 0;
     answerSubmitted = false;
+    examInProgress = true;
 
     examTitle =
         data.module === "SAFETY"
@@ -4097,244 +3401,108 @@ async function startSafetyTestExam() {
 
 function showQuestion() {
 
-    // CURRENT QUESTION DATA
-    const q = currentExamUsesBackend
-        ? currentExamQuestion
-        : currentQuestions[currentQuestion];
+    const q = currentExamQuestion;
 
     answerSubmitted = false;
 
-    // EXAM COLOR THEME
-    let examColor = "#f5a623";
+    const questionNumber = currentQuestion + 1;
+    const total = currentExamTotalQuestions;
+    const progressPercent = total
+        ? Math.round((questionNumber / total) * 100)
+        : 0;
+    const isLastQuestion = total && questionNumber >= total;
 
-    if (examTitle.includes("MTBE")) {
-        examColor = "#3b82f6";
-    }
+    const options = q.options
+        .map((option, i) => `
+            <label class="answer-option">
+                <input
+                    type="radio"
+                    name="answer"
+                    value="${i}"
+                    onchange="onAnswerSelected()"
+                >
+                <span class="answer-key" aria-hidden="true">${String.fromCharCode(65 + i)}</span>
+                <span class="answer-text">${escapeHtml(option)}</span>
+            </label>
+        `)
+        .join("");
 
-    if (examTitle.includes("METATHESIS")) {
-        examColor = "#22c55e";
-    }
-
-    if (examTitle.includes("Safety")) {
-        examColor = "#ef4444";
-    }
-
-    if (examTitle.includes("Merge")) {
-        examColor = "#a855f7";
-    }
-
-    let buttonColor = examColor;
-
-    let html = `
+    document.getElementById("content").innerHTML = `
 
     ${getHeroBanner()}
 
-    <div class="content-box">
+    <div class="content-box ${getPlantClass(currentModule)}">
 
-                                    <!-- QUESTION ENGINE NAVIGATION BUTTONS -->
+        <div class="mobile-nav-buttons">
+            <button onclick="goHome()">🏠 Main Dashboard</button>
+            <button onclick="leaveExamToMenu()">↩️ Back to Menu</button>
+        </div>
 
+        <div class="exam">
 
-<div class="mobile-nav-buttons">
+            <div class="exam-head">
 
-    <button onclick="showHome()">
-        🏠 Main Dashboard
-    </button>
+                <div class="exam-head-row">
+                    <div>
+                        <h2 class="exam-title">${escapeHtml(examTitle)}</h2>
+                        ${currentModule === "MERGE" ? `<p class="exam-subtitle">MTBE + META + SAFETY</p>` : ""}
+                    </div>
 
-    <button onclick="
-        if (currentModule === 'MTBE') {
-            showMTBEMenu();
-        }
-        else if (currentModule === 'METATHESIS') {
-            showMetathesisMenu();
-        }
-        else if (currentModule === 'MERGE') {
-            showMergeMenu();
-        }
-        else if (currentModule === 'SAFETY') {
-            showSafetyMenu();
-        }
-        else {
-            showHome();
-        }
-    ">
-        ↩️ Back to Menu
-    </button>
+                    <span class="exam-count">
+                        ${escapeHtml(currentExamType)} · Question <strong>${questionNumber}</strong> of ${total}
+                    </span>
+                </div>
 
-</div>
+                <div
+                    class="exam-progress"
+                    role="progressbar"
+                    aria-label="Exam progress"
+                    aria-valuemin="1"
+                    aria-valuemax="${total}"
+                    aria-valuenow="${questionNumber}"
+                >
+                    <span style="width:${progressPercent}%;"></span>
+                </div>
 
-<br><br>
+                <div id="warningBox" class="exam-warning" role="alert"></div>
 
-                                    <!-- QUESTION ENGINE EXAM HEADER -->
+            </div>
 
-<div style="
-background:#1e293b;
-padding:15px 20px;
-border-radius:12px;
-margin-top:8px;
-margin-bottom:15px;
-border-left:4px solid ${examColor};
-max-width:760px;
-">
+            <h3 class="exam-question" id="exam-question" tabindex="-1">
+                ${escapeHtml(q.question)}
+            </h3>
 
-                                    <!-- QUESTION ENGINE EXAM TITLE -->
+            <fieldset class="answer-list" id="answer-list" aria-labelledby="exam-question">
+                ${options}
+            </fieldset>
 
-    <h2 style="
-    margin-bottom:5px;
-    ">
-    ${examTitle
-        .replace(' Full Exam', '')
-        .replace(' Random Exam', '')
-    }
-    </h2>
+            <div class="exam-actions">
+                <button id="submitBtn" class="btn-primary" onclick="checkAnswer()" disabled>
+                    ✅ Submit Answer
+                </button>
 
-                                    <!-- MERGE EXAM DESCRIPTION -->
+                <button id="nextBtn" class="btn-primary" onclick="nextQuestion()" hidden>
+                    ${isLastQuestion ? "🏁 Finish Exam" : "➡️ Next Question"}
+                </button>
+            </div>
 
-    ${examTitle.includes('Merge') ? `
-    <p style="
-    margin:0;
-    opacity:0.85;
-    letter-spacing:0.5px;
-    font-size:14px;
-    color:#ddd6fe;
-    ">
-    MTBE + META + SAFETY
-    </p>
-    ` : ''}
+            <div id="result" class="exam-feedback" role="status" aria-live="polite"></div>
 
-                                    <!-- QUESTION ENGINE EXAM TYPE AND QUESTION COUNT -->
+        </div>
 
-
-
-<p style="
-margin:4px 0 0 0;
-font-size:15px;
-font-weight:bold;
-">
-${currentExamType} • ${
-    currentExamUsesBackend
-        ? currentExamTotalQuestions
-        : currentQuestions.length
-} Questions
-</p>
-
-
-                                    <!-- QUESTION ENGINE PROGRESS INDICATOR -->
-
-
-<p style="
-margin:8px 0 0 0;
-font-size:14px;
-font-weight:bold;
-color:#ffffff;
-">
-Question ${
-    currentExamUsesBackend
-        ? currentQuestion + 1
-        : currentQuestion + 1
-} of ${
-    currentExamUsesBackend
-        ? currentExamTotalQuestions
-        : currentQuestions.length
-}
-</p>
-
-                                    <!-- QUESTION ENGINE WARNING CONTAINER -->
-
-    <div id="warningBox" style="
-    display:flex;
-    justify-content:flex-end;
-    align-items:center;
-    "></div>
-
-</div>
-
-
-
-                                    <!-- QUESTION ENGINE QUESTION CARD -->
-
-<div style="
-background:rgba(255,255,255,0.03);
-padding:12px;
-border-radius:10px;
-border-left:3px solid ${examColor};
-margin-bottom:15px;
-">
-
-                                    <!-- QUESTION ENGINE QUESTION TEXT -->
-
-    <h3 style="
-    margin:0;
-    ">
-        ${q.question}
-    </h3>
-
-</div>
-
-`;
-
-q.options.forEach((option, i) => {
-
-    html += `
-
-                                    <!-- QUESTION ENGINE ANSWER OPTION -->
-
-<label style="
-display:block;
-margin:12px 0;
-cursor:pointer;
-">
-
-    <input
-    type="radio"
-    name="answer"
-    value="${i}">
-
-    ${String.fromCharCode(65 + i)}. ${option}
-
-</label>
+    </div>
 
     `;
 
-});
+    window.scrollTo(0, 0);
+    document.getElementById("exam-question").focus({ preventScroll: true });
+}
 
-html += `
+function onAnswerSelected() {
+    if (answerSubmitted) return;
 
-                                    <!-- QUESTION ENGINE ACTION BUTTONS -->
-
-    <button
-    id="submitBtn"
-    onclick="checkAnswer()"
-    style="
-    background:${buttonColor};
-    min-width:140px;
-    height:45px;
-    font-weight:bold;
-    ">
-    ✅ Submit Answer
-    </button>
-
-    <button
-    id="nextBtn"
-    onclick="nextQuestion()"
-    style="
-    background:${buttonColor};
-    min-width:140px;
-    height:45px;
-    font-weight:bold;
-    ">
-    ➡️ Next Question
-    </button>
-
-                                    <!-- QUESTION ENGINE RESULT CONTAINER -->
-
-    <div id="result"></div>
-
-</div>
-
-`;
-
-document.getElementById("content").innerHTML = html;
-
+    const submitButton = document.getElementById("submitBtn");
+    if (submitButton) submitButton.disabled = false;
 }
 
 
@@ -4349,32 +3517,13 @@ function showWarning(message) {
 
     if (!warningBox) return;
 
-    warningBox.innerHTML = `
+    warningBox.textContent = message;
 
-                                    <!-- ANSWER PROCESSING WARNING MESSAGE -->
+    clearTimeout(showWarning.timer);
 
-        <div style="
-        background:rgba(245,158,11,0.75);
-        color:#ffffff;
-        padding:8px 14px;
-        border-radius:12px;
-        font-weight:bold;
-        font-size:15px;
-        border:1px solid #fcd34d;
-        text-align:center;
-        display:inline-block;
-        margin-left:auto;
-        margin-right:40px;
-        box-shadow:0 0 12px rgba(0,0,0,0.25);
-        ">
-            ${message}
-        </div>
+    showWarning.timer = setTimeout(() => {
 
-    `;
-
-    setTimeout(() => {
-
-        warningBox.innerHTML = "";
+        warningBox.textContent = "";
 
     }, 2500);
 
@@ -4384,6 +3533,35 @@ function showWarning(message) {
                                       // ======================
                                      // ANSWER VALIDATION
                                     // ======================
+
+// The server grades each answer; the screen marks the options it reports.
+function markAnswers(selectedIndex, correctAnswer, isCorrect) {
+    const list = document.getElementById("answer-list");
+    const correctIndex = currentExamQuestion.options.indexOf(correctAnswer);
+
+    list.classList.add("is-locked");
+
+    list.querySelectorAll(".answer-option").forEach((option, i) => {
+        option.querySelector("input").disabled = true;
+
+        let tag = "";
+
+        if (i === correctIndex) {
+            option.classList.add("is-correct");
+            tag = isCorrect ? "Your answer ✓" : "Correct answer";
+        } else if (i === selectedIndex && !isCorrect) {
+            option.classList.add("is-wrong");
+            tag = "Your answer";
+        }
+
+        if (tag) {
+            const label = document.createElement("span");
+            label.className = "answer-tag";
+            label.textContent = tag;
+            option.appendChild(label);
+        }
+    });
+}
 
 async function checkAnswer() {
 
@@ -4400,6 +3578,8 @@ async function checkAnswer() {
         return;
     }
 
+    if (answerSubmitted || !currentExamSessionId) return;
+
     const submitButton =
         document.getElementById("submitBtn");
 
@@ -4412,46 +3592,37 @@ async function checkAnswer() {
     const selectedIndex =
         Number(selected.value);
 
-    const question =
-        currentExamUsesBackend
-            ? currentExamQuestion
-            : currentQuestions[currentQuestion];
-
     const selectedAnswer =
-        question.options[selectedIndex];
+        currentExamQuestion.options[selectedIndex];
 
-    if (
-        currentExamUsesBackend &&
-        currentExamSessionId
-    ) {
-        submitButton.disabled = true;
+    const originalButtonText =
+        submitButton.textContent;
 
-        const originalButtonText =
-            submitButton.innerHTML;
+    const restoreSubmit = () => {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+    };
 
-        submitButton.innerHTML =
-            "⏳ Checking...";
+    submitButton.disabled = true;
+    submitButton.textContent = "⏳ Checking...";
 
-        const client =
-            window.supabaseClient ||
-            window.supabase;
+    const client = window.supabaseClient;
 
-        if (!client?.functions) {
-            submitButton.disabled = false;
-            submitButton.innerHTML =
-                originalButtonText;
+    if (!client?.functions) {
+        restoreSubmit();
 
-            showWarning(
-                "Unable to connect to Supabase ⚠️"
-            );
+        showWarning(
+            "Unable to connect to Supabase ⚠️"
+        );
 
-            return;
-        }
+        return;
+    }
 
-        const {
-            data,
-            error
-        } = await client.functions.invoke(
+    let data = null;
+    let error = null;
+
+    try {
+        ({ data, error } = await client.functions.invoke(
             "exam-answer",
             {
                 body: {
@@ -4462,205 +3633,57 @@ async function checkAnswer() {
                         selectedAnswer
                 }
             }
+        ));
+    } catch (invokeError) {
+        error = invokeError;
+    }
+
+    if (
+        error ||
+        typeof data?.correct !== "boolean"
+    ) {
+        console.error(
+            "Answer submission error:",
+            error
         );
 
-        if (
-            error ||
-            typeof data?.correct !== "boolean"
-        ) {
-            console.error(
-                "Answer submission error:",
-                error
-            );
+        restoreSubmit();
 
-            submitButton.disabled = false;
-            submitButton.innerHTML =
-                originalButtonText;
-
-            showWarning(
-                "Unable to submit the answer ⚠️"
-            );
-
-            return;
-        }
-
-        answerSubmitted = true;
-
-        if (data.correct) {
-            score++;
-
-            resultBox.innerHTML = `
-                <div style="
-                    margin-top:15px;
-                    padding:12px;
-                    border-radius:10px;
-                    background:rgba(34,197,94,0.15);
-                    border-left:4px solid #22c55e;
-                ">
-
-                    <p style="
-                        color:#22c55e;
-                        font-weight:bold;
-                        font-size:20px;
-                        margin:0;
-                    ">
-                        ✅ Correct Answer
-                    </p>
-
-                </div>
-            `;
-        } else {
-            resultBox.innerHTML = `
-                <div style="
-                    margin-top:15px;
-                    padding:12px;
-                    border-radius:10px;
-                    background:rgba(239,68,68,0.15);
-                    border-left:4px solid #ef4444;
-                ">
-
-                    <p style="
-                        color:#ef4444;
-                        font-weight:bold;
-                        font-size:20px;
-                        margin:0;
-                    ">
-                        ❌ Incorrect Answer
-                    </p>
-
-                </div>
-
-                <div style="
-                    margin-top:10px;
-                    padding:12px;
-                    border-radius:10px;
-                    background:rgba(34,197,94,0.15);
-                    border-left:4px solid #22c55e;
-                ">
-
-                    <p style="
-                        color:#22c55e;
-                        font-weight:bold;
-                        font-size:18px;
-                        margin:0;
-                    ">
-                        ✅ Correct Answer:
-                        ${data.correct_answer}
-                    </p>
-
-                </div>
-            `;
-        }
-
-        document
-            .querySelectorAll(
-                'input[name="answer"]'
-            )
-            .forEach(
-                radio =>
-                    radio.disabled = true
-            );
-
-        submitButton.innerHTML =
-            "✅ Answer Submitted";
-
-        nextButton.disabled = false;
+        showWarning(
+            "Unable to submit the answer ⚠️"
+        );
 
         return;
     }
 
-    const correctIndex =
-        question.options.indexOf(
-            question.answer
-        );
-
     answerSubmitted = true;
 
-    if (selectedIndex === correctIndex) {
+    if (data.correct) {
         score++;
-
-        resultBox.innerHTML = `
-            <div style="
-                margin-top:15px;
-                padding:12px;
-                border-radius:10px;
-                background:rgba(34,197,94,0.15);
-                border-left:4px solid #22c55e;
-            ">
-
-                <p style="
-                    color:#22c55e;
-                    font-weight:bold;
-                    font-size:20px;
-                    margin:0;
-                ">
-                    ✅ Correct Answer
-                </p>
-
-            </div>
-        `;
-    } else {
-        resultBox.innerHTML = `
-            <div style="
-                margin-top:15px;
-                padding:12px;
-                border-radius:10px;
-                background:rgba(239,68,68,0.15);
-                border-left:4px solid #ef4444;
-            ">
-
-                <p style="
-                    color:#ef4444;
-                    font-weight:bold;
-                    font-size:20px;
-                    margin:0;
-                ">
-                    ❌ Incorrect Answer
-                </p>
-
-            </div>
-
-            <div style="
-                margin-top:10px;
-                padding:12px;
-                border-radius:10px;
-                background:rgba(34,197,94,0.15);
-                border-left:4px solid #22c55e;
-            ">
-
-                <p style="
-                    color:#22c55e;
-                    font-weight:bold;
-                    font-size:18px;
-                    margin:0;
-                ">
-                    ✅ Correct Answer:
-                    ${question.answer}
-                </p>
-
-            </div>
-        `;
     }
 
-    document
-        .querySelectorAll(
-            'input[name="answer"]'
-        )
-        .forEach(
-            radio =>
-                radio.disabled = true
-        );
+    markAnswers(selectedIndex, data.correct_answer, data.correct);
 
-    submitButton.disabled = true;
-    nextButton.disabled = false;
+    resultBox.className =
+        "exam-feedback " + (data.correct ? "is-correct" : "is-wrong");
+
+    resultBox.innerHTML = data.correct
+        ? `<p class="feedback-title">✅ Correct Answer</p>`
+        : `
+            <p class="feedback-title">❌ Incorrect Answer</p>
+            <p class="feedback-detail">Correct answer: <strong>${escapeHtml(data.correct_answer)}</strong></p>
+        `;
+
+    submitButton.hidden = true;
+
+    nextButton.hidden = false;
+    nextButton.focus();
 }
 
 
                                       // ======================
                                      // NAVIGATION
                                     // ======================
-
-
 
 async function nextQuestion() {
 
@@ -4672,41 +3695,39 @@ async function nextQuestion() {
         return;
     }
 
-    if (
-        currentExamUsesBackend &&
-        currentExamSessionId
-    ) {
-        const nextButton =
-            document.getElementById("nextBtn");
+    if (!currentExamSessionId) return;
 
-        nextButton.disabled = true;
+    const nextButton =
+        document.getElementById("nextBtn");
 
-        const originalButtonText =
-            nextButton.innerHTML;
+    const originalButtonText =
+        nextButton.textContent;
 
-        nextButton.innerHTML =
-            "⏳ Loading...";
+    const restoreNext = () => {
+        nextButton.disabled = false;
+        nextButton.textContent = originalButtonText;
+    };
 
-        const client =
-            window.supabaseClient ||
-            window.supabase;
+    nextButton.disabled = true;
+    nextButton.textContent = "⏳ Loading...";
 
-        if (!client?.functions) {
-            nextButton.disabled = false;
-            nextButton.innerHTML =
-                originalButtonText;
+    const client = window.supabaseClient;
 
-            showWarning(
-                "Unable to connect to Supabase ⚠️"
-            );
+    if (!client?.functions) {
+        restoreNext();
 
-            return;
-        }
+        showWarning(
+            "Unable to connect to Supabase ⚠️"
+        );
 
-        const {
-            data,
-            error
-        } = await client.functions.invoke(
+        return;
+    }
+
+    let data = null;
+    let error = null;
+
+    try {
+        ({ data, error } = await client.functions.invoke(
             "next-question",
             {
                 body: {
@@ -4714,85 +3735,65 @@ async function nextQuestion() {
                         currentExamSessionId
                 }
             }
+        ));
+    } catch (invokeError) {
+        error = invokeError;
+    }
+
+    if (error || !data) {
+        console.error(
+            "Next question error:",
+            error
         );
 
-        if (error || !data) {
-            console.error(
-                "Next question error:",
-                error
-            );
+        restoreNext();
 
-            nextButton.disabled = false;
-            nextButton.innerHTML =
-                originalButtonText;
+        showWarning(
+            "Unable to load the next question ⚠️"
+        );
 
-            showWarning(
-                "Unable to load the next question ⚠️"
-            );
+        return;
+    }
 
-            return;
-        }
-
-        if (data.completed === true) {
-            score =
-                Number(data.score) || 0;
-
-            currentExamTotalQuestions =
-                Number(
-                    data.total_questions
-                ) || currentExamTotalQuestions;
-
-            currentQuestion =
-                currentExamTotalQuestions;
-
-            answerSubmitted = false;
-
-            finishExam();
-
-            return;
-        }
-
-        if (!data.question) {
-            nextButton.disabled = false;
-            nextButton.innerHTML =
-                originalButtonText;
-
-            showWarning(
-                "Question data is unavailable ⚠️"
-            );
-
-            return;
-        }
-
-        currentExamQuestion =
-            data.question;
-
-        currentQuestion =
-            Number(data.current_question) - 1;
+    if (data.completed === true) {
+        score =
+            Number(data.score) || 0;
 
         currentExamTotalQuestions =
-            Number(data.total_questions);
+            Number(
+                data.total_questions
+            ) || currentExamTotalQuestions;
 
-        currentQuestions = [
-            data.question
-        ];
+        currentQuestion =
+            currentExamTotalQuestions;
 
         answerSubmitted = false;
 
-        showQuestion();
-
-        return;
-    }
-
-    currentQuestion++;
-
-    if (
-        currentQuestion >=
-        currentQuestions.length
-    ) {
         finishExam();
+
         return;
     }
+
+    if (!data.question) {
+        restoreNext();
+
+        showWarning(
+            "Question data is unavailable ⚠️"
+        );
+
+        return;
+    }
+
+    currentExamQuestion =
+        data.question;
+
+    currentQuestion =
+        Number(data.current_question) - 1;
+
+    currentExamTotalQuestions =
+        Number(data.total_questions);
+
+    answerSubmitted = false;
 
     showQuestion();
 }
@@ -4801,18 +3802,12 @@ async function nextQuestion() {
                                      // EXAM RESULTS
                                     // ======================
 
-
-
-
-
 async function finishExam() {
 
-    console.log("finishExam fired");
+    examInProgress = false;
 
     const totalQuestions =
-        currentExamUsesBackend
-            ? currentExamTotalQuestions
-            : currentQuestions.length;
+        currentExamTotalQuestions;
 
     if (
         !Number.isInteger(totalQuestions) ||
@@ -4838,138 +3833,71 @@ async function finishExam() {
     const passed =
         percent >= 80;
 
-    console.log(
-        "SAVE TEST",
-        localStorage.getItem("nickname"),
-        currentModule,
-        currentRole,
-        currentExamType,
-        score,
-        totalQuestions,
-        percent
-    );
-
-    console.log(
-        "MODULE =",
-        currentModule,
-        "ROLE =",
-        currentRole,
-        "EXAM TYPE =",
-        currentExamType
-    );
-
-
-
     document.getElementById(
         "content"
     ).innerHTML = `
 
         ${getHeroBanner()}
 
-        <div class="content-box">
+        <div class="content-box ${getPlantClass(currentModule)}">
 
-            <!-- EXAM RESULTS HEADER -->
+            <section class="result-card ${passed ? "is-pass" : "is-fail"}" aria-labelledby="result-title">
 
-            <div style="
-                background:${
-                    passed
-                        ? "#166534"
-                        : "#991b1b"
-                };
-                padding:15px 20px;
-                border-radius:12px;
-                margin-bottom:20px;
-                border-left:4px solid ${
-                    passed
-                        ? "#86efac"
-                        : "#fca5a5"
-                };
-            ">
+                <p class="result-status ${passed ? "is-pass" : "is-fail"}">
+                    ${passed ? "✅ PASS" : "❌ FAIL"}
+                </p>
 
-                <h2 style="
-                    margin:0 0 8px 0;
-                ">
+                <h2 class="result-title" id="result-title">
                     🎉 Exam Completed
                 </h2>
 
-                <p style="
-                    margin:0 0 10px 0;
-                    font-size:18px;
-                    font-weight:bold;
-                ">
-                    ${examTitle}
+                <p class="result-type">
+                    ${escapeHtml(examTitle)} · ${escapeHtml(currentExamType)}
                 </p>
 
-                <p style="margin:0;">
-                    ${
-                        passed
-                            ? "✅ PASS"
-                            : "❌ FAIL"
-                    }
+                <p class="result-percent">${percent}%</p>
+
+                <p class="result-fraction">
+                    Score: ${score} / ${totalQuestions}
                 </p>
 
-            </div>
+                <div
+                    class="result-bar"
+                    role="img"
+                    aria-label="Score ${percent}%. Pass mark 80%."
+                >
+                    <span style="width:${Math.min(percent, 100)}%;"></span>
+                    <i class="result-mark" style="left:80%;"></i>
+                </div>
 
-            <!-- RESULTS SUMMARY CARD -->
+                <div class="result-scale" aria-hidden="true">
+                    <span style="left:80%;">Pass mark 80%</span>
+                </div>
 
-            <div style="
-                background:#0f172a;
-                padding:20px;
-                border-radius:12px;
-                border:1px solid #334155;
-            ">
-
-                <h3>
-                    📊 Results Summary
-                </h3>
-
-                <p>
-                    <strong>Exam Type:</strong>
-                    ${currentExamType}
+                <p class="result-message">
+                    ${passed ? "🌟 Excellent Work!" : "💪 Keep Practicing and Try Again!"}
                 </p>
 
-                <p>
-                    <strong>Score:</strong>
-                    ${score} / ${totalQuestions}
-                </p>
+                <div class="result-actions">
+                    <button class="btn-primary" onclick="retakeExam()">
+                        🔄 Retake Exam
+                    </button>
 
-                <p>
-                    <strong>Percentage:</strong>
-                    ${percent}%
-                </p>
+                    <button class="btn-ghost" onclick="showPlantMenu(currentModule)">
+                        ↩️ Back to Menu
+                    </button>
 
-                <p style="
-                    font-size:20px;
-                    font-weight:bold;
-                    color:${
-                        passed
-                            ? "#86efac"
-                            : "#fca5a5"
-                    };
-                ">
-                    ${
-                        passed
-                            ? "🌟 Excellent Work!"
-                            : "💪 Keep Practicing and Try Again!"
-                    }
-                </p>
+                    <button class="btn-ghost" onclick="showHome()">
+                        🏠 Main Dashboard
+                    </button>
+                </div>
 
-            </div>
-
-            <br>
-
-            <!-- RESULTS PAGE ACTION BUTTONS -->
-
-            <button onclick="showHome()">
-                🏠 Main Dashboard
-            </button>
-
-            <button onclick="retakeExam()">
-                🔄 Retake Exam
-            </button>
+            </section>
 
         </div>
     `;
+
+    window.scrollTo(0, 0);
 }
 
 
@@ -4988,11 +3916,11 @@ function showWelcomeBack(profile) {
 
     document.getElementById("content").innerHTML = `
 
-${getHeroBanner()}
+${getHeroBanner("full")}
 
     <div class="content-box" style="text-align:center;">
 
-        <h2>👋 Welcome Back, ${profile.nickname}</h2>
+        <h2>👋 Welcome Back, ${escapeHtml(profile.nickname)}</h2>
 
         <p>
             Continue your training progress or switch to another user.
@@ -5002,10 +3930,7 @@ ${getHeroBanner()}
             ✅ Continue
         </button>
 
-        <button onclick="
-            logoutUser();
-            showLogin();
-        ">
+        <button class="btn-ghost" onclick="switchUser()">
             🔄 Switch User
         </button>
 

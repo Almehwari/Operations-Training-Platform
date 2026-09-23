@@ -1,5 +1,5 @@
 /* ============================================================
-   MOBILE DASHBOARD EXPERIENCE  (max-width: 768px only)
+   MOBILE EXPERIENCE  (max-width: 768px only)
    Desktop layout is untouched. All rules below are scoped to
    phones and small tablets and do not affect desktop.
    ============================================================ */
@@ -9,9 +9,19 @@
     /* ---------- HERO BANNER: compact, branding preserved ---------- */
 
     .hero-banner {
-        padding: 14px 16px;
-        margin-bottom: 14px;
+        padding: 18px 16px 20px;
+        margin-bottom: 10px;
         border-radius: 14px;
+    }
+
+    /* user pill sits above the title instead of covering it */
+    .hero-banner .hero-user-wrapper {
+        position: relative;
+        top: auto;
+        right: auto;
+        display: flex;
+        justify-content: flex-end;
+        margin: 0 0 10px;
     }
 
     .hero-banner h1 {
@@ -21,7 +31,7 @@
     }
 
     .hero-banner .subtitle {
-        font-size: 13px;
+        font-size: 12px;
         letter-spacing: 2px;
         margin-top: 0;
         margin-bottom: 8px;
@@ -38,15 +48,42 @@
         margin-bottom: 0;
     }
 
+    /* ---------- COMPACT APP HEADER ---------- */
+
+    .app-header {
+        padding: 12px 14px;
+        gap: 10px;
+        border-radius: 14px;
+        margin-bottom: 8px;
+    }
+
+    .app-header-title {
+        font-size: 14px;
+        letter-spacing: 0.05em;
+    }
+
+    .app-header-subtitle {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+    }
+
+    .app-header .hero-user-btn {
+        padding: 7px 12px;
+    }
+
+    .app-header .hero-user-name {
+        max-width: 84px;
+    }
+
     /* ---------- PAGE CONTAINER: tighter spacing ---------- */
 
     .container {
-        padding: 14px;
+        padding: 12px;
         max-width: 100%;
     }
 
     .content-box {
-        padding: 14px;
+        padding: 18px 14px 10px;
         margin-top: 6px;
         border-radius: 14px;
     }
@@ -74,6 +111,14 @@
         box-sizing: border-box;
     }
 
+    /* the login card shares .module-card but must span the grid */
+    .dashboard-cards .login-card {
+        grid-column: 1 / -1;
+        min-width: 0;
+        min-height: 0 !important;
+        padding: 18px 16px 20px !important;
+    }
+
     /* ---------- MODULE CARD INNER ELEMENTS ---------- */
 
     .dashboard-cards .module-card h3,
@@ -97,6 +142,16 @@
         border-radius: 10px;
         display: block;
         margin: 0 auto !important;
+    }
+
+    .dashboard-cards .login-card .login-card-title {
+        font-size: 20px !important;
+    }
+
+    .dashboard-cards .login-card .login-button {
+        margin-top: 18px !important;
+        font-size: 16px;
+        border-radius: 14px;
     }
 
     /* ---------- DASHBOARD HEADER / DESCRIPTION ---------- */
@@ -128,89 +183,155 @@
         letter-spacing: 2px !important;
     }
 
-    /* ---------- FOOTER TAGLINE ---------- */
-
     .dashboard-footer {
         font-size: 11px !important;
         letter-spacing: 2px !important;
         margin-top: 14px !important;
     }
 
+    /* ---------- PAGE NAVIGATION ---------- */
 
-.mobile-nav-buttons{
-    display:flex;
-    gap:8px;
-    justify-content:center;
-    margin-bottom:12px;
-}
+    .mobile-nav-buttons {
+        gap: 8px;
+        margin-bottom: 14px;
+    }
 
-.mobile-nav-buttons button{
-    margin:0 !important;
-    flex:1;
-    width:auto !important;
-    font-size:13px !important;
-    white-space:nowrap;
-    padding:8px 6px !important;
-}
+    .mobile-nav-buttons button {
+        flex: 1;
+        white-space: nowrap;
+        padding: 10px 6px;
+        font-size: 13px;
+    }
 
+    /* ---------- TRAINING CARDS (roles & menus) ---------- */
 
-/* ---------- SMALLER PHONES (<= 360px): keep 2x2, tighten gaps ---------- */
+    .training-menu {
+        gap: 12px;
+        margin-top: 12px;
+    }
 
-@media (max-width: 360px) {
+    .training-card {
+        width: 100%;
+        max-width: 320px;
+        padding: 14px;
+        box-sizing: border-box;
+    }
 
-    .dashboard-cards {
+    .training-icon {
+        font-size: 26px;
+        margin-bottom: 6px;
+    }
+
+    .training-title {
+        font-size: 20px;
+        margin-bottom: 4px;
+    }
+
+    .training-description {
+        font-size: 12px;
+    }
+
+    /* ---------- EXAM ---------- */
+
+    .exam-head {
+        padding: 14px;
+    }
+
+    .exam-title {
+        font-size: 18px;
+    }
+
+    .exam-question {
+        font-size: 18px;
+    }
+
+    .answer-option {
+        padding: 12px 14px;
+    }
+
+    .exam-actions button {
+        flex: 1 1 100%;
+    }
+
+    /* ---------- RESULT ---------- */
+
+    .result-card {
+        padding: 22px 16px 18px;
+    }
+
+    .result-percent {
+        font-size: 48px;
+    }
+
+    .result-actions button {
+        flex: 1 1 100%;
+    }
+
+    /* ---------- ANALYTICS & PROGRESS ---------- */
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    .stat-grid {
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
     }
 
-    .dashboard-cards .module-card {
-        padding: 12px 10px;
-        min-height: 175px;
+    .stat-value {
+        font-size: 22px;
     }
 
-    .dashboard-cards .module-card h3,
-    .dashboard-cards .module-card > div > div {
-        font-size: 16px !important;
+    .detail-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
     }
 
-    .hero-banner h1 {
-        font-size: 20px;
+    .plant-counts li {
+        grid-template-columns: 96px 1fr auto;
+        font-size: 14px;
     }
-}
 
-/* ---------- MTBE / METATHESIS / MERGE Roles Mobile ---------- */
+    /* ---------- QUESTION BANK ---------- */
 
-.hero-banner{
-    margin-bottom:10px !important;
-    padding:22px 18px !important;
-}
+    .qb-question {
+        font-size: 17px;
+    }
 
-.content-box{
-    padding:18px 14px 8px 14px !important;
-}
+    .qb-section-toggle {
+        font-size: 16px;
+    }
 
-.training-menu{
-    gap:12px;
-    margin-top:12px !important;
-}
+    /* ---------- SMALLER PHONES (<= 360px) ---------- */
 
-.training-card{
-    width:100% !important;
-    max-width:320px !important;
-    padding:14px !important;
-}
+    @media (max-width: 360px) {
 
-.training-icon{
-    font-size:26px !important;
-    margin-bottom:6px !important;
-}
+        .dashboard-cards {
+            gap: 10px;
+        }
 
-.training-title{
-    font-size:20px !important;
-    margin-bottom:4px !important;
-}
+        .dashboard-cards .module-card {
+            padding: 12px 10px;
+            min-height: 175px;
+        }
 
-.training-description{
-    font-size:12px !important;
-}
+        .dashboard-cards .module-card h3,
+        .dashboard-cards .module-card > div > div {
+            font-size: 16px !important;
+        }
+
+        .hero-banner h1 {
+            font-size: 20px;
+        }
+
+        .app-header-subtitle {
+            display: none;
+        }
+
+        .stat-grid,
+        .detail-list {
+            grid-template-columns: 1fr;
+        }
+    }
 
 }
